@@ -9,7 +9,7 @@
         </select>
       </div>
     </form>
-    <div v-show="calculated">
+    <div v-show="calculated" class="w-2/3">
       <Percentages :ready="calculated" :round="round" :weight="(weightInput)" />
     </div>
   </div>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <ClientOnly>
-      <table>
-        <tr>
-          <th>Percentage</th>
-          <th>Weight</th>
+      <table class="w-full text-center border border-separate border-spacing-0 border-accent-100 rounded-lg">
+        <tr class="border-accent-100">
+          <th class="p-1 border-r border-b border-accent-100">Percentage</th>
+          <th class="p-1 border-b border-accent-100">Weight</th>
         </tr>
-        <tr v-for="weight, index in percentages">
-          <td>{{ (percentages.length - index) * 5 }}</td>
-          <td>{{ weight }}</td>
+        <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0">
+          <td class="p-1 border-b last:border-b-0 border-r border-accent-100">{{ (percentages.length - index) * 5 }}%</td>
+          <td class="p-1 border-b border-accent-100">{{ weight }}</td>
         </tr>
       </table>
     </ClientOnly>
