@@ -7,7 +7,7 @@
           <th>Weight</th>
         </tr>
         <tr v-for="weight, index in percentages">
-          <td>{{ (index + 1) * 5 }}</td>
+          <td>{{ (percentages.length - index) * 5 }}</td>
           <td>{{ weight }}</td>
         </tr>
       </table>
@@ -33,5 +33,6 @@ watch(() => props.ready, () => {
   for (let i = 5; i < 100; i += 5) {
     percentages.value.push(Math.round(props.weight * (i / 100)))
   }
+  percentages.value = percentages.value.reverse();
 });
 </script>
