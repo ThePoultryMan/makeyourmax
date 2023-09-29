@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-72 my-11">
+  <div class="flex justify-center my-11">
     <form v-show="!calculated" @submit="calculate" @submit.prevent="onSubmit">
       <NumberInput :set-value="setWeight" />
     </form>
