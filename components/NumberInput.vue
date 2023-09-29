@@ -1,5 +1,5 @@
 <template>
-  <input type="number" :v-model="number" @input="event => props.setValue(parseInt(event.target.value))" class="appearance-none" />
+  <input type="number" :v-model="number" @input="event => props.setValue(parseInt(event.target.value))" />
 </template>
 
 <script setup lang="ts">
