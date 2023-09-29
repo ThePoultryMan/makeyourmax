@@ -6,8 +6,8 @@
           <th>Percentage</th>
           <th>Weight</th>
         </tr>
-        <tr v-for="weight, percentage in percentages">
-          <td>{{ percentage }}</td>
+        <tr v-for="weight, index in percentages">
+          <td>{{ (index + 1) * 5 }}</td>
           <td>{{ weight }}</td>
         </tr>
       </table>
@@ -27,11 +27,11 @@ const props = defineProps({
   }
 });
 
-const percentages: Ref<Record<number, number>> = ref({});
+const percentages: Ref<Array<number>> = ref([]);
 
 watch(() => props.ready, () => {
   for (let i = 5; i < 100; i += 5) {
-    percentages.value[i] = Math.round(props.weight * (i / 100));
+    percentages.value.push(Math.round(props.weight * (i / 100)))
   }
 });
 </script>
