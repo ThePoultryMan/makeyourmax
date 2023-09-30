@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   },
   modules: [
     "@nuxtjs/tailwindcss",
-    "nuxt-vuefire"
+    "nuxt-vuefire",
+    "@vite-pwa/nuxt",
   ],
   vuefire: {
     config: {
@@ -16,8 +17,13 @@ export default defineNuxtConfig({
       projectId: "max-and-maxer",
       appId: "1:951535404287:web:5bb70303b68dcfb02438ca",
     },
-    auth: {
-      enabled: true,
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Max & Maxer",
+      short_name: "Maxer",
+      theme_color: "#161221",
     },
   },
-})
+});
