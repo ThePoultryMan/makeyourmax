@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-vuefire",
-    "@vite-pwa/nuxt"
+    "@vite-pwa/nuxt",
   ],
   vuefire: {
     config: {
