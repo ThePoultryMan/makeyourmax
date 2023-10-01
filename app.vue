@@ -1,13 +1,16 @@
 <template>
   <div class="text-text-500">
     <VitePwaManifest />
-    <Navigation />
+    <Navigation @open-sidebar="showSidebar(true)" />
+    <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" />
     <NuxtPage />
   </div>
 </template>
 
 <script setup lang="ts">
 const { $setupSave } = useNuxtApp();
+
+const sidebar = ref(false);
 
 useHead({
   bodyAttrs: {
@@ -18,4 +21,8 @@ useHead({
 onBeforeMount(() => {
   $setupSave();
 });
+
+function showSidebar(show: boolean) {
+  sidebar.value = show;
+}
 </script>
