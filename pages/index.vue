@@ -1,5 +1,9 @@
 <template>
   <div class="flex flex-col items-center my-11">
+    <header class="w-full mb-3">
+      <h1 class="text-center text-xl font-bold">Weight Calculator</h1>
+      <hr class="mt-2 mx-[25%]" />
+    </header>
     <LabeledInput input-id="weight" label="Weight: ">
       <NumberInput id="weight" save-key="calcWeight" @value-change="setWeight" />
     </LabeledInput>
