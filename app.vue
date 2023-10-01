@@ -7,9 +7,15 @@
 </template>
 
 <script setup lang="ts">
-  useHead({
-    bodyAttrs: {
-      class: "bg-background-900"
-    }
-  })
+const { $setupSave } = useNuxtApp();
+
+useHead({
+  bodyAttrs: {
+    class: "bg-background-900",
+  },
+});
+
+onBeforeMount(() => {
+  $setupSave();
+});
 </script>
