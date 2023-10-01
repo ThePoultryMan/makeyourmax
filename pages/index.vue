@@ -13,7 +13,7 @@
           <option :value="5">Five</option>
         </select>
       </LabeledInput>
-      <div v-show="calculated" class="w-2/3 m-1">
+      <div v-show="calculated" class="w-2/3 m-1 max-h-[70vh] overflow-y-scroll border border-separate border-spacing-0 border-accent-100 rounded-lg">
         <Percentages :ready="calculated" :round="round" :weight="(weightInput)" />
       </div>
     </div>

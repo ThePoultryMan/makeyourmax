@@ -1,14 +1,16 @@
 <template>
   <div>
     <ClientOnly>
-      <table class="w-full text-center border border-separate border-spacing-0 border-accent-100 rounded-lg">
-        <tr class="border-accent-100">
-          <th class="p-1 border-r border-b border-accent-100">Percentage</th>
-          <th class="p-1 border-b border-accent-100">Weight</th>
-        </tr>
+      <table class="w-full text-center border-accent-100 border-separate border-spacing-0" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
+        <thead class="sticky top-0">
+          <tr>
+            <th class="p-1 border-r border-b border-accent-100 bg-accent-600">Percentage</th>
+            <th class="p-1 border-b border-accent-100 bg-accent-600">Weight</th>
+          </tr>
+        </thead>
         <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0">
-          <td class="p-1 border-b last:border-b-0 border-r border-accent-100">{{ (percentages.length - index) * 5 }}%</td>
-          <td class="p-1 border-b border-accent-100">{{ weight }}</td>
+          <td class="p-1 border-r border-b last border-accent-100">{{ (percentages.length - index) *5 }}%</td>
+          <td class="p-1 border-b">{{ weight }}</td>
         </tr>
       </table>
     </ClientOnly>
@@ -30,7 +32,12 @@ const props = defineProps({
   weight: {
     required: true,
     type: Number,
-  }
+  },
+
+  border: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const percentages: Ref<Array<number>> = ref([]);
