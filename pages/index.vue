@@ -1,19 +1,21 @@
 <template>
-  <div class="flex flex-col items-center my-11">
-    <header class="w-full mb-3">
+  <div class="flex flex-col items-center overflow-y-scroll">
+    <header class="w-full mb-3 mt-11">
       <h1 class="text-center text-xl font-bold">Weight Calculator</h1>
       <hr class="mt-2 mx-[25%]" />
     </header>
-    <LabeledInput input-id="weight" label="Weight: ">
-      <NumberInput id="weight" save-key="calcWeight" @value-change="setWeight" />
-    </LabeledInput>
-    <LabeledInput input-id="round" label="Round To: ">
-      <select v-bind="round" id="round">
-        <option :value="5">Five</option>
-      </select>
-    </LabeledInput>
-    <div v-show="calculated" class="w-2/3 m-1">
-      <Percentages :ready="calculated" :round="round" :weight="(weightInput)" />
+    <div class="w-full flex flex-col items-center">
+      <LabeledInput input-id="weight" label="Weight: ">
+        <NumberInput id="weight" save-key="calcWeight" @value-change="setWeight" />
+      </LabeledInput>
+      <LabeledInput input-id="round" label="Round To: ">
+        <select v-bind="round" id="round">
+          <option :value="5">Five</option>
+        </select>
+      </LabeledInput>
+      <div v-show="calculated" class="w-2/3 m-1">
+        <Percentages :ready="calculated" :round="round" :weight="(weightInput)" />
+      </div>
     </div>
   </div>
 </template>
