@@ -1,5 +1,5 @@
 <template>
-  <input type="number" :v-model="number" @input="event => number = parseInt(event.target.value)" />
+  <input type="number" :v-model="number" @input="event => number = parseInt(event.target.value)" @keypress="event => checkNumberInput(event)" />
 </template>
 
 <script setup lang="ts">
@@ -25,8 +25,15 @@ watch(number, (newNumber) => {
 onMounted(() => {
   if (props.saveKey) {
     $getSaveData(props.saveKey).then((value: any) => {
-      if (value) number.value = value;
+      if (value) {
+        number.value = value;
+      }
     });
   }
 });
+
+function checkNumberInput(event: KeyboardEvent) {
+  let valid = /[0-9]/i.test(event.key);
+  return valid ? valid : event.preventDefault();
+}
 </script>
