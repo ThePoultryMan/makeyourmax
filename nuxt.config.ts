@@ -2,6 +2,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
+      htmlAttrs: {
+        lang: "en",
+      },
       link: [
         // General implementation from https://css-tricks.com/svg-favicons-and-all-the-fun-things-we-can-do-with-them/
         {
