@@ -1,5 +1,5 @@
 <template>
-  <div class="text-text-400">
+  <div class="flex flex-col text-text-400 max-h-screen">
     <VitePwaManifest />
     <Navigation @open-sidebar="showSidebar(true)" />
     <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" />
