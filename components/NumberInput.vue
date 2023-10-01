@@ -1,5 +1,5 @@
 <template>
-  <input type="number" :v-model="number" @input="event => number = parseInt(event.target.value)" @keypress="event => checkNumberInput(event)" />
+  <input type="number" :v-model="number" @keypress="event => checkNumberInput(event)" />
 </template>
 
 <script setup lang="ts">
@@ -15,12 +15,7 @@ const emits = defineEmits<{
   valueChange: [value: number];
 }>();
 
-let number = ref(0);
-
-watch(number, (newNumber) => {
-  emits("valueChange", newNumber);
-  if (props.saveKey) $setSaveData(props.saveKey, newNumber);
-})
+const number = ref(0);
 
 onMounted(() => {
   if (props.saveKey) {
@@ -30,6 +25,11 @@ onMounted(() => {
       }
     });
   }
+});
+
+watch(number, (newNumber) => {
+  emits("valueChange", newNumber);
+  if (props.saveKey) $setSaveData(props.saveKey, newNumber);
 });
 
 function checkNumberInput(event: KeyboardEvent) {
