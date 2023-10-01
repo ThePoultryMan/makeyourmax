@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/localforage": "^1.1.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@vite-pwa/nuxt": "^0.1.1",
     "nuxt": "^3.7.4"
