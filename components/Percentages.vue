@@ -9,7 +9,7 @@
           </tr>
         </thead>
         <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0 [&>td]:odd:bg-accent-800 [&>td]:bg-accent-900">
-          <td class="p-1 border-r border-b last border-accent-100 ">{{ (percentages.length - index) *5 }}%</td>
+          <td class="p-1 border-r border-b last border-accent-100">{{ (percentages.length - index) * props.percentIter }}%</td>
           <td class="p-1 border-b">{{ weight }}</td>
         </tr>
       </table>
@@ -29,6 +29,10 @@ const props = defineProps({
     type: Number,
     default: 5,
   },
+  percentIter: {
+    type: Number,
+    default: 5,
+  },
   weight: {
     required: true,
     type: Number,
@@ -42,19 +46,13 @@ const props = defineProps({
 
 const percentages: Ref<Array<number>> = ref([]);
 
-watch(() => props.ready, () => {
+watch(props, () => {
   calculate();
-});
-watch(() => props.round, () => {
-  calculate();
-});
-watch(() => props.weight, () => {
-  calculate();
-});
+})
 
 function calculate() {
   percentages.value.length = 0;
-  for (let i = 5; i < 100; i += 5) {
+  for (let i = props.percentIter; i < 100; i += props.percentIter) {
     let weight = Math.round(props.weight * (i / 100));
     if (props.round == 5) {
       weight = $roundToFive(weight);

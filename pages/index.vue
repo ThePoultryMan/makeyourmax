@@ -5,16 +5,25 @@
       <hr class="mt-2 mx-[25%]" />
     </header>
     <div class="w-full flex flex-col items-center">
-      <LabeledInput input-id="weight" label="Weight: ">
+      <LabeledInput input-id="weight" label="Weight ">
         <NumberInput id="weight" save-key="calcWeight" @value-change="setWeight" />
       </LabeledInput>
-      <LabeledInput input-id="round" label="Round To: ">
-        <select v-bind="round" id="round">
-          <option :value="5">Five</option>
-        </select>
-      </LabeledInput>
+      <div class="flex gap-3">
+        <LabeledInput input-id="percentIter" label="Every ">
+          <select v-model="percentIter" id="percentIter">
+            <option :value="10">10%</option>
+            <option :value="5">5%</option>
+            <option :value="2.5">2.5%</option>
+          </select>
+        </LabeledInput>
+        <LabeledInput input-id="round" label="Round To ">
+          <select v-model="round" id="round">
+            <option :value="5">Five</option>
+          </select>
+        </LabeledInput>
+      </div>
       <div v-show="calculated" class="w-2/3 m-1 max-h-[70vh] overflow-y-scroll border border-separate border-spacing-0 border-accent-100 rounded-lg">
-        <Percentages :ready="calculated" :round="round" :weight="(weightInput)" />
+        <Percentages :ready="calculated" :round="round" :percent-iter="percentIter" :weight="(weightInput)" />
       </div>
     </div>
   </div>
@@ -26,6 +35,7 @@ const { $setSaveData, $getSaveData } = useNuxtApp();
 const weightInput = ref(0);
 const calculated = ref(false);
 const round = ref(5);
+const percentIter = ref(5);
 
 onMounted(() => {
   $getSaveData("calcWeight").then((weight: any) => {
