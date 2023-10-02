@@ -1,5 +1,5 @@
 <template>
-  <input type="number" v-model="number" @keypress="event => checkNumberInput(event)" />
+  <input type="number" v-model="number" @keypress="event => checkNumberInput(event)" class="w-28" />
 </template>
 
 <script setup lang="ts">
