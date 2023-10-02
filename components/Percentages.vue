@@ -8,8 +8,8 @@
             <th class="p-1 border-b border-accent-100 bg-accent-600">Weight</th>
           </tr>
         </thead>
-        <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0">
-          <td class="p-1 border-r border-b last border-accent-100">{{ (percentages.length - index) *5 }}%</td>
+        <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0 [&>td]:odd:bg-accent-800 [&>td]:bg-accent-900">
+          <td class="p-1 border-r border-b last border-accent-100 ">{{ (percentages.length - index) *5 }}%</td>
           <td class="p-1 border-b">{{ weight }}</td>
         </tr>
       </table>
