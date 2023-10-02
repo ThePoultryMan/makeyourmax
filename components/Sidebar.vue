@@ -1,7 +1,7 @@
 <template>
-  <div class="absolute top-0 right-0 bg-accent-800 overflow-x-hidden z-10">
+  <div class="absolute top-0 right-0 bg-accent-800 overflow-hidden z-10 h-screen">
     <Transition name="sidebar">
-      <div v-show="props.activated" id="sidebar" class="h-screen">
+      <div v-show="props.activated" id="sidebar">
         <button @click="emits('hide-sidebar')" class="text-lg absolute top-0 right-0 m-3">&times;</button>
         <nav class="ml-12 mt-24 flex flex-col text-2xl gap-3">
           <NuxtLink to="/">Home</NuxtLink>
