@@ -5,7 +5,7 @@
       <Navigation @open-sidebar="showSidebar(true)" />
       <NuxtPage class="relative z-0" />
     </div>
-    <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" class="absolute z-10 max-h-screen" />
+    <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" class="absolute top-0 right-0 bg-accent-800 overflow-x-hidden h-screen" />
   </div>
 </template>
 

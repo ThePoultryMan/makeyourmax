@@ -22,9 +22,7 @@
           </select>
         </LabeledInput>
       </div>
-      <div v-show="calculated" class="w-2/3 m-1 max-h-[60vh] overflow-y-scroll border border-separate border-spacing-0 border-accent-100 rounded-lg">
-        <Percentages :ready="calculated" :round="round" :percent-iter="percentIter" :weight="(weightInput)" />
-      </div>
+      <Percentages :ready="calculated" :round="round" :percent-iter="percentIter" :weight="(weightInput)" />
     </div>
   </div>
 </template>

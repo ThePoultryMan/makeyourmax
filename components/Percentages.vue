@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table class="w-full text-center border-accent-100 border-separate border-spacing-0 text-lg" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
+  <div class="w-2/3 m-1 max-h-[60vh] overflow-y-scroll border border-accent-100 rounded-lg">
+    <table class="w-full border-separate border-spacing-0">
       <thead class="sticky top-0">
         <tr>
           <th class="p-1 border-r border-b border-accent-100 bg-accent-600">Percentage</th>
@@ -34,11 +34,6 @@ const props = defineProps({
   weight: {
     required: true,
     type: Number,
-  },
-
-  border: {
-    type: Boolean,
-    default: false,
   },
 });
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 right-0 bg-accent-800 overflow-hidden">
+  <div class="absolute top-0 right-0 bg-accent-800">
     <Transition name="sidebar">
       <div v-show="props.activated" id="sidebar" class="h-screen">
         <button @click="emits('hide-sidebar')" class="text-lg absolute top-0 right-0 m-3">&times;</button>
