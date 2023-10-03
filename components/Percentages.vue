@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="w-full text-center border-accent-100 border-separate border-spacing-0" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
+    <table class="w-full text-center border-accent-100 border-separate border-spacing-0 text-lg" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
       <thead class="sticky top-0">
         <tr>
           <th class="p-1 border-r border-b border-accent-100 bg-accent-600">Percentage</th>

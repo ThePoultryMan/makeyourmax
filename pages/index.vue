@@ -1,22 +1,22 @@
 <template>
   <div class="flex flex-col items-center overflow-y-scroll">
     <header class="w-full mb-3 mt-7">
-      <h1 class="text-center text-xl font-bold">Weight Calculator</h1>
+      <h1 class="text-center text-2xl font-bold">Weight Calculator</h1>
       <hr class="mt-2 mx-[25%]" />
     </header>
     <div class="w-full flex flex-col items-center">
-      <LabeledInput input-id="weight" label="Weight ">
+      <LabeledInput input-id="weight" label="Weight " class="text-lg">
         <NumberInput id="weight" save-key="calcWeight" @value-change="setWeight" />
       </LabeledInput>
       <div class="flex gap-3">
-        <LabeledInput input-id="percentIter" label="Every ">
+        <LabeledInput input-id="percentIter" label="Every " class="text-lg">
           <select v-model="percentIter" id="percentIter">
             <option :value="10">10%</option>
             <option :value="5">5%</option>
             <option :value="2.5">2.5%</option>
           </select>
         </LabeledInput>
-        <LabeledInput input-id="round" label="Round To ">
+        <LabeledInput input-id="round" label="Round To " class="text-lg">
           <select v-model="round" id="round">
             <option :value="5">Five</option>
           </select>
