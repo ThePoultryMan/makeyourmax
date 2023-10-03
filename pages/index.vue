@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center overflow-y-scroll">
+  <div class="flex flex-col items-center overflow-y-scroll text-lg">
     <header class="w-full mb-3 mt-7">
       <h1 class="text-center text-2xl font-bold">Weight Calculator</h1>
       <hr class="mt-2 mx-[25%]" />
