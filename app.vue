@@ -1,9 +1,11 @@
 <template>
-  <div class="flex flex-col text-text-400 max-h-screen overflow-hidden">
+  <div class="text-text-400 max-h-screen overflow-hidden overscroll-none">
     <VitePwaManifest />
-    <Navigation @open-sidebar="showSidebar(true)" />
-    <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" />
-    <NuxtPage />
+    <div class="flex flex-col relative z-0">
+      <Navigation @open-sidebar="showSidebar(true)" />
+      <NuxtPage class="relative z-0" />
+    </div>
+    <Sidebar @hide-sidebar="showSidebar(false)" :activated="sidebar" class="absolute z-10" />
   </div>
 </template>
 

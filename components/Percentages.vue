@@ -1,19 +1,17 @@
 <template>
   <div>
-    <ClientOnly>
-      <table class="w-full text-center border-accent-100 border-separate border-spacing-0" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
-        <thead class="sticky top-0">
-          <tr>
-            <th class="p-1 border-r border-b border-accent-100 bg-accent-600">Percentage</th>
-            <th class="p-1 border-b border-accent-100 bg-accent-600">Weight</th>
-          </tr>
-        </thead>
-        <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0 [&>td]:odd:bg-accent-800 [&>td]:bg-accent-900">
-          <td class="p-1 border-r border-b last border-accent-100">{{ (percentages.length - index) * props.percentIter }}%</td>
-          <td class="p-1 border-b">{{ weight }}</td>
+    <table class="w-full text-center border-accent-100" :class="[ [ props.border ? 'border border-separate border-spacing-0 rounded-lg' : '' ] ]">
+      <thead class="sticky top-0">
+        <tr>
+          <th class="p-1 border-r border-b border-accent-100 bg-accent-600">Percentage</th>
+          <th class="p-1 border-b border-accent-100 bg-accent-600">Weight</th>
         </tr>
-      </table>
-    </ClientOnly>
+      </thead>
+      <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0 [&>td]:odd:bg-accent-800 [&>td]:bg-accent-900">
+        <td class="p-1 border-r border-b border-accent-100 z-0">{{ (percentages.length - index) * props.percentIter }}%</td>
+        <td class="p-1 border-b z-0">{{ weight }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -46,9 +44,18 @@ const props = defineProps({
 
 const percentages: Ref<Array<number>> = ref([]);
 
-watch(props, () => {
+watch(() => props.ready, () => {
   calculate();
-})
+});
+watch(() => props.round, () => {
+  calculate();
+});
+watch(() => props.percentIter, () => {
+  calculate();
+});
+watch(() => props.weight, () => {
+  calculate();
+});
 
 function calculate() {
   percentages.value.length = 0;
