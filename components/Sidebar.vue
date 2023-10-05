@@ -4,8 +4,7 @@
       <div v-show="props.activated" id="sidebar" class="h-screen">
         <button @click="emits('hide-sidebar')" class="text-lg absolute top-0 right-0 m-3">&times;</button>
         <nav class="pl-12 pt-24 flex flex-col text-2xl gap-3">
-          <NuxtLink to="/">Home</NuxtLink>
-          <NuxtLink to="/prs">PRs</NuxtLink>
+          <NuxtLink v-for="name, page in pages" :to="'/' + page" @click="emits('hide-sidebar')">{{ name }}</NuxtLink>
         </nav>
       </div>
     </Transition>
@@ -20,6 +19,12 @@ const props = defineProps({
   },
 });
 const emits = defineEmits([ "hide-sidebar" ]);
+
+const pages = {
+  "": "Home",
+  prs: "PRs",
+  roadmap: "Roadmap",
+};
 </script>
 
 <style>
