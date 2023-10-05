@@ -1,0 +1,22 @@
+{
+  "backendThemes": {
+    "name": "Backend Themes",
+    "description": "Have the backend work based off of a theming system. Allowing customization of the theme.",
+    "status": "inProgress"
+  },
+  "themeOptions": {
+    "name": "Theme Options",
+    "description": "Allow users to specify the theme they would like to use.",
+    "status": "notStarted"
+  },
+  "prs": {
+    "name": "PRs",
+    "description": "Store PRs for various pre-set movements.",
+    "status": "notStarted"
+  },
+  "customMovements": {
+    "name": "Custom Movements",
+    "description": "Users can create movements to store PRs of.",
+    "status": "planning"
+  }
+}

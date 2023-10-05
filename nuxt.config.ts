@@ -23,6 +23,7 @@ export default defineNuxtConfig({
   },
   modules: [
     "@nuxtjs/tailwindcss",
+    "nuxt-icon",
     "nuxt-vuefire",
     "@vite-pwa/nuxt",
   ],
