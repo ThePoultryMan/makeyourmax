@@ -39,8 +39,22 @@ export default defineNuxtConfig({
     manifest: {
       name: "Max & Maxer",
       short_name: "Maxer",
+      description: "An app to keep track of your PRs.",
+      dir: "ltr",
+      display: "browser",
+      display_override: [
+        "standalone",
+        "minimal-ui",
+      ],
       theme_color: "#0d0b14",
-      background_color: "161221",
+      background_color: "#161221",
+      orientation: "portrait",
+      handle_links: "auto",
+      edge_side_panel: {},
+      id: "/",
+      launch_handler: {
+        client_mode: "auto",
+      },
       icons: [
         {
           src: "maxer-192.png",
@@ -56,7 +70,13 @@ export default defineNuxtConfig({
           src: "maxer-512.png",
           sizes: "512x512",
           type: "image/png",
-          purpose: "any maskable",
+          purpose: "any",
+        },
+        {
+          src: "maxer-512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "maskable",
         },
       ],
     },
