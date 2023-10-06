@@ -42,10 +42,9 @@ export default defineNuxtConfig({
       short_name: "Maxer",
       description: "An app to keep track of your PRs.",
       dir: "ltr",
-      display: "browser",
+      display: "standalone",
       display_override: [
-        "standalone",
-        "minimal-ui",
+        "window-controls-overlay",
       ],
       theme_color: "#0d0b14",
       background_color: "#161221",
