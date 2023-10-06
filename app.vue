@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { key } from "localforage";
 import themes from "~/assets/themes.json";
 
 const { $setupSave, $getSaveData } = useNuxtApp();
@@ -51,10 +50,10 @@ function showSidebar(show: boolean) {
 }
 
 function setThemeVariables(theme: any) {
-  console.log(theme)
   for (const key of Object.keys(theme)) {
-    for (const [property, text] of Object.entries(theme[key]))
-    root.style.setProperty("--" + key + "-" + property, text);
+    for (const [property, text] of Object.entries(theme[key])) {
+      root.style.setProperty("--" + key + "-" + property, text);
+    }
   }
 }
 </script>
