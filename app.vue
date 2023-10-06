@@ -10,9 +10,14 @@
 </template>
 
 <script setup lang="ts">
-const { $setupSave } = useNuxtApp();
+import { key } from "localforage";
+import themes from "~/assets/themes.json";
+
+const { $setupSave, $getSaveData } = useNuxtApp();
 
 const sidebar = ref(false);
+
+let root: any;
 
 useHead({
   bodyAttrs: {
@@ -20,11 +25,29 @@ useHead({
   },
 });
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   $setupSave();
+  // Theming
+  let themeName: String = await $getSaveData("theme") as String;
+  if (!themeName) {
+    themeName = "frightenedPurple";
+  }
+
+  root = document.querySelector(":root");
+  if (root) {
+    setThemeVariables(themes[themeName]);
+  }
 });
 
 function showSidebar(show: boolean) {
   sidebar.value = show;
+}
+
+function setThemeVariables(theme: any) {
+  console.log(theme)
+  for (const key of Object.keys(theme)) {
+    for (const [property, text] of Object.entries(theme[key]))
+    root.style.setProperty("--" + key + "-" + property, text);
+  }
 }
 </script>
