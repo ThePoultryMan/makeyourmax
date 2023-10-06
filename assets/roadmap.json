@@ -2,12 +2,12 @@
   "backendThemes": {
     "name": "Backend Themes",
     "description": "Have the backend work based off of a theming system. Allowing customization of the theme.",
-    "status": "inProgress"
+    "status": "finished"
   },
   "themeOptions": {
     "name": "Theme Options",
     "description": "Allow users to specify the theme they would like to use.",
-    "status": "notStarted"
+    "status": "started"
   },
   "prs": {
     "name": "PRs",
