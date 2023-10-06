@@ -3,8 +3,11 @@
     <Transition name="sidebar">
       <div v-show="props.activated" id="sidebar" class="h-screen">
         <button @click="emits('hide-sidebar')" class="text-lg absolute top-0 right-0 m-3">&times;</button>
-        <nav class="pl-12 pt-24 flex flex-col text-2xl gap-3">
-          <NuxtLink v-for="name, page in pages" :to="'/' + page" @click="emits('hide-sidebar')">{{ name }}</NuxtLink>
+        <nav class="px-12 py-24 text-2xl">
+          <div v-for="contents in pages" class="flex flex-col gap-3 mb-3">
+            <hr v-if="contents.sep" class="mt-7" />
+            <NuxtLink v-for="name, page in filterContents(contents)" :to="'/' + page" @click="emits('hide-sidebar')">{{ name }}</NuxtLink>
+          </div>
         </nav>
       </div>
     </Transition>
@@ -21,10 +24,23 @@ const props = defineProps({
 const emits = defineEmits([ "hide-sidebar" ]);
 
 const pages = {
-  "": "Home",
-  prs: "PRs",
-  roadmap: "Roadmap",
+  setOne: {
+    sep: false,
+    "": "Home",
+    prs: "PRs",
+  },
+  setTwo: {
+    sep: true,
+    roadmap: "Roadmap",
+  },
 };
+const lastSet = ref();
+
+function filterContents(contents: object) {
+  let filteredContents = structuredClone(contents);
+  delete filteredContents.sep;
+  return filteredContents;
+}
 </script>
 
 <style>
