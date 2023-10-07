@@ -15,14 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import themes from "~/assets/themes.json";
-
-const { $setupSave, $getSaveData } = useNuxtApp();
+const { $setupSave, $setupTheming } = useNuxtApp();
 
 const ready = ref(false);
 const sidebar = ref(false);
-
-let root: any;
 
 useHead({
   bodyAttrs: {
@@ -33,28 +29,11 @@ useHead({
 onBeforeMount(async () => {
   $setupSave();
   // Theming
-  let themeName: String = await $getSaveData("theme") as String;
-  if (!themeName) {
-    themeName = "frightenedPurple";
-  }
-
-  root = document.querySelector(":root");
-  if (root) {
-    setThemeVariables(themes[themeName]);
-  }
-  ready.value = true;
+  ready.value = await $setupTheming();
 });
 
 function showSidebar(show: boolean) {
   sidebar.value = show;
-}
-
-function setThemeVariables(theme: any) {
-  for (const key of Object.keys(theme)) {
-    for (const [property, text] of Object.entries(theme[key])) {
-      root.style.setProperty("--" + key + "-" + property, text);
-    }
-  }
 }
 </script>
 

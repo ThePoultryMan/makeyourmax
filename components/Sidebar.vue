@@ -9,12 +9,15 @@
             <NuxtLink v-for="name, page in filterContents(contents)" :to="'/' + page" @click="emits('hide-sidebar')">{{ name }}</NuxtLink>
           </div>
         </nav>
+        <Dropdown :value="theme" :value-setter="setTheme" :value-display="themeName" :choices="themes" />
       </div>
     </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
+const { $getThemes, $getNameFromValue } = useNuxtApp();
+
 const props = defineProps({
   activated: {
     type: Boolean,
@@ -34,12 +37,19 @@ const pages = {
     roadmap: "Roadmap",
   },
 };
-const lastSet = ref();
+
+const theme = ref("frightenedPurple");
+const themes = ref($getThemes());
+const themeName = computed(() => $getNameFromValue(theme.value));
 
 function filterContents(contents: object) {
   let filteredContents = structuredClone(contents);
   delete filteredContents.sep;
   return filteredContents;
+}
+
+function setTheme(newTheme: string) {
+  theme.value = newTheme;
 }
 </script>
 
