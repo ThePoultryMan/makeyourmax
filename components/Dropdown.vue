@@ -27,14 +27,7 @@ const props = defineProps({
 
 const open = ref(false);
 const otherChoices = computed(() => {
-  let newChoices = props.choices;
-  for (const [value, key] of newChoices) {
-    if (value == props.value) {
-      newChoices = newChoices.splice(newChoices.indexOf(key), 1);
-    }
-  }
-
-  return newChoices;
+  return props.choices.filter((val) => JSON.stringify([val[0], val[1]]) != JSON.stringify([props.value, props.valueDisplay]));
 });
 
 function select(choice: any) {
