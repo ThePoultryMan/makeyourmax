@@ -12,7 +12,7 @@ export default defineNuxtPlugin(() => {
       setupTheming: async () => {
         let themeName: String = await $getSaveData("theme") as String;
         if (!themeName) {
-          themeName = "frightenedPurple";
+          themeName = "myProd";
         }
 
         let root = document.querySelector(":root");
