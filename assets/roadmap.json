@@ -7,7 +7,7 @@
   "themeOptions": {
     "name": "Theme Options",
     "description": "Allow users to specify the theme they would like to use.",
-    "status": "started"
+    "status": "inProgress"
   },
   "prs": {
     "name": "PRs",
