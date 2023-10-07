@@ -1,7 +1,7 @@
 import themes from "~/assets/themes.json";
 
 export default defineNuxtPlugin(() => {
-  const { $getSaveData } = useNuxtApp();
+  const { $getSaveData, $setSaveData } = useNuxtApp();
   const themeOptions = [];
   for (const [key, value] of Object.entries(themes)) {
     themeOptions.push([key, value.meta.name]);
@@ -24,6 +24,9 @@ export default defineNuxtPlugin(() => {
           }
         }
         return true;
+      },
+      saveThemeChoice: (theme: string) => {
+        $setSaveData("theme", theme);
       },
       updateTheme: (theme: string) => {
         let root = document.querySelector(":root");

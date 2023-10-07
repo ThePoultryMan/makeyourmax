@@ -9,7 +9,7 @@
             <NuxtLink v-for="name, page in filterContents(contents)" :to="'/' + page" @click="emits('hide-sidebar')">{{ name }}</NuxtLink>
           </div>
         </nav>
-        <Dropdown :value="theme" :value-setter="setTheme" :value-display="themeName" :choices="themes" />
+        <Dropdown :value="theme" :value-setter="setTheme" :value-display="themeName" :choices="themes" class="mx-12" />
       </div>
     </Transition>
   </div>
