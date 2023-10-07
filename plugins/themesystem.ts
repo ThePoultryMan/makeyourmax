@@ -25,6 +25,16 @@ export default defineNuxtPlugin(() => {
         }
         return true;
       },
+      updateTheme: (theme: string) => {
+        let root = document.querySelector(":root");
+        if (root) {
+          for (const key of Object.keys(themes[theme])) {
+            for (const [property, text] of Object.entries(themes[theme][key])) {
+              root.style.setProperty("--" + key + "-" + property, text);
+            }
+          }
+        }
+      },
       getThemes: () => {
         return themeOptions;
       },

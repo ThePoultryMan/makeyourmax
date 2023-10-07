@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-const { $getThemes, $getNameFromValue } = useNuxtApp();
+const { $updateTheme, $getThemes, $getNameFromValue } = useNuxtApp();
 
 const props = defineProps({
   activated: {
@@ -50,6 +50,7 @@ function filterContents(contents: object) {
 
 function setTheme(newTheme: string) {
   theme.value = newTheme;
+  $updateTheme(theme.value);
 }
 </script>
 
