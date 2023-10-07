@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-const { $updateTheme, $saveThemeChoice, $getThemes, $getNameFromValue } = useNuxtApp();
+const { $updateTheme, $saveThemeChoice, $getCurrentTheme, $getThemes, $getNameFromValue } = useNuxtApp();
 
 const props = defineProps({
   activated: {
@@ -38,7 +38,7 @@ const pages = {
   },
 };
 
-const theme = ref("frightenedPurple");
+const theme = ref(await $getCurrentTheme());
 const themes = ref($getThemes());
 const themeName = computed(() => $getNameFromValue(theme.value));
 

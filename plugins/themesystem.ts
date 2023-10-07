@@ -26,7 +26,7 @@ export default defineNuxtPlugin(() => {
         return true;
       },
       getCurrentTheme: async () => {
-        let theme = await $getSaveData("theme");
+        let theme: string = await $getSaveData("theme") as string;
         return theme ? theme : "myProd";
       },
       saveThemeChoice: (theme: string) => {
