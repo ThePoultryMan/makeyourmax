@@ -7,12 +7,12 @@
   "themeOptions": {
     "name": "Theme Options",
     "description": "Allow users to specify the theme they would like to use.",
-    "status": "inProgress"
+    "status": "finished"
   },
   "prs": {
     "name": "PRs",
     "description": "Store PRs for various pre-set movements.",
-    "status": "notStarted"
+    "status": "inProgress"
   },
   "customMovements": {
     "name": "Custom Movements",
