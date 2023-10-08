@@ -3,13 +3,11 @@
     <header class="flex flex-col items-center my-16">
       <h1 class="text-lg">Personal Records</h1>
     </header>
-    <div class="grid">
-      <NuxtLink v-for="value, key in prs" :to="'/m/' + key">
-        <div>
-          <h2>{{ toTitle(key) }}</h2>
-          <p>{{ value }}</p>
-        </div>
-      </NuxtLink>
+    <div v-show="!movement" class="grid">
+      <div v-for="value, key in prs" @click="movement = key">
+        <h2>{{ toTitle(key) }}</h2>
+        <p>{{ value }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -18,8 +16,11 @@
 import movements from "~/assets/movements.json";
 
 const { $getSaveData, $setSaveData } = useNuxtApp();
+const route = useRoute();
+const router = useRouter();
 
 const prs = ref(await $getSaveData("prs"));
+const movement = ref(route.query.m ? route.query.m : "");
 
 onMounted(() => {
   if (!prs.value) { prs.value = {}; }
@@ -29,6 +30,12 @@ onMounted(() => {
     }
   }
   $setSaveData("prs", toRaw(prs.value));
+});
+
+watch(movement, (newMovement) => {
+  router.push({
+    query: { m: newMovement },
+  });
 });
 
 function toTitle(s: string) {
