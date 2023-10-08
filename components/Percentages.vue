@@ -9,7 +9,7 @@
       </thead>
       <tr v-for="weight, index in percentages" class="[&>td]:last:border-b-0 [&>td]:odd:bg-background-900 [&>td]:bg-background-950">
         <td class="p-2 md:p-1 border-r border-b border-accent-100 z-0">{{ (percentages.length - index) * props.percentIter }}%</td>
-        <td class="p-2 md:p-1 border-b z-0">{{ weight }}</td>
+        <td class="p-2 md:p-1 border-b border-accent-100 z-0">{{ weight }}</td>
       </tr>
     </table>
   </div>
