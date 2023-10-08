@@ -22,7 +22,7 @@
           </select>
         </LabeledInput>
       </div>
-      <Percentages :ready="calculated" :round="round" :percent-iter="percentIter" :weight="(weightInput)" />
+      <Percentages :ready="calculated" :round="round" :percent-iter="percentIter" :weight="(weightInput)" class="text-2xl md:text-lg" />
     </div>
   </div>
 </template>
