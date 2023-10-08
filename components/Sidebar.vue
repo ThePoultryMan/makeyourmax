@@ -2,7 +2,7 @@
   <div class="absolute top-0 right-0 bg-accent-800">
     <Transition name="sidebar">
       <div v-show="props.activated" id="sidebar" class="h-screen">
-        <button @click="emits('hide-sidebar')" class="text-lg absolute top-0 right-0 m-3">&times;</button>
+        <button @click="emits('hide-sidebar')" class="text-2xl absolute top-0 right-0 m-3">&times;</button>
         <nav class="px-12 py-24 text-2xl">
           <div v-for="contents in pages" class="flex flex-col gap-3 mb-3">
             <hr v-if="contents.sep" class="mt-7" />
