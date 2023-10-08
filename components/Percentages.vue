@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full m-1 max-h-[60vh] overflow-y-scroll border border-accent-100 rounded-lg">
+  <div class="m-1 max-h-[60vh] overflow-y-scroll border border-accent-100 rounded-lg">
     <table class="w-full border-separate border-spacing-0">
       <thead class="sticky top-0">
         <tr>
