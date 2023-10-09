@@ -6,6 +6,9 @@
 const { $setSaveData, $getSaveData } = useNuxtApp();
 
 const props = defineProps({
+  objectKeys: {
+    default: undefined,
+  },
   saveKey: {
     type: String,
     default: null,
@@ -18,6 +21,13 @@ const emits = defineEmits<{
 const number = ref(0);
 
 onMounted(() => {
+  if (props.objectKeys) {
+    $getSaveData(props.objectKeys[0]).then((value: any) => {
+      if (value) {
+        number.value = value[props.objectKeys[1]];
+      }
+    })
+  }
   if (props.saveKey) {
     $getSaveData(props.saveKey).then((value: any) => {
       if (value) {
