@@ -9,7 +9,7 @@
         @click="movement = key"
         class="p-2 border border-primary-500 rounded-lg cursor-pointer"
       >
-        <h2>{{ toTitle(key + "HighPull") }}</h2>
+        <h2>{{ toTitle(key) }}</h2>
         <p>{{ value }}</p>
       </div>
     </div>
