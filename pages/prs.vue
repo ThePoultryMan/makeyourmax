@@ -3,9 +3,13 @@
     <header class="flex flex-col items-center my-16">
       <h1 class="text-lg">Personal Records</h1>
     </header>
-    <div v-show="!movement" class="grid">
-      <div v-for="(value, key) in prs" @click="movement = key">
-        <h2>{{ toTitle(key) }}</h2>
+    <div v-show="!movement" class="mx-5 flex flex-wrap gap-3 justify-center">
+      <div
+        v-for="(value, key) in filteredPrs"
+        @click="movement = key"
+        class="p-2 border border-primary-500 rounded-lg cursor-pointer"
+      >
+        <h2>{{ toTitle(key + "HighPull") }}</h2>
         <p>{{ value }}</p>
       </div>
     </div>
@@ -37,6 +41,14 @@ const route = useRoute();
 const router = useRouter();
 
 let prs = ref(await $getSaveData("prs"));
+const filteredPrs = computed(() => {
+  Object.keys(prs.value).forEach(key => {
+    if (!prs.value[key]) {
+      delete prs.value[key];
+    }
+  });
+  return prs.value;
+});
 const movement = ref(route.query.m ? route.query.m : "");
 
 onMounted(() => {
@@ -45,7 +57,7 @@ onMounted(() => {
   }
   for (const movementI of movements) {
     if (!(movementI in prs.value)) {
-      prs.value[movementI] = null;
+      prs.value[movementI] = "Not Set";
     }
   }
   $setSaveData("prs", toRaw(prs.value));
@@ -66,7 +78,7 @@ function saveMax(weight: number) {
 
 function toTitle(s: string) {
   return s
-    .replace("/([A-Z])/g", " $1")
-    .replace("/^./", (str) => str.toUpperCase());
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./g, (str) => str.toUpperCase());
 }
 </script>
