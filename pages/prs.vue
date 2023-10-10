@@ -7,7 +7,7 @@
       <div
         v-for="(value, key) in filteredPrs"
         @click="movement = key"
-        class="p-2 border border-primary-500 rounded-lg cursor-pointer"
+        class="p-2 border border-primary-500 rounded-lg cursor-pointer min-w-[264px]"
       >
         <h2>{{ toTitle(key) }}</h2>
         <p>{{ value }}</p>
