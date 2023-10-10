@@ -1,4 +1,8 @@
 [
-  "backsquat",
-  "deadlift"
+  "backSquat",
+  "deadlift",
+  "frontSquat",
+  "pushPress",
+  "pushJerk",
+  "strictPress"
 ]
