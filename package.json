@@ -24,7 +24,7 @@
     "localforage": "^1.10.0",
     "nuxt-icon": "^0.5.0",
     "nuxt-storage": "^1.2.2",
-    "nuxt-vuefire": "^0.3.0",
+    "nuxt-vuefire": "^0.3.1",
     "vuefire": "^3.1.17"
   }
 }
