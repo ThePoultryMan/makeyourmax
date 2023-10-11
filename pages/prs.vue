@@ -35,7 +35,7 @@ onMounted(() => {
   if (!prs.value) {
     prs.value = {};
   }
-  for (const movementI of movements) {
+  for (const movementI of movements.movements) {
     if (!(movementI in prs.value)) {
       prs.value[movementI] = "Not Set";
     }

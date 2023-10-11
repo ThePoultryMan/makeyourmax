@@ -1,8 +1,10 @@
-[
-  "backSquat",
-  "deadlift",
-  "frontSquat",
-  "pushPress",
-  "pushJerk",
-  "strictPress"
-]
+{
+  "movements": [
+    "backSquat",
+    "deadlift",
+    "frontSquat",
+    "pushPress",
+    "pushJerk",
+    "strictPress"
+  ]
+}
