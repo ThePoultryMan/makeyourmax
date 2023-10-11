@@ -12,11 +12,16 @@
   "prs": {
     "name": "PRs",
     "description": "Store PRs for various pre-set movements.",
-    "status": "inProgress"
+    "status": "finished"
   },
   "customMovements": {
     "name": "Custom Movements",
     "description": "Users can create movements to store PRs of.",
-    "status": "planning"
+    "status": "inProgress"
+  },
+  "maxChangeConfirmation": {
+    "name": "Max Change Confirmation",
+    "description": "Users will be prompted before their entered max is saved.",
+    "status": "notStarted"
   }
 }
