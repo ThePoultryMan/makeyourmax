@@ -3,8 +3,16 @@
     "backSquat",
     "deadlift",
     "frontSquat",
-    "pushPress",
+    "fullClean",
+    "hangPowerClean",
+    "overheadSquat",
+    "powerClean",
     "pushJerk",
-    "strictPress"
+    "pushPress",
+    "snatch",
+    "splitJerk",
+    "strictPress",
+    "sumoDeadlift",
+    "sumoDeadliftHighPull"
   ]
 }
