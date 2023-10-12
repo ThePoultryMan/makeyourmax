@@ -4,7 +4,7 @@
       <h1 class="text-lg">Personal Records</h1>
     </header>
     <button @click="addMovement()" class="flex mx-auto my-12 p-1.5 bg-accent-500 rounded-lg">&plus; Add Movement</button>
-    <div class="mx-5 flex flex-wrap gap-3 justify-center">
+    <div class="max-h-[63vh] mx-5 flex flex-wrap gap-3 justify-center overflow-y-scroll">
       <NuxtLink
         v-for="(value, key) in filteredPrs"
         :to="'/m/' + key"
