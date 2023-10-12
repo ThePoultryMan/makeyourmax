@@ -1,8 +1,9 @@
 <template>
   <div>
-    <header class="flex flex-col items-center my-16">
+    <header class="flex flex-col items-center my-8">
       <h1 class="text-lg">Personal Records</h1>
     </header>
+    <button @click="addMovement()" class="flex mx-auto my-12 p-1.5 bg-accent-500 rounded-lg">&plus; Add Movement</button>
     <div class="mx-5 flex flex-wrap gap-3 justify-center">
       <NuxtLink
         v-for="(value, key) in filteredPrs"
@@ -46,6 +47,10 @@ onMounted(() => {
 watch(prs.value, (newPrs) => {
   $setSaveData("prs", toRaw(newPrs));
 });
+
+function addMovement() {
+  
+}
 
 function toTitle(s: string) {
   return s
