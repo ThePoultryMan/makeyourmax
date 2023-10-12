@@ -3,7 +3,7 @@
     <header class="flex flex-col items-center my-16">
       <h1 class="text-lg">Personal Records</h1>
     </header>
-    <div class="mx-5 flex flex-wrap gap-3 justify-center">
+    <div class="max-h-[63vh] mx-5 flex flex-wrap gap-3 justify-center overflow-y-scroll">
       <NuxtLink
         v-for="(value, key) in filteredPrs"
         :to="'/m/' + key"
