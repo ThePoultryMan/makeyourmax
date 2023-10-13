@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <header class="flex flex-col items-center my-16">
-      <h1 class="text-lg">Personal Records</h1>
+  <div class="text-xl">
+    <header class="flex flex-col items-center my-8 font-semibold">
+      <h1 class="font-semibold">{{ toTitle(route.params.movement) }}</h1>
     </header>
     <div class="flex flex-col items-center">
-      <h2>{{ toTitle(route.params.movement) }}</h2>
       <LabeledInput label="Max" input-id="max-input">
         <NumberInput
           @value-change="(weight) => saveMax(weight)"
@@ -14,7 +13,7 @@
       <Percentages
         v-show="prs[route.params.movement]"
         :weight="typeof prs[route.params.movement] === 'number' ? prs[route.params.movement] : 0"
-        class="w-5/6 md:w-2/3"
+        class="w-5/6 md:w-2/3 max-md:text-2xl"
       />
     </div>
   </div>
