@@ -37,6 +37,11 @@ const filteredPrs = computed(() => {
       delete prs.value[key];
     }
   });
+  $getSaveData("customMovements").then((customMovements) => {
+    for (const [name, pr] of Object.entries(customMovements)) {
+      prs.value[name] = pr;
+    }
+  });
   return prs.value;
 });
 const movementAdder = ref(false);
