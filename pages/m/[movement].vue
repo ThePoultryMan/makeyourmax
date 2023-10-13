@@ -22,17 +22,28 @@
 </template>
 
 <script setup lang="ts">
+import { movements } from "~/assets/movements.json";
+
 const { $getSaveData, $setSaveData } = useNuxtApp();
 const route = useRoute();
 
 let prs = ref(await $getSaveData("prs"));
+const customMovements = ref(await $getSaveData("customMovements").then((customMovements) => customMovements ? customMovements : {}));
+const customMovement = ref(!movements.includes(route.params.movement));
 
 watch(prs.value, (newPrs) => {
   $setSaveData("prs", toRaw(newPrs));
 });
+watch(customMovements.value, (newCustomMovements) => {
+  $setSaveData("customMovements", toRaw(newCustomMovements));
+})
 
 function saveMax(weight: number) {
-  prs.value[route.params.movement] = weight;
+  if (!customMovement.value) {
+    prs.value[route.params.movement] = weight;
+  } else {
+    customMovements.value[route.params.movement] = weight;
+  }
 }
 
 function toTitle(s: string) {

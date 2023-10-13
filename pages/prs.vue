@@ -30,7 +30,7 @@ import movements from "~/assets/movements.json";
 
 const { $getSaveData, $setSaveData } = useNuxtApp();
 
-let prs = ref(await $getSaveData("prs"));
+let prs = ref(await $getSaveData("prs").then((prs) => prs ? prs : {}));
 const filteredPrs = computed(() => {
   Object.keys(prs.value).forEach((key) => {
     if (!prs.value[key]) {
@@ -38,6 +38,7 @@ const filteredPrs = computed(() => {
     }
   });
   $getSaveData("customMovements").then((customMovements) => {
+    if (!customMovements) { return; }
     for (const [name, pr] of Object.entries(customMovements)) {
       prs.value[name] = pr;
     }
@@ -48,9 +49,6 @@ const movementAdder = ref(false);
 const customMovementName = ref("");
 
 onMounted(() => {
-  if (!prs.value) {
-    prs.value = {};
-  }
   for (const movementI of movements.movements) {
     if (!(movementI in prs.value)) {
       prs.value[movementI] = "Not Set";
