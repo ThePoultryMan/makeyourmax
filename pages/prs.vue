@@ -17,7 +17,7 @@
     <div v-show="movementAdder" class="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-slate-950 bg-opacity-70">
       <div class="bg-accent-500 rounded-lg p-3 bg-opacity-100">
         <LabeledInput label="Movement Name: " input-id="movement-name" border-style="border-background-300" color-style="[&>*]:bg-background-300">
-          <input type="text" id="movement-name" />
+          <input v-model="customMovementName" type="text" id="movement-name" />
         </LabeledInput>
         <button @click="createMovement()">Create Movement</button>
       </div>
@@ -40,6 +40,7 @@ const filteredPrs = computed(() => {
   return prs.value;
 });
 const movementAdder = ref(false);
+const customMovementName = ref("");
 
 onMounted(() => {
   if (!prs.value) {
@@ -63,6 +64,12 @@ function addMovement() {
 
 function createMovement() {
   movementAdder.value = false;
+  $getSaveData("customMovements").then((customMovements) => {
+    if (!customMovements) { customMovements = {}; }
+    customMovements[customMovementName.value] = "Not Set";
+    $setSaveData("customMovements", customMovements);
+    customMovementName.value = "";
+  });
 }
 
 function toTitle(s: string) {
