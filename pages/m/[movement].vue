@@ -8,12 +8,27 @@
         <LabeledInput label="Max" input-id="max-input">
           <NumberInput
             @value-change="(weight) => saveMax(weight)"
-            :object-keys="['prs', route.params.movement]"
+            :object-keys="[
+              !customMovement ? 'prs' : 'customMovements',
+              route.params.movement,
+            ]"
           />
         </LabeledInput>
         <Percentages
-          v-show="prs[route.params.movement]"
-          :weight="typeof prs[route.params.movement] === 'number' ? prs[route.params.movement] : 0"
+          v-show="
+            !customMovement
+              ? prs[route.params.movement]
+              : customMovements[route.params.movement]
+          "
+          :weight="
+            !customMovement
+              ? typeof prs[route.params.movement] === 'number'
+                ? prs[route.params.movement]
+                : 0
+              : typeof customMovements[route.params.movement] === 'number'
+              ? customMovements[route.params.movement]
+              : 0
+          "
           class="w-5/6 md:w-2/3 max-md:text-2xl"
         />
       </div>
@@ -28,7 +43,11 @@ const { $getSaveData, $setSaveData } = useNuxtApp();
 const route = useRoute();
 
 let prs = ref(await $getSaveData("prs"));
-const customMovements = ref(await $getSaveData("customMovements").then((customMovements) => customMovements ? customMovements : {}));
+const customMovements = ref(
+  await $getSaveData("customMovements").then((customMovements) =>
+    customMovements ? customMovements : {}
+  )
+);
 const customMovement = ref(!movements.includes(route.params.movement));
 
 watch(prs.value, (newPrs) => {
@@ -36,7 +55,7 @@ watch(prs.value, (newPrs) => {
 });
 watch(customMovements.value, (newCustomMovements) => {
   $setSaveData("customMovements", toRaw(newCustomMovements));
-})
+});
 
 function saveMax(weight: number) {
   if (!customMovement.value) {
