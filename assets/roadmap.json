@@ -17,11 +17,11 @@
   "customMovements": {
     "name": "Custom Movements",
     "description": "Users can create movements to store PRs of.",
-    "status": "inProgress"
+    "status": "finished"
   },
-  "maxChangeConfirmation": {
-    "name": "Max Change Confirmation",
-    "description": "Users will be prompted before their entered max is saved.",
-    "status": "notStarted"
+  "rewrite": {
+    "name": "SvelteKit Rewrite",
+    "description": "Rewrite the entire app in Svelte.",
+    "status": "inProgress"
   }
 }
