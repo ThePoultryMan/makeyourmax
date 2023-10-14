@@ -32,15 +32,15 @@ const { $getSaveData, $setSaveData } = useNuxtApp();
 
 let prs = ref(await $getSaveData("prs").then((prs) => prs ? prs : {}));
 const filteredPrs = computed(() => {
-  Object.keys(prs.value).forEach((key) => {
-    if (!prs.value[key]) {
-      delete prs.value[key];
-    }
-  });
   $getSaveData("customMovements").then((customMovements) => {
     if (!customMovements) { return; }
     for (const [name, pr] of Object.entries(customMovements)) {
       prs.value[name] = pr;
+    }
+  });
+  Object.keys(prs.value).forEach((key) => {
+    if (!prs.value[key] && prs.value[key] !== 0) {
+      delete prs.value[key];
     }
   });
   return prs.value;
