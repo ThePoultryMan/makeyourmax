@@ -3,6 +3,7 @@
 	import { pwaInfo } from "virtual:pwa-info";
 
 	import Navigation from "$components/Navigation.svelte";
+	import Sidebar from '$components/Sidebar.svelte';
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
 </script>
@@ -13,3 +14,4 @@
 
 <Navigation />
 <slot />
+<Sidebar />
