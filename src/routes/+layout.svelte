@@ -6,12 +6,14 @@
 	import Sidebar from '$components/Sidebar.svelte';
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
+
+	let sidebarOpen = false;
 </script>
 
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
 
-<Navigation />
+<Navigation on:sidebar-open={(value) => sidebarOpen = value.detail} />
 <slot />
-<Sidebar />
+<Sidebar on:sidebar-close={(value) => sidebarOpen = value.detail} open={sidebarOpen} />
