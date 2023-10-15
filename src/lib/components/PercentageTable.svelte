@@ -1,12 +1,17 @@
 <script lang="ts">
   export let weight = 0;
   let weightPercentages: number[] = [];
-  for (let i = 100; i >= 0; i -= 5) {
-    weightPercentages.push(weight * (i / 100));
+  $: {
+    weightPercentages = [];
+    for (let i = 100; i >= 0; i -= 5) {
+      weightPercentages.push(weight * (i / 100));
+    }
   }
 </script>
 
-<div class="w-5/6 md:w-2/3 max-h-[60vh] text-2xl md:text-lg text-text-400 border border-accent-100 rounded-lg overflow-y-scroll">
+<div
+  class="w-5/6 md:w-2/3 max-h-[60vh] text-2xl md:text-lg text-text-400 border border-accent-100 rounded-lg overflow-y-scroll"
+>
   <table class="w-full border-separate border-spacing-0">
     <thead class="sticky top-0">
       <tr>
