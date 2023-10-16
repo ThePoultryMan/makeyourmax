@@ -28,6 +28,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>PRs</title>
+</svelte:head>
+
 <div class="flex flex-wrap justify-center gap-3">
   {#each Object.entries(allPRs) as [movement, max]}
     <a href={"/m/" + movement} class="min-w-[264px] p-2 border border-primary-500 rounded-lg">

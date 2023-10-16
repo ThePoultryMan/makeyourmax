@@ -20,6 +20,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Max & Maxer</title>
+</svelte:head>
+
 <div class="flex flex-col items-center [&>*]:my-3">
   <LabeledInput inputId="weight-calculator" label="Weight: ">
     <input id="weight-calculator" type="number" bind:value={weight} />
