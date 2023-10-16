@@ -1,10 +1,13 @@
 <script lang="ts">
   export let weight = 0;
+  export let round = 5;
+
   let weightPercentages: number[] = [];
   $: {
     weightPercentages = [];
     for (let i = 100; i >= 0; i -= 5) {
-      weightPercentages.push(weight * (i / 100));
+      let percent = weight * (i / 100);
+      weightPercentages.push(Math.round(percent / round) * round);
     }
   }
 </script>

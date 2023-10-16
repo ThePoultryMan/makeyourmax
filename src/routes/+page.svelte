@@ -5,7 +5,7 @@
 
   import LabeledInput from "$components/LabeledInput.svelte";
   import PercentageTable from "$components/PercentageTable.svelte";
-    import { browser } from "$app/environment";
+  import { browser } from "$app/environment";
 
   let weight = 0;
   $: {
@@ -13,9 +13,10 @@
       preferences.setItem("weightCalculator", weight);
     }
   }
+  let round = 5;
 
   onMount(async () => {
-    preferences.getItem("weightCalculator").then((value) => weight = value);
+    preferences.getItem("weightCalculator").then((value) => (weight = value));
   });
 </script>
 
@@ -23,5 +24,12 @@
   <LabeledInput inputId="weight-calculator" label="Weight: ">
     <input id="weight-calculator" type="number" bind:value={weight} />
   </LabeledInput>
-  <PercentageTable {weight} />
+  <div>
+    <LabeledInput inputId="round" label="Round To ">
+      <select bind:value={round}>
+        <option value={5} selected>Five</option>
+      </select>
+    </LabeledInput>
+  </div>
+  <PercentageTable {weight} {round} />
 </div>
