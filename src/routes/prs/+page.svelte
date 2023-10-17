@@ -6,7 +6,7 @@
 
   import { prs } from "$lib/indy";
 
-  let allPRs = {};
+  let allPRs: any = {};
 
   onMount(() => {
     if (browser) {
