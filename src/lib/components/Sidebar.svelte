@@ -6,7 +6,7 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<div class="absolute top-0 right-0 bg-accent-800 overflow-x-hidden sidebar" class:open-sidebar={open} class:close-sidebar={!open} >
+<div class="absolute top-0 right-0 h-screen bg-accent-800 text-text-400 overflow-x-hidden sidebar" class:open-sidebar={open} class:close-sidebar={!open} >
   <div>
     <button on:click={() => dispatch("sidebar-close", false)} class="absolute top-0 right-0 m-3 text-2xl">&times;</button>
     <nav class="px-12 py-24 text-2xl">
