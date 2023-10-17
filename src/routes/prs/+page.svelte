@@ -11,7 +11,7 @@
   onMount(async () => {
     if (browser) {
       await prs.getItem("prs").then((value) => {
-        allPRs = value;
+        allPRs = value ? value : {};
       });
     }
     for (const movement of movements) {
