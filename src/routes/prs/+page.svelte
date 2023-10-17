@@ -8,9 +8,9 @@
 
   let allPRs: any = {};
 
-  onMount(() => {
+  onMount(async () => {
     if (browser) {
-      prs.getItem("prs").then((value) => {
+      await prs.getItem("prs").then((value) => {
         allPRs = value;
       });
     }
