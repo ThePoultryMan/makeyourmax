@@ -35,7 +35,7 @@
   <h1 class="my-8 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
   <div class="my-3">
     <LabeledInput inputId="max" label="Max: ">
-      <input type="number" bind:value={weight} />
+      <input id="max" type="number" bind:value={weight} on:focus={event => event.target.select()} />
     </LabeledInput>
   </div>
   <PercentageTable weight={typeof weight !== "string" ? weight : 0} />
