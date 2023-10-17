@@ -31,6 +31,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>PRs - {toTitleCase($page.params.movement)}</title>
+</svelte:head>
+
 <div class="flex flex-col text-text-400 items-center">
   <h1 class="my-8 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
   <div class="my-3">
