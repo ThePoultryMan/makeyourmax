@@ -17,8 +17,8 @@
   onMount(async () => {
     await preferences.getItem("theme", (themeValue) => {
       if (!themeValue) {
-        preferences.setItem("theme", "frightenedPurple");
-        theme = "frightenedPurple";
+        preferences.setItem("theme", "myProd");
+        theme = "myProd";
       } else {
         theme = themeValue;
       }
