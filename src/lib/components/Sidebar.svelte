@@ -39,7 +39,7 @@
         <a href="/">Home</a>
         <a href="/prs">PRs</a>
       </div>
-      <hr />
+      <hr class="my-3" />
       <div class="flex flex-col gap-3 mb-3">
         <a href="/roadmap">Roadmap</a>
       </div>
