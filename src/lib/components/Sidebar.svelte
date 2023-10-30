@@ -1,16 +1,22 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import Icon from "@iconify/svelte";
+
+  import { createEventDispatcher, onMount } from "svelte";
 
   import themeData from "$lib/assets/themes.json";
 
   export let open = false;
   export let currentTheme = "";
 
+  let dropdown = false;
+
   const dispatch = createEventDispatcher();
 
   const themes = Object.keys(themeData);
 
-  function openDropdown() {}
+  onMount(() => {
+    document.getElementById("theme-dropdown")?.style.setProperty("--dropdown-height", (themes.length - 1) * 24 + "px");
+  });
 
   function setTheme(theme: string) {
     currentTheme = theme;
@@ -38,11 +44,14 @@
         <a href="/roadmap">Roadmap</a>
       </div>
     </nav>
-    <button on:click={() => openDropdown()} class="mx-12 p-2 bg-accent-600 rounded-lg text-left">
-      <div>{themeData[currentTheme ? currentTheme : "myProd"].meta.name}</div>
-      <div class:min-h-0={true}>
+    <button on:click={() => dropdown = !dropdown} class="mx-12 p-2 bg-accent-600 rounded-lg w-48">
+      <div class="flex justify-between items-center">
+        <div>{themeData[currentTheme ? currentTheme : "myProd"].meta.name}</div>
+        <Icon icon="iconamoon:arrow-up-2-fill" />
+      </div>
+      <div id="theme-dropdown" class:max-h-0={!dropdown} class:dropdown-open={dropdown} class="dropdown overflow-hidden">
         {#each themes.filter((str) => str !== currentTheme) as theme}
-          <button on:click={() => setTheme(theme)}>{themeData[theme].meta.name}</button>
+          <button on:click={() => setTheme(theme)} class="w-full text-left">{themeData[theme].meta.name}</button>
         {/each}
       </div>
       <div />
@@ -71,5 +80,13 @@
 
   .close-sidebar {
     width: 0px;
+  }
+
+  .dropdown {
+    transition: max-height 0.1s ease-in-out;
+  }
+
+  .dropdown-open {
+    max-height: var(--dropdown-height);
   }
 </style>
