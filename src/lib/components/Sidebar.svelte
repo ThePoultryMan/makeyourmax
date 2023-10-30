@@ -47,7 +47,9 @@
     <button on:click={() => dropdown = !dropdown} class="mx-12 p-2 bg-accent-600 rounded-lg w-48">
       <div class="flex justify-between items-center">
         <div>{themeData[currentTheme ? currentTheme : "myProd"].meta.name}</div>
-        <Icon icon="iconamoon:arrow-up-2-fill" />
+        <div class:rotate-0={dropdown} class:rotate-180={!dropdown} class="dropdown-arrow">
+          <Icon icon="iconamoon:arrow-up-2-fill" />
+        </div>
       </div>
       <div id="theme-dropdown" class:max-h-0={!dropdown} class:dropdown-open={dropdown} class="dropdown overflow-hidden">
         {#each themes.filter((str) => str !== currentTheme) as theme}
@@ -88,5 +90,9 @@
 
   .dropdown-open {
     max-height: var(--dropdown-height);
+  }
+
+  .dropdown-arrow {
+    transition: transform 0.1s ease-in-out;
   }
 </style>
