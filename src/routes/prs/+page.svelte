@@ -36,7 +36,7 @@
   {#each Object.entries(allPRs) as [movement, max]}
     <a href={"/m/" + movement} class="min-w-[264px] p-2 border border-primary-500 rounded-lg">
       <h2>{toTitleCase(movement)}</h2>
-      <p>{max}</p>
+      <p>{max === "Not Set" ? max : max[0]}</p>
     </a>
   {/each}
 </div>
