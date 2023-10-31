@@ -9,14 +9,7 @@
   import LabeledInput from "$components/LabeledInput.svelte";
 
   let weight = 0;
-  let maxes = [0];
-  $: {
-    if (browser) {
-      prData[$page.params.movement] = maxes;
-      prs.setItem("prs", prData);
-      weight = maxes[0];
-    }
-  }
+  let maxes = [0, 0, 0, 0];
   let prData: any = {};
   let logOpen = false;
 
@@ -32,6 +25,14 @@
 
   function openLogMenu(open: boolean) {
     logOpen = open;
+  }
+
+  function savePRs() {
+    if (browser) {
+      prData[$page.params.movement] = maxes;
+      prs.setItem("prs", prData);
+      weight = maxes[0];
+    }
   }
 
   function toTitleCase(text: string) {
@@ -55,10 +56,7 @@
     <div
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 bg-background-800 rounded-lg"
     >
-      <div class="flex justify-between items-center mb-1.5">
-        <h2>Log Scores</h2>
-        <button on:click={() => openLogMenu(false)}>&times;</button>
-      </div>
+      <h2 class="mb-1.5">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max: ">
           <input id="one-rep" type="number" bind:value={maxes[0]} />
@@ -73,6 +71,12 @@
           <input id="five-rep" type="number" bind:value={maxes[3]} />
         </LabeledInput>
       </div>
+      <button
+        on:click={() => {
+          savePRs();
+          openLogMenu(false);
+        }}>Save</button
+      >
     </div>
   {/if}
 </div>
