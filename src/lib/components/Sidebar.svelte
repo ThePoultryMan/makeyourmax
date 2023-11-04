@@ -30,12 +30,12 @@
   class:open-sidebar={open}
   class:close-sidebar={!open}
 >
-  <div>
+  <div class="px-12 py-24">
     <button
       on:click={() => dispatch("sidebar-close", false)}
       class="absolute top-0 right-0 m-3 text-2xl">&times;</button
     >
-    <nav class="px-12 py-24 text-2xl">
+    <nav class="text-2xl">
       <div class="flex flex-col gap-3 mb-3">
         <a href="/">Home</a>
         <a href="/prs">PRs</a>
@@ -45,7 +45,9 @@
         <a href="/roadmap">Roadmap</a>
       </div>
     </nav>
-    <Dropdown options={themes} currentOption={currentTheme} on:select={(theme) => setTheme(theme.detail)} />
+    <div class="mt-16">
+      <Dropdown options={themes} currentOption={currentTheme} on:select={(theme) => setTheme(theme.detail)} />
+    </div>
   </div>
 </div>
 
