@@ -72,8 +72,11 @@
         on:click={() => {
           savePRs();
           openLogMenu(false);
-        }}>Save</button
+        }}
+        class="p-1 px-2 bg-accent-500 rounded-lg"
       >
+        Save
+      </button>
     </div>
   {/if}
 </div>
