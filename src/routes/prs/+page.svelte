@@ -7,20 +7,27 @@
   import { prs } from "$lib/indy";
 
   let allPRs: any = {};
+  $: {
+    for (const [movement, pr] of Object.entries(allPRs)) {
+      prs.setItem(movement, pr);
+    }
+  }
 
   onMount(async () => {
     if (browser) {
-      await prs.getItem("prs").then((value) => {
-        allPRs = value ? value : {};
+      await prs.getItem("prs").then(() => {
+        prs.removeItem("prs");
       });
     }
     for (const movement of movements) {
-      if (!allPRs[movement]) {
-        allPRs[movement] = "Not Set";
-      }
+      prs.getItem(movement).then((value) => {
+        if (value) {
+          allPRs[movement] = value;
+        } else {
+          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+        }
+      });
     }
-
-    prs.setItem("prs", allPRs);
   });
 
   function toTitleCase(text: string) {
@@ -29,7 +36,7 @@
 </script>
 
 <svelte:head>
-  <title>PRs</title>
+  <title>Make Your Max - PRs</title>
 </svelte:head>
 
 <div class="flex flex-wrap justify-center gap-3 mx-5 text-text-400">

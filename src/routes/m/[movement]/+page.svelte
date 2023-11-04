@@ -10,15 +10,12 @@
 
   let weight = 0;
   let maxes = [0, 0, 0, 0];
-  let prData: any = {};
   let logOpen = false;
 
   onMount(async () => {
-    prs.getItem("prs").then((value: any) => {
-      if (value && value[$page.params.movement]) {
-        maxes = value[$page.params.movement];
-        weight = value[$page.params.movement][0];
-        prData = value;
+    prs.getItem($page.params.movement).then((value: any) => {
+      if (value) {
+        maxes = value;
       }
     });
   });
@@ -29,8 +26,7 @@
 
   function savePRs() {
     if (browser) {
-      prData[$page.params.movement] = maxes;
-      prs.setItem("prs", prData);
+      prs.setItem($page.params.movement, maxes);
       weight = maxes[0];
     }
   }
