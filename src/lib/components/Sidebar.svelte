@@ -4,6 +4,7 @@
   import { createEventDispatcher, onMount } from "svelte";
 
   import themeData from "$lib/assets/themes.json";
+  import Dropdown from "$components/Dropdown.svelte";
 
   export let open = false;
   export let currentTheme = "";
@@ -44,20 +45,7 @@
         <a href="/roadmap">Roadmap</a>
       </div>
     </nav>
-    <button on:click={() => dropdown = !dropdown} class="mx-12 p-2 bg-accent-600 rounded-lg w-48">
-      <div class="flex justify-between items-center">
-        <div>{themeData[currentTheme ? currentTheme : "myProd"].meta.name}</div>
-        <div class:rotate-0={dropdown} class:rotate-180={!dropdown} class="dropdown-arrow">
-          <Icon icon="iconamoon:arrow-up-2-fill" />
-        </div>
-      </div>
-      <div id="theme-dropdown" class:max-h-0={!dropdown} class:dropdown-open={dropdown} class="dropdown overflow-hidden">
-        {#each themes.filter((str) => str !== currentTheme) as theme}
-          <button on:click={() => setTheme(theme)} class="w-full text-left">{themeData[theme].meta.name}</button>
-        {/each}
-      </div>
-      <div />
-    </button>
+    <Dropdown options={themes} currentOption={currentTheme} on:select={(theme) => setTheme(theme.detail)} />
   </div>
 </div>
 
