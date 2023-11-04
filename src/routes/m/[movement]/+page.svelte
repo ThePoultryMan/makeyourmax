@@ -17,6 +17,7 @@
       if (value) {
         maxes = value;
       }
+      weight = maxes[0];
     });
   });
 
