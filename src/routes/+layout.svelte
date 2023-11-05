@@ -7,10 +7,14 @@
   import themes from "$lib/assets/themes.json";
   import { preferences } from "$lib/indy";
 
+  import Icon from "@iconify/svelte";
+
   import Navigation from "$components/Navigation.svelte";
   import Sidebar from "$components/Sidebar.svelte";
 
   $: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
+
+  let ready = false;
 
   let sidebarOpen = false;
   let theme = "";
@@ -39,6 +43,7 @@
         theme = themeValue;
       }
     });
+    ready = true;
   });
 </script>
 
@@ -46,11 +51,17 @@
   {@html webManifestLink}
 </svelte:head>
 
-<Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
-<slot />
-<Sidebar
-  on:sidebar-close={(value) => (sidebarOpen = value.detail)}
-  on:set-theme={(value) => (theme = value.detail)}
-  open={sidebarOpen}
-  currentTheme={theme}
-/>
+{#if ready}
+  <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
+  <slot />
+  <Sidebar
+    on:sidebar-close={(value) => (sidebarOpen = value.detail)}
+    on:set-theme={(value) => (theme = value.detail)}
+    open={sidebarOpen}
+    currentTheme={theme}
+  />
+{:else}
+  <div class="flex items-center justify-center min-h-screen bg-gray-900">
+    <Icon icon="line-md:loading-loop" class="text-white text-[128px]" />
+  </div>
+{/if}

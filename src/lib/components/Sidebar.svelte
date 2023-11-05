@@ -73,16 +73,4 @@
   .close-sidebar {
     width: 0px;
   }
-
-  .dropdown {
-    transition: max-height 0.1s ease-in-out;
-  }
-
-  .dropdown-open {
-    max-height: var(--dropdown-height);
-  }
-
-  .dropdown-arrow {
-    transition: transform 0.1s ease-in-out;
-  }
 </style>
