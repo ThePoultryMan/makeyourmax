@@ -37,12 +37,12 @@
     >
     <nav class="text-2xl">
       <div class="flex flex-col gap-3 mb-3">
-        <a href="/">Home</a>
-        <a href="/prs">PRs</a>
+        <a on:click={() => dispatch("sidebar-close", false)} href="/">Home</a>
+        <a on:click={() => dispatch("sidebar-close", false)} href="/prs">PRs</a>
       </div>
       <hr class="my-3" />
       <div class="flex flex-col gap-3 mb-3">
-        <a href="/roadmap">Roadmap</a>
+        <a on:click={() => dispatch("sidebar-close", false)} href="/roadmap">Roadmap</a>
       </div>
     </nav>
     <div class="mt-16">
