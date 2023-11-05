@@ -8,8 +8,8 @@ export default defineConfig({
 		sveltekit(),
 		SvelteKitPWA({
 			manifest: {
-				name: "Max & Maxer",
-				short_name: "Maxer",
+				name: "Make Your Max",
+				short_name: "Make Your Max",
 				description: "An app to keep track of your PRs.",
 				lang: "en",
 				dir: "ltr",
