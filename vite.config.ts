@@ -18,6 +18,13 @@ export default defineConfig({
 				display_override: [ "windows-control-overlay" ],
 				orientation: "portrait",
 				id: "/",
+				icons: [
+					{
+						src: "maxer-192.png",
+						sizes: "192x192",
+						type: "image/png",
+					},
+				],
 			},
 		}),
 	],
