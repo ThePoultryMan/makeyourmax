@@ -1,10 +1,12 @@
 <script>
   import "../app.postcss";
   import { browser } from "$app/environment";
+  import { page } from "$app/stores";
   import { pwaInfo } from "virtual:pwa-info";
   import { onMount } from "svelte";
 
   import themes from "$lib/assets/themes.json";
+  import brandThemes from "$lib/assets/brandthemes.json";
   import { preferences } from "$lib/indy";
 
   import Icon from "@iconify/svelte";
@@ -18,11 +20,12 @@
 
   let sidebarOpen = false;
   let theme = "";
+  let brand = $page.url.searchParams.get("b");
 
   $: {
     if (browser) {
       preferences.setItem("theme", theme);
-      let themeData = themes[theme ? theme : "myProd"];
+      let themeData = !brand ? themes[theme ? theme : "myProd"] : brandThemes[brand];
       const root = document.querySelector(":root");
       for (const [key, value] of Object.entries(themeData)) {
         if (key !== "meta") {

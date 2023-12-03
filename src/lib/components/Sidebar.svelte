@@ -26,7 +26,7 @@
 </script>
 
 <div
-  class="fixed top-0 right-0 h-screen bg-accent-800 text-text-400 overflow-x-hidden sidebar"
+  class="fixed top-0 right-0 h-screen bg-accent-800 text-on-accent-400 overflow-x-hidden sidebar"
   class:open-sidebar={open}
   class:close-sidebar={!open}
 >
@@ -45,7 +45,7 @@
         <a on:click={() => dispatch("sidebar-close", false)} href="/roadmap">Roadmap</a>
       </div>
     </nav>
-    <div class="mt-16">
+    <div class="mt-16 text-text-400">
       <Dropdown options={themes} currentOption={currentTheme} on:select={(theme) => setTheme(theme.detail)} />
     </div>
   </div>
@@ -72,5 +72,9 @@
 
   .close-sidebar {
     width: 0px;
+  }
+
+  .text-on-accent-400 {
+    color: var(--text-on-accent-400);
   }
 </style>
