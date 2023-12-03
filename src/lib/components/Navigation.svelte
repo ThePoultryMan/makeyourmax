@@ -4,6 +4,17 @@
 
   import brandThemes from "$lib/assets/brandthemes.json";
 
+  import cf3k4 from "$lib/assets/images/logos/CF30004logo.png";
+
+  function getLogo(logo: string): string {
+    switch (logo) {
+      case "cf3k4":
+        return cf3k4
+      default:
+        return "";
+    };
+  }
+
   export let brand: string | null = "";
 </script>
 
@@ -12,7 +23,7 @@
     {#if !brand}
       <a href="/" class="font-semibold">Make Your Max</a>
     {:else}
-      <a href="/"><img src={brandThemes[brand].meta.logo.image} alt={brandThemes[brand].meta.logo.alt} class="h-14" /></a>
+      <a href="/"><img src={getLogo(brandThemes[brand].meta.name)} alt={brandThemes[brand].meta.logo.alt} class="h-14" /></a>
     {/if}
     <button on:click={() => dispatch("sidebar-open", true)} class="text-2xl">&plus;</button>
   </div>
