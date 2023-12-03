@@ -56,7 +56,7 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen">
-    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
+    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brand={brand} />
     <div class="flex-1">
       <slot />
     </div>

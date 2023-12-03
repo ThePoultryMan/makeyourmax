@@ -1,7 +1,11 @@
 {
   "pa3k4": {
     "meta": {
-      "name": "Frightened Purple"
+      "name": "Frightened Purple",
+      "logo": {
+        "image": "https://crossfit30004.com/wp-content/uploads/2023/10/2023PALogo.png",
+        "alt": "CrossFit 30004 Logo"
+      }
     },
     "text": {
       "default": "#0e0707",
