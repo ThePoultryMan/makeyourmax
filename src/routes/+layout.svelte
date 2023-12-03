@@ -62,6 +62,7 @@
     on:set-theme={(value) => (theme = value.detail)}
     open={sidebarOpen}
     currentTheme={theme}
+    showThemeSelect={brand === null}
   />
 {:else}
   <div class="flex items-center justify-center min-h-screen bg-gray-900">

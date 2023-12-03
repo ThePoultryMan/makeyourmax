@@ -8,6 +8,7 @@
 
   export let open = false;
   export let currentTheme = "";
+  export let showThemeSelect = false;
 
   let dropdown = false;
 
@@ -16,7 +17,9 @@
   const themes = Object.keys(themeData);
 
   onMount(() => {
-    document.getElementById("theme-dropdown")?.style.setProperty("--dropdown-height", (themes.length - 1) * 24 + "px");
+    document
+      .getElementById("theme-dropdown")
+      ?.style.setProperty("--dropdown-height", (themes.length - 1) * 24 + "px");
   });
 
   function setTheme(theme: string) {
@@ -45,9 +48,15 @@
         <a on:click={() => dispatch("sidebar-close", false)} href="/roadmap">Roadmap</a>
       </div>
     </nav>
-    <div class="mt-16 text-text-400">
-      <Dropdown options={themes} currentOption={currentTheme} on:select={(theme) => setTheme(theme.detail)} />
-    </div>
+    {#if showThemeSelect}
+      <div class="mt-16 text-text-400">
+        <Dropdown
+          options={themes}
+          currentOption={currentTheme}
+          on:select={(theme) => setTheme(theme.detail)}
+        />
+      </div>
+    {/if}
   </div>
 </div>
 
