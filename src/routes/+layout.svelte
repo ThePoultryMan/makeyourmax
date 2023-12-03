@@ -55,8 +55,17 @@
 </svelte:head>
 
 {#if ready}
-  <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
-  <slot />
+  <div class="flex flex-col min-h-screen">
+    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
+    <div class="flex-1">
+      <slot />
+    </div>
+    {#if brand}
+      <footer class="p-3 bg-background-950 text-center">
+        <span>Make Your Max</span>
+      </footer>
+    {/if}
+  </div>
   <Sidebar
     on:sidebar-close={(value) => (sidebarOpen = value.detail)}
     on:set-theme={(value) => (theme = value.detail)}
