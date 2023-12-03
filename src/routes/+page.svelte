@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-  <title>Max & Maxer</title>
+  <title>Make Your Max</title>
 </svelte:head>
 
 <div class="flex flex-col items-center [&>*]:my-3">
