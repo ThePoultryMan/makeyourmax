@@ -25,9 +25,16 @@
 </svelte:head>
 
 <div class="flex flex-col items-center [&>*]:my-3">
-  <LabeledInput inputId="weight-calculator" label="Weight: ">
-    <input id="weight-calculator" type="number" bind:value={weight} on:focus={event => event.target.select()} />
-  </LabeledInput>
+  <div>
+    <LabeledInput inputId="weight-calculator" label="Weight: ">
+      <input
+        id="weight-calculator"
+        type="number"
+        bind:value={weight}
+        on:focus={(event) => event.target.select()}
+      />
+    </LabeledInput>
+  </div>
   <div>
     <LabeledInput inputId="round" label="Round To ">
       <select bind:value={round}>
