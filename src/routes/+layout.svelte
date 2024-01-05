@@ -2,20 +2,20 @@
   import "../app.postcss";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { pwaInfo } from "virtual:pwa-info";
   import { onMount } from "svelte";
 
   import themes from "$lib/assets/themes.json";
   import brandThemes from "$lib/assets/brandthemes.json";
+  import "$lib/pwa";
   import { preferences } from "$lib/indy";
 
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
   import Sidebar from "$components/Sidebar.svelte";
+  import WebManifest from "$lib/pwa";
 
-  $: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
-
+  let webManifest = new WebManifest($page.url.toString());
   let ready = false;
 
   let sidebarOpen = false;
@@ -51,12 +51,16 @@
 </script>
 
 <svelte:head>
-  {@html webManifestLink}
+  <!--Adapted from https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-for-pwa-in-reactjs#answer-68511528-->
+  <link
+    rel="manifest"
+    href={"data:application/json;charset=utf-8," + JSON.stringify(webManifest)}
+  />
 </svelte:head>
 
 {#if ready}
   <div class="flex flex-col min-h-screen">
-    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brand={brand} />
+    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} {brand} />
     <div class="flex-1">
       <slot />
     </div>
