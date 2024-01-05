@@ -6,6 +6,7 @@
 
   import themes from "$lib/assets/themes.json";
   import brandThemes from "$lib/assets/brandthemes.json";
+  import info from "$lib/assets/info.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
 
@@ -64,11 +65,9 @@
     <div class="flex-1">
       <slot />
     </div>
-    {#if brand}
-      <footer class="p-3 bg-background-950 text-center">
-        <span>Make Your Max</span>
-      </footer>
-    {/if}
+    <footer class="p-3 bg-background-950 text-center">
+      <span>Make Your Max v{info.version}</span>
+    </footer>
   </div>
   <Sidebar
     on:sidebar-close={(value) => (sidebarOpen = value.detail)}
