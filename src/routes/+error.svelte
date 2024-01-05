@@ -1,9 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
 
-  function stripUrl(url: string) {
-    return url.replace(/([^.]*\/\/)/, "").replace("localhost:5173", "");
-  }
+  import { stripUrl } from "$lib/util";
 </script>
 
 {#if $page.status === 404}
