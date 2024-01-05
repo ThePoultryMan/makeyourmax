@@ -8,7 +8,7 @@
   import PercentageTable from "$components/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
 
-  let weight = 0;
+  let max = 0;
   let maxes = [0, 0, 0, 0];
   let logOpen = false;
 
@@ -17,7 +17,7 @@
       if (value) {
         maxes = value;
       }
-      weight = maxes[0];
+      max = 0;
     });
   });
 
@@ -28,7 +28,20 @@
   function savePRs() {
     if (browser) {
       prs.setItem($page.params.movement, maxes);
-      weight = maxes[0];
+      max = 0;
+    }
+  }
+
+  function numToMax() {
+    switch (max) {
+      case 1:
+        return "2";
+      case 2:
+        return "3";
+      case 3:
+        return "5";
+      default:
+        return "1";
     }
   }
 
@@ -42,13 +55,14 @@
 </svelte:head>
 
 <div class="flex flex-col text-text-400 items-center">
-  <h1 class="my-8 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
+  <h1 class="mt-8 mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
+  <h2 class="text-lg">{numToMax()} Rep Max: <span>{maxes[max]}</span></h2>
   <div class="my-3">
     <button on:click={() => openLogMenu(true)} class="p-2 bg-accent-500 rounded-lg"
       >Log Score</button
     >
   </div>
-  <PercentageTable weight={typeof weight !== "string" ? weight : 0} />
+  <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0} />
   {#if logOpen}
     <div
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
