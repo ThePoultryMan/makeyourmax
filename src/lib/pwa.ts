@@ -11,7 +11,7 @@ export default class WebManifest {
   id: string = "/";
   icons: Icon[] = [
     {
-      src: "maxer-192.png",
+      src: "https://makeyourmax.vercel.app/maxer-192.png",
       sizes: "192x192",
       type: "image/png",
     }
