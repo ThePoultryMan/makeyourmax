@@ -65,7 +65,7 @@
   <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0} />
   {#if logOpen}
     <div
-      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
     >
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
