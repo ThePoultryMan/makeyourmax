@@ -65,21 +65,22 @@
   <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0} />
   {#if logOpen}
     <div
+      id="log"
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
     >
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="appearance-none" />
+          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="webkit-fix" />
         </LabeledInput>
         <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="appearance-none" />
+          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="webkit-fix" />
         </LabeledInput>
         <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="appearance-none" />
+          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="webkit-fix" />
         </LabeledInput>
         <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="appearance-none" />
+          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="webkit-fix" />
         </LabeledInput>
       </div>
       <button
@@ -94,3 +95,13 @@
     </div>
   {/if}
 </div>
+
+<style>
+  /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari */
+  _::-webkit-full-page-media,
+  _:future,
+  :root .webkit-fix {
+    appearance: none;
+    width: 80%;
+  }
+</style>
