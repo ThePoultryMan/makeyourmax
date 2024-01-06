@@ -97,10 +97,9 @@
 </div>
 
 <style>
-  /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari */
-  :global(_::-webkit-full-page-media,
-  _:future,
-  :root .webkit-fix) {
+  /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari 
+     :global is used to force SvelteKit to keep the "unused" style.          */
+  :global(_::-webkit-full-page-media, _:future, :root .webkit-fix) {
     appearance: none;
     width: 100%;
   }
