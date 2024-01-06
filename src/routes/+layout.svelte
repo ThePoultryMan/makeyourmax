@@ -69,7 +69,7 @@
     <div class="flex-1">
       <slot />
     </div>
-    <footer class="p-3 bg-background-950 text-center">
+    <footer class="p-3 bg-background-950 text-text-400 text-center">
       <span>Make Your Max v{info.version}</span>
     </footer>
   </div>
