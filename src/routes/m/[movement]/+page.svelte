@@ -62,7 +62,16 @@
       >Log Score</button
     >
   </div>
-  <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0} />
+  <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0}>
+    <LabeledInput inputId="max" label="Rep Max" flipped>
+      <select id="max" bind:value={max}>
+        <option value={0} selected>1</option>
+        <option value={1} selected>2</option>
+        <option value={2} selected>3</option>
+        <option value={3} selected>5</option>
+      </select>
+    </LabeledInput>
+  </PercentageTable>
   {#if logOpen}
     <div
       id="log"

@@ -15,13 +15,14 @@
 </script>
 
 <div class="w-full flex flex-col items-center">
-  <div class="mb-5">
-    <LabeledInput inputId="round" label="Round To ">
+  <div class="flex gap-3 mb-5">
+    <LabeledInput inputId="round" label="Round To">
       <select id="round" bind:value={round}>
         <option value={2.5}>2.5</option>
         <option value={5} selected>5</option>
       </select>
     </LabeledInput>
+    <slot />
   </div>
   <div
     class="w-5/6 md:w-2/3 max-h-[60vh] text-2xl md:text-lg text-text-400 border border-accent-100 rounded-lg overflow-y-scroll"

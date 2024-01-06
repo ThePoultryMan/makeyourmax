@@ -1,0 +1,11 @@
+@tailwind utilities;
+
+@layer utilities {
+  .rounded-not-flipped {
+    @apply [&>*]:rounded-r-lg;
+  }
+
+  .rounded-flipped {
+    @apply [&>*]:rounded-l-lg;
+  }
+}
