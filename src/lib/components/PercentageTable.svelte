@@ -17,7 +17,7 @@
 <div class="w-full flex flex-col items-center">
   <div class="mb-5">
     <LabeledInput inputId="round" label="Round To ">
-      <select bind:value={round}>
+      <select id="round" bind:value={round}>
         <option value={2.5}>2.5</option>
         <option value={5} selected>5</option>
       </select>
