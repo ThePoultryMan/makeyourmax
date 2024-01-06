@@ -15,8 +15,10 @@
   import Navigation from "$components/Navigation.svelte";
   import Sidebar from "$components/Sidebar.svelte";
   import WebManifest from "$lib/pwa";
+  import { hexToRGB } from "$lib/util";
 
   let webManifest = new WebManifest($page.url.toString());
+  let jsonManifest = JSON.stringify(webManifest);
   let ready = false;
 
   let sidebarOpen = false;
@@ -35,6 +37,8 @@
           }
         }
       }
+      webManifest.setThemeColor(hexToRGB(root.style.getPropertyValue("--background-950")));
+      jsonManifest = JSON.stringify(webManifest);
     }
   }
 
@@ -55,7 +59,7 @@
   <!--Adapted from https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-for-pwa-in-reactjs#answer-68511528-->
   <link
     rel="manifest"
-    href={"data:application/json;charset=utf-8," + JSON.stringify(webManifest)}
+    href={"data:application/json;charset=utf-8," + jsonManifest}
   />
 </svelte:head>
 
