@@ -56,7 +56,7 @@
 
 <div class="flex flex-col text-text-400 items-center">
   <h1 class="mt-8 mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
-  <h2 class="text-lg">{numToMax()} Rep Max: <span>{maxes[max]}</span></h2>
+  <h2 class="text-lg">{numToMax()} Rep Max: <span>{maxes[max] ? maxes[max] : "Not Set"}</span></h2>
   <div class="my-3">
     <button on:click={() => openLogMenu(true)} class="p-2 bg-accent-500 rounded-lg"
       >Log Score</button
@@ -70,16 +70,16 @@
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" />
+          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="appearance-none" />
         </LabeledInput>
         <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" />
+          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="appearance-none" />
         </LabeledInput>
         <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" />
+          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="appearance-none" />
         </LabeledInput>
         <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" />
+          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="appearance-none" />
         </LabeledInput>
       </div>
       <button
