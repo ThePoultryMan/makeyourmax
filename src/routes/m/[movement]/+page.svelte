@@ -98,10 +98,10 @@
 
 <style>
   /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari */
-  _::-webkit-full-page-media,
+  :global(_::-webkit-full-page-media,
   _:future,
-  :root .webkit-fix {
+  :root .webkit-fix) {
     appearance: none;
-    width: 80%;
+    width: 100%;
   }
 </style>
