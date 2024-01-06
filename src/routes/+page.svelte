@@ -35,13 +35,5 @@
       />
     </LabeledInput>
   </div>
-  <div>
-    <LabeledInput inputId="round" label="Round To ">
-      <select bind:value={round}>
-        <option value={2.5}>2.5</option>
-        <option value={5} selected>5</option>
-      </select>
-    </LabeledInput>
-  </div>
-  <PercentageTable {weight} {round} />
+  <PercentageTable {weight} />
 </div>
