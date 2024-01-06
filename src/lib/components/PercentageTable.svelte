@@ -20,6 +20,7 @@
       <select id="round" bind:value={round}>
         <option value={2.5}>2.5</option>
         <option value={5} selected>5</option>
+        <option value={10} selected>10</option>
       </select>
     </LabeledInput>
     <slot />
