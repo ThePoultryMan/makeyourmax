@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
   import "../app.postcss";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
   import themes from "$lib/assets/themes.json";
-  import brandThemes from "$lib/assets/brandthemes.json";
   import info from "$lib/assets/info.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
+  import { doesBrandThemeExist, getBrandTheme } from "$lib/vercel-config";
 
   import Icon from "@iconify/svelte";
 
@@ -28,18 +28,42 @@
   $: {
     if (browser) {
       preferences.setItem("theme", theme);
-      let themeData = !brand ? themes[theme ? theme : "myProd"] : brandThemes[brand];
-      const root = document.querySelector(":root");
-      for (const [key, value] of Object.entries(themeData)) {
-        if (key !== "meta") {
-          for (const [selector, color] of Object.entries(value)) {
-            root.style.setProperty(`--${key}-${selector}`, color);
+      let themeData;
+      if (brand) {
+        doesBrandThemeExist(brand).then((exists) => {
+          if (exists) {
+            getBrandTheme(brand).then((response) => {
+              themeData = response.value;
+              setTheme(themeData);
+            });
+          } else {
+            setNormalTheme();
           }
+        });
+      } else {
+        setNormalTheme();
+      }
+    }
+  }
+
+  function setNormalTheme() {
+    let themeData = themes[theme ? theme : "myProd"];
+    setTheme(themeData);
+  }
+
+  function setTheme(themeData: any) {
+    const root = document.querySelector(":root");
+    for (const [key, value] of Object.entries(themeData)) {
+      if (key !== "meta") {
+        for (const [selector, color] of Object.entries(value)) {
+          root.style.setProperty(`--${key}-${selector}`, color);
         }
       }
-      webManifest.setThemeColor(hexToRGB(root.style.getPropertyValue("--background-950")));
-      jsonManifest = JSON.stringify(webManifest);
     }
+    webManifest.setThemeColor(hexToRGB(root.style.getPropertyValue("--background-950")));
+    jsonManifest = JSON.stringify(webManifest);
+
+    ready = true; // The only condition for being ready is the theme being loaded.
   }
 
   onMount(async () => {
@@ -51,16 +75,12 @@
         theme = themeValue;
       }
     });
-    ready = true;
   });
 </script>
 
 <svelte:head>
   <!--Adapted from https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-for-pwa-in-reactjs#answer-68511528-->
-  <link
-    rel="manifest"
-    href={"data:application/json;charset=utf-8," + jsonManifest}
-  />
+  <link rel="manifest" href={"data:application/json;charset=utf-8," + jsonManifest} />
 </svelte:head>
 
 {#if ready}

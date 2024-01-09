@@ -13,7 +13,6 @@
       preferences.setItem("weightCalculator", weight);
     }
   }
-  let round = 5;
 
   onMount(async () => {
     preferences.getItem("weightCalculator").then((value) => (weight = value));

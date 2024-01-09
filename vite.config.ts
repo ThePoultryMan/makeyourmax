@@ -8,4 +8,7 @@ export default defineConfig({
 		sveltekit(),
 		SvelteKitPWA(),
 	],
+	define: {
+		process: process,
+	},
 });

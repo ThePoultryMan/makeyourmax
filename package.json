@@ -19,6 +19,8 @@
 		"@typescript-eslint/parser": "^6.0.0",
 		"@vite-pwa/sveltekit": "^0.2.7",
 		"autoprefixer": "^10.4.14",
+		"dotenv": "^16.3.1",
+		"dotenv-expand": "^10.0.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.30.0",
@@ -36,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"@iconify/svelte": "^3.1.4",
+		"@vercel/edge-config": "^0.4.1",
 		"localforage": "^1.10.0"
 	}
 }
