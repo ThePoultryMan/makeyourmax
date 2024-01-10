@@ -2,8 +2,6 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import brandThemes from "$lib/assets/brandthemes.json";
-
   import cf3k4 from "$lib/assets/images/logos/CF30004logo.png";
 
   function getLogo(logo: string): string {
