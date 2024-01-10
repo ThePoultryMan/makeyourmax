@@ -8,7 +8,7 @@
   import info from "$lib/assets/info.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
-  import { doesBrandThemeExist, getBrandTheme } from "$lib/vercel-config";
+  import { getBrandTheme } from "$lib/vercel-config";
 
   import Icon from "@iconify/svelte";
 
@@ -23,32 +23,18 @@
 
   let sidebarOpen = false;
   let theme = "";
-  let brand = $page.url.searchParams.get("b");
+  let brand = {
+    key: $page.url.searchParams.get("b"),
+    valid: false,
+  };
 
   $: {
-    if (browser) {
-      preferences.setItem("theme", theme);
-      let themeData;
-      if (brand) {
-        doesBrandThemeExist(brand).then((exists) => {
-          if (exists) {
-            getBrandTheme(brand).then((response) => {
-              themeData = response.value;
-              setTheme(themeData);
-            });
-          } else {
-            setNormalTheme();
-          }
-        });
-      } else {
-        setNormalTheme();
+    if (browser && !brand.valid) {
+      if (theme) {
+        preferences.setItem("theme", theme);
+        setTheme(themes[theme]);
       }
     }
-  }
-
-  function setNormalTheme() {
-    let themeData = themes[theme ? theme : "myProd"];
-    setTheme(themeData);
   }
 
   function setTheme(themeData: any) {
@@ -62,19 +48,33 @@
     }
     webManifest.setThemeColor(hexToRGB(root.style.getPropertyValue("--background-950")));
     jsonManifest = JSON.stringify(webManifest);
+  }
 
-    ready = true; // The only condition for being ready is the theme being loaded.
+  async function setUpTheme() {
+    await preferences.getItem("theme").then((themeValue) => {
+        if (!themeValue) {
+          preferences.setItem("theme", "myProd");
+          theme = "myProd";
+        } else {
+          theme = themeValue;
+        }
+      });
   }
 
   onMount(async () => {
-    await preferences.getItem("theme").then((themeValue) => {
-      if (!themeValue) {
-        preferences.setItem("theme", "myProd");
-        theme = "myProd";
+    if (brand.key) {
+      let themeData = await getBrandTheme(brand.key);
+      if (themeData) {
+        setTheme(themeData);
       } else {
-        theme = themeValue;
+        brand.key = null;
+        setUpTheme();
       }
-    });
+    } else {
+      setUpTheme();
+    }
+
+    ready = true;
   });
 </script>
 
@@ -85,7 +85,7 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen">
-    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} {brand} />
+    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brand={brand.key} />
     <div class="flex-1">
       <slot />
     </div>
@@ -98,7 +98,7 @@
     on:set-theme={(value) => (theme = value.detail)}
     open={sidebarOpen}
     currentTheme={theme}
-    showThemeSelect={brand === null}
+    showThemeSelect={brand.key === null}
   />
 {:else}
   <div class="flex items-center justify-center min-h-screen bg-gray-900">

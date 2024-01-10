@@ -16,6 +16,7 @@
   }
 
   export let brand: string | null = "";
+  export let alt: string | null = "";
 </script>
 
 <div class="p-3 bg-background-950 text-text-400">
@@ -23,7 +24,7 @@
     {#if !brand}
       <a href="/" class="font-semibold">Make Your Max</a>
     {:else}
-      <a href="/"><img src={getLogo(brand)} alt={brandThemes[brand].meta.logo.alt} class="h-14" /></a>
+      <a href="/"><img src={getLogo(brand)} {alt} class="h-14" /></a>
     {/if}
     <button on:click={() => dispatch("sidebar-open", true)} class="text-2xl">&plus;</button>
   </div>
