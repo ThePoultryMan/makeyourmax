@@ -20,7 +20,10 @@
   let ready = false;
   let brand = {
     key: $page.url.searchParams.get("b"),
-    valid: false,
+    logo: {
+      src: null,
+      alt: null,
+    },
   };
   let webManifest = new WebManifest(brand.key);
   let jsonManifest = JSON.stringify(webManifest);
@@ -70,12 +73,6 @@
       } else if (brand.key) {
         themeData = await getBrandTheme(brand.key);
       }
-      if (themeData) {
-        setTheme(themeData);
-      } else {
-        brand.key = null;
-        setUpTheme();
-      }
     } else {
       if (brand.key) {
         themeData = await getBrandTheme(brand.key);
@@ -84,6 +81,7 @@
 
     if (themeData) {
       setTheme(themeData);
+      brand.logo = themeData.meta.logo;
     } else {
       brand.key = null;
       setUpTheme();
@@ -100,7 +98,7 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen">
-    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brand={brand.key} />
+    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brandLogo={brand.logo} />
     <div class="flex-1">
       <slot />
     </div>
