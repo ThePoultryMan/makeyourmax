@@ -17,10 +17,16 @@ export default class WebManifest {
     },
   ];
   private start_url: string;
-  private theme_color: string = "#ffffff";
+  private theme_color: string = "rgb(255, 255, 255)";
 
-  constructor(start_url: string) {
-    this.start_url = start_url;
+  constructor(brand: string | null) {
+    let base_url = import.meta.env.PROD ? "https://makeyourmax.vercel.app" : "http://localhost:5173";
+    if (brand) {
+      base_url += "?b=" + brand + "&";
+    } else {
+      base_url += "?";
+    }
+    this.start_url = base_url + "mode=pwa";
   }
 
   public setThemeColor(color: string) {

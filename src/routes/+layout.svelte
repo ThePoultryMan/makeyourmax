@@ -17,16 +17,16 @@
   import WebManifest from "$lib/pwa";
   import { hexToRGB } from "$lib/util";
 
-  let webManifest = new WebManifest($page.url.toString());
-  let jsonManifest = JSON.stringify(webManifest);
   let ready = false;
-
-  let sidebarOpen = false;
-  let theme = "";
   let brand = {
     key: $page.url.searchParams.get("b"),
     valid: false,
   };
+  let webManifest = new WebManifest(brand.key);
+  let jsonManifest = JSON.stringify(webManifest);
+
+  let sidebarOpen = false;
+  let theme = "";
 
   $: {
     if (browser && !brand.valid) {
@@ -52,18 +52,24 @@
 
   async function setUpTheme() {
     await preferences.getItem("theme").then((themeValue) => {
-        if (!themeValue) {
-          preferences.setItem("theme", "myProd");
-          theme = "myProd";
-        } else {
-          theme = themeValue;
-        }
-      });
+      if (!themeValue) {
+        preferences.setItem("theme", "myProd");
+        theme = "myProd";
+      } else {
+        theme = themeValue;
+      }
+    });
   }
 
   onMount(async () => {
-    if (brand.key) {
-      let themeData = await getBrandTheme(brand.key);
+    let themeData;
+    if ($page.url.searchParams.get("mode") === "pwa") {
+      let storedBrand: any = await preferences.getItem("brand");
+      if (storedBrand) {
+        themeData = await getBrandTheme(storedBrand);
+      } else if (brand.key) {
+        themeData = await getBrandTheme(brand.key);
+      }
       if (themeData) {
         setTheme(themeData);
       } else {
@@ -71,6 +77,15 @@
         setUpTheme();
       }
     } else {
+      if (brand.key) {
+        themeData = await getBrandTheme(brand.key);
+      }
+    }
+
+    if (themeData) {
+      setTheme(themeData);
+    } else {
+      brand.key = null;
       setUpTheme();
     }
 
