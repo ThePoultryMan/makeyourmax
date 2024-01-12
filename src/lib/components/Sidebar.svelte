@@ -36,8 +36,10 @@
   <div class="px-12 py-24">
     <button
       on:click={() => dispatch("sidebar-close", false)}
-      class="absolute top-0 right-0 m-3 text-2xl">&times;</button
+      class="absolute top-0 right-0 m-3 text-2xl"
     >
+      <Icon icon="material-symbols:close-rounded" />
+    </button>
     <nav class="text-2xl">
       <div class="flex flex-col gap-3 mb-3">
         <a on:click={() => dispatch("sidebar-close", false)} href="/">Home</a>
