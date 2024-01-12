@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { browser } from "$app/environment";
 
   import { movements } from "$lib/assets/movements.json";
 
   import { prs } from "$lib/indy";
+  import LabeledInput from "$components/LabeledInput.svelte";
 
   let allPRs: any = {};
   $: {
@@ -12,14 +12,11 @@
       prs.setItem(movement, pr);
     }
   }
+  let creatingNewMovement = false;
+  let movementName = "";
 
   onMount(async () => {
-    if (browser) {
-      await prs.getItem("prs").then(() => {
-        prs.removeItem("prs");
-      });
-    }
-    for (const movement of movements) {
+    for (const movement of (await prs.keys()).concat(movements)) {
       prs.getItem(movement).then((value) => {
         if (value) {
           allPRs[movement] = value;
@@ -30,8 +27,19 @@
     }
   });
 
+  function createMovement() {
+    console.log(fromTitleCase(movementName));
+    allPRs[fromTitleCase(movementName)] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+    movementName = "";
+    creatingNewMovement = false;
+  }
+
   function toTitleCase(text: string) {
     return text.replace(/([A-Z])/g, " $1").replace(/^./g, (str) => str.toUpperCase());
+  }
+
+  function fromTitleCase(text: string) {
+    return text.replaceAll(" ", "").replace(/^./g, (str) => str.toLowerCase());
   }
 </script>
 
@@ -39,11 +47,30 @@
   <title>Make Your Max - PRs</title>
 </svelte:head>
 
-<div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
-  {#each Object.entries(allPRs) as [movement, max]}
-    <a href={"/m/" + movement} class="min-w-[264px] p-2 border border-primary-500 rounded-lg">
-      <h2>{toTitleCase(movement)}</h2>
-      <p>{max === "Not Set" ? max : max[0]}</p>
-    </a>
-  {/each}
+<div class="flex flex-col items-center">
+  <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
+    {#each Object.entries(allPRs) as [movement, max]}
+      <a href={"/m/" + movement} class="min-w-[264px] p-2 border border-primary-500 rounded-lg">
+        <h2>{toTitleCase(movement)}</h2>
+        <p>{max === "Not Set" ? max : max[0]}</p>
+      </a>
+    {/each}
+  </div>
+  <button on:click={() => (creatingNewMovement = true)} class="p-2 bg-accent-500 rounded-lg"
+    >Create New Movement</button
+  >
 </div>
+{#if creatingNewMovement}
+  <div
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg"
+  >
+    <div class="mb-2 text-lg">Create New Movement</div>
+    <LabeledInput inputId="name" label="Name">
+      <input id="name" type="text" bind:value={movementName} class="block" />
+    </LabeledInput>
+    <div class="flex gap-3 [&>button]:flex-1">
+      <button on:click={() => creatingNewMovement = false} class="mt-3 p-2 border border-accent-500 rounded-lg">Close</button>
+      <button on:click={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
+    </div>
+  </div>
+{/if}
