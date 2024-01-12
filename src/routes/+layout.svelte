@@ -29,7 +29,6 @@
   let jsonManifest = JSON.stringify(webManifest);
 
   let pwaAccept = $page.url.searchParams.get("mode");
-  let installEvent;
   let sidebarOpen = false;
   let theme = "";
 
