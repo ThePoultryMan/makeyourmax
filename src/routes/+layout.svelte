@@ -28,6 +28,8 @@
   let webManifest = new WebManifest(brand.key);
   let jsonManifest = JSON.stringify(webManifest);
 
+  let pwaAccept = $page.url.searchParams.get("mode");
+  let installEvent;
   let sidebarOpen = false;
   let theme = "";
 
@@ -88,6 +90,11 @@
     }
 
     ready = true;
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      installEvent = event;
+    });
   });
 </script>
 
@@ -97,22 +104,44 @@
 </svelte:head>
 
 {#if ready}
-  <div class="flex flex-col min-h-screen">
-    <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} brandLogo={brand.logo} />
-    <div class="flex-1">
-      <slot />
+  {#if !pwaAccept}
+    <div class="flex flex-col min-h-screen min-w-full items-center justify-center [&>p]:mx-56 [&>p]:mb-2">
+      <p>
+        <i>Make Your Max</i> is designed to be installed on your device as if it was a regular app.
+        Using it in a browser is unsupported. If you would like to continue in the browser, please
+        note that any information between the installed and browser version will <em>not</em> sync.
+      </p>
+      <p>
+        To install <i>Make Your Max</i> to your (ios) device, click <i>Share > Add To Home Screen</i>
+      </p>
+      <p>
+        <i>Note: If you are seeing this pop up but you have already installed the app, please reinstall.</i>
+      </p>
+      <!--Only works on Chrome-->
+      <!--<button on:click={() => installEvent.prompt()} class="p-2 bg-accent-500 rounded-lg">Install</button>-->
+      <button on:click={() => pwaAccept = "accept"} class="p-2 border border-accent-500 rounded-lg">Continue Anyway</button>
     </div>
-    <footer class="p-3 bg-background-950 text-text-400 text-center">
-      <span>Make Your Max v{info.version}</span>
-    </footer>
-  </div>
-  <Sidebar
-    on:sidebar-close={(value) => (sidebarOpen = value.detail)}
-    on:set-theme={(value) => (theme = value.detail)}
-    open={sidebarOpen}
-    currentTheme={theme}
-    showThemeSelect={brand.key === null}
-  />
+  {:else}
+    <div class="flex flex-col min-h-screen">
+      <Navigation
+        on:sidebar-open={(value) => (sidebarOpen = value.detail)}
+        brandLogo={brand.logo}
+      />
+      <div class="flex-1">
+        <slot />
+      </div>
+      <footer class="p-3 bg-background-950 text-text-400 text-center">
+        <span>Make Your Max v{info.version}</span>
+      </footer>
+    </div>
+    <Sidebar
+      on:sidebar-close={(value) => (sidebarOpen = value.detail)}
+      on:set-theme={(value) => (theme = value.detail)}
+      open={sidebarOpen}
+      currentTheme={theme}
+      showThemeSelect={brand.key === null}
+    />
+  {/if}
 {:else}
   <div class="flex items-center justify-center min-h-screen bg-gray-900">
     <Icon icon="line-md:loading-loop" class="text-white text-[128px]" />
