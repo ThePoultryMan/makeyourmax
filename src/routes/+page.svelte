@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
 
   import { movements } from "$lib/assets/movements.json";
-
   import { prs } from "$lib/indy";
   import LabeledInput from "$components/LabeledInput.svelte";
 
