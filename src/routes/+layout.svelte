@@ -105,7 +105,7 @@
 
 {#if ready}
   {#if !pwaAccept}
-    <div class="flex flex-col min-h-screen min-w-full items-center justify-center [&>p]:mx-56 [&>p]:mb-2">
+    <div class="flex flex-col px-5 md:px-32 min-h-screen min-w-full items-center justify-center [&>p]:mb-2">
       <p>
         <i>Make Your Max</i> is designed to be installed on your device as if it was a regular app.
         Using it in a browser is unsupported. If you would like to continue in the browser, please
