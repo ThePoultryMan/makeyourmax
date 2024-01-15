@@ -15,3 +15,10 @@ export async function getAll(forage: LocalForage) {
   }
   return items;
 }
+
+export async function importFromObject(forage: LocalForage, object: Record<string, any>) {
+  forage.clear();
+  for (const key in object) {
+    forage.setItem(key, object[key]);
+  }
+}
