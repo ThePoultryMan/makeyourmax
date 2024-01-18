@@ -1,6 +1,8 @@
 <script lang="ts">
+  import Icon from "@iconify/svelte";
+  
   import LabeledInput from "$components/LabeledInput.svelte";
-
+  
   export let weight = 0;
   let round = 5;
 
@@ -10,6 +12,15 @@
     for (let i = 100; i >= 0; i -= 5) {
       let percent = weight * (i / 100);
       weightPercentages.push(Math.round(percent / round) * round);
+    }
+  }
+
+  function toggleExplain(percentage: string) {
+    let explain = document.getElementById(percentage + "Explain");
+    if (explain?.classList.contains("hidden")) {
+      explain.classList.remove("hidden");
+    } else {
+      explain?.classList.add("hidden");
     }
   }
 </script>
@@ -39,7 +50,15 @@
         {#if i !== 0 && i !== weightPercentages.length - 1}
           <tr class="[&>td]:last:border-b-0 odd:bg-background-900 bg-background-950">
             <td class="p-2 md:p-1 border-r border-b">{(weightPercentages.length - i - 1) * 5}%</td>
-            <td class="p-2 md:p-1 border-b">{value}</td>
+            <td class="p-2 md:p-1 border-b">
+              <div class="flex justify-between items-center ">
+                <span>{value}</span>
+                <button on:click={() => toggleExplain(((weightPercentages.length - i - 1) * 5).toString())}><Icon icon="ion:barbell" class="mr-3" /></button>
+              </div>
+              <div id={(weightPercentages.length - i - 1) * 5 + "Explain"} class="hidden">
+                <p>g</p>
+              </div>
+            </td>
           </tr>
         {/if}
       {/each}
