@@ -29,6 +29,7 @@
       "950": "#0d0b14"
     },
     "primary": {
+      "400": "#5f3ae6",
       "500": "#451cdb"
     },
     "secondary": {
@@ -80,6 +81,7 @@
     },
     "primary": {
       "default": "#1a4adb",
+      "400": "#3763e7",
       "500": "#1a4adb"
     },
     "secondary": {
