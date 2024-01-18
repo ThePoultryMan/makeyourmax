@@ -7,10 +7,12 @@
 
   import PercentageTable from "$components/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
+    import { goto } from "$app/navigation";
 
   let max = 0;
   let maxes = [0, 0, 0, 0];
   let logOpen = false;
+  let deleteStatus = 0;
 
   onMount(async () => {
     prs.getItem($page.params.movement).then((value: any) => {
@@ -29,6 +31,13 @@
     if (browser) {
       prs.setItem($page.params.movement, maxes);
       max = 0;
+    }
+  }
+
+  function deleteMovement() {
+    if (confirm("Are you sure you want to delete this movement? It will delete all data associated with the movement.")) {
+      prs.removeItem($page.params.movement);
+      goto("/");
     }
   }
 
@@ -72,6 +81,7 @@
       </select>
     </LabeledInput>
   </PercentageTable>
+  <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
   {#if logOpen}
     <div
       id="log"
