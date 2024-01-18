@@ -2,12 +2,13 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
 
+  import { movements } from "$lib/assets/movements.json";
   import { prs } from "$lib/indy";
-
+  
   import PercentageTable from "$components/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
-    import { goto } from "$app/navigation";
 
   let max = 0;
   let maxes = [0, 0, 0, 0];
@@ -81,7 +82,11 @@
       </select>
     </LabeledInput>
   </PercentageTable>
-  <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
+  {#if !movements.includes($page.params.movement)}
+    <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
+  {:else}
+    <p class="my-5"><i>This movement cannot be deleted.</i></p>
+  {/if}
   {#if logOpen}
     <div
       id="log"
