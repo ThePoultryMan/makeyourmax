@@ -2,12 +2,14 @@
   import Icon from "@iconify/svelte";
 
   import { weights } from "$lib/assets/weights.json";
+  import { preferences } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
+    import { onMount } from "svelte";
 
   export let weight = 0;
-  let round = 5;
 
+  let round = 5;
   let weightPercentages: number[] = [];
   $: {
     weightPercentages = [];
@@ -16,6 +18,12 @@
       weightPercentages.push(Math.round(percent / round) * round);
     }
   }
+  let barbellWeight: number;
+
+  onMount(async () => {
+    const weight = await preferences.getItem<number>("defaultBarbellWeight");
+    barbellWeight = weight ? weight : 45;
+  });
 
   function toggleExplain(percentage: string) {
     let explain = document.getElementById(percentage + "Explain");
@@ -27,7 +35,7 @@
   }
 
   function calculateWeights(weight: number) {
-    let weightM = (weight - 45) / 2;
+    let weightM = (weight - barbellWeight) / 2;
     let barbellWeights = [];
     while (weightM > 0) {
       for (const weightI of weights) {

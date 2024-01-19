@@ -1,16 +1,29 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { getAll, prs, importFromObject } from "$lib/indy";
+  import { getAll, preferences, prs, importFromObject } from "$lib/indy";
+
+  import LabeledInput from "$components/LabeledInput.svelte";
 
   const fileReader = new FileReader();
 
+  // Preferences
+  let defaultBarbellWeight: number;
+  $: {
+    preferences.setItem("defaultBarbellWeight", defaultBarbellWeight);
+  }
+
+  // Backup
   let dataUrl = "";
   let fileObject: any;
   let backupFile: any;
   let backupStatus = 0;
 
   onMount(async () => {
+    let dBW = await preferences.getItem<number>("defaultBarbellWeight");
+    defaultBarbellWeight = dBW ? dBW : 45;
+
+    // Backup
     fileObject = new File([JSON.stringify(await getAll(prs))], "prs.mymdata", {
       type: "application/json",
     });
@@ -29,6 +42,17 @@
 
 <div class="mt-5 ml-8">
   <h1 class="mb-3 text-xl font-semibold">Settings</h1>
+  <h2 class="mb-1 text-lg">Preferences</h2>
+  <div class="flex">
+    <LabeledInput inputId="barbellWeightDefault" label="Default Barbell Weight">
+      <select id="barbellWeightDefault" bind:value={defaultBarbellWeight}>
+        <option value={45}>45lbs.</option>
+        <option value={35}>35lbs.</option>
+        <option value={25}>25lbs.</option>
+        <option value={15}>15lbs.</option>
+      </select>
+    </LabeledInput>
+  </div>
   <h2 class="mb-1 text-lg">Backup</h2>
   <div class="flex gap-2 items-start">
     {#if fileObject}
