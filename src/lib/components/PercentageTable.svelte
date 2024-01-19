@@ -81,7 +81,7 @@
                 <button
                   on:click={() =>
                     toggleExplain(((weightPercentages.length - i - 1) * 5).toString())}
-                  ><Icon icon="ion:barbell" class="mr-3 text-xl" /></button
+                  ><Icon icon="ion:barbell" class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md" /></button
                 >
               </div>
               <div
