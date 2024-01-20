@@ -122,15 +122,15 @@
       <button on:click={() => pwaAccept = "accept"} class="p-2 border border-accent-500 rounded-lg">Continue Anyway</button>
     </div>
   {:else}
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-screen mb-[-36px]">
       <div class="flex-1">
         <slot />
       </div>
+      <Navigation
+        on:sidebar-open={(value) => (sidebarOpen = value.detail)}
+        brandLogo={brand.logo}
+      />
     </div>
-    <Navigation
-      on:sidebar-open={(value) => (sidebarOpen = value.detail)}
-      brandLogo={brand.logo}
-    />
     <Sidebar
       on:sidebar-close={(value) => (sidebarOpen = value.detail)}
       on:set-theme={(value) => (theme = value.detail)}

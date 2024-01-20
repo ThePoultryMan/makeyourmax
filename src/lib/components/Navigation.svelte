@@ -7,7 +7,7 @@
 </script>
 
 <div
-  class="flex justify-around items-center absolute bottom-0 w-full bg-background-950 text-text-400"
+  class="flex justify-around items-center sticky bottom-0 w-full p-1.5 bg-background-950 text-text-400"
 >
   <a href="/">PRs</a>
 </div>
