@@ -123,17 +123,14 @@
     </div>
   {:else}
     <div class="flex flex-col min-h-screen">
-      <Navigation
-        on:sidebar-open={(value) => (sidebarOpen = value.detail)}
-        brandLogo={brand.logo}
-      />
       <div class="flex-1">
         <slot />
       </div>
-      <footer class="p-3 bg-background-950 text-text-400 text-center">
-        <span>Make Your Max v{info.version}</span>
-      </footer>
     </div>
+    <Navigation
+      on:sidebar-open={(value) => (sidebarOpen = value.detail)}
+      brandLogo={brand.logo}
+    />
     <Sidebar
       on:sidebar-close={(value) => (sidebarOpen = value.detail)}
       on:set-theme={(value) => (theme = value.detail)}

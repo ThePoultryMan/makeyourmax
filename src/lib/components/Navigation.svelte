@@ -1,20 +1,13 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   export let brandLogo: any;
 </script>
 
-<div class="p-3 bg-background-950 text-text-400">
-  <div class="w-full flex items-center gap-3 justify-between text-lg">
-    {#if !brandLogo.name}
-      <a href="/" class="font-semibold">Make Your Max</a>
-    {:else}
-      <a href="/"><img src={brandLogo.name} alt={brandLogo.alt} class="h-14" /></a>
-    {/if}
-    <button on:click={() => dispatch("sidebar-open", true)} class="text-2xl">
-      <Icon icon="ci:hamburger-md" />
-    </button>
-  </div>
+<div
+  class="flex justify-around items-center absolute bottom-0 w-full bg-background-950 text-text-400"
+>
+  <a href="/">PRs</a>
 </div>
