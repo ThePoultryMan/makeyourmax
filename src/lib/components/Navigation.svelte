@@ -63,7 +63,7 @@
       <p>Settings</p>
     </div>
   </a>
-  <div class="absolute top-0 w-20 h-full bg-slate-500 rounded-[3rem] slide" class:slide={slide} style={"left: " + xPosition + "px"} />
+  <div class="absolute top-0 w-20 h-full bg-background-1000 rounded-[3rem]" class:slide={slide} style={"left: " + xPosition + "px"} />
 </div>
 
 <style>
