@@ -38,12 +38,12 @@
         break;
     }
 
-    xPosition = links[currentPage].offsetLeft - (80 - links[currentPage].offsetWidth) / 2;
+    xPosition = links[currentPage].offsetLeft - (96 - links[currentPage].offsetWidth) / 2;
   }
 </script>
 
 <div
-  class="flex justify-around items-center sticky bottom-0 w-full p-1.5 bg-background-950 text-text-400 text-center leading-none text-sm"
+  class="flex justify-around items-center sticky bottom-0 w-full p-1.5 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
   <a href="/news" bind:this={links[0]} class="z-10">
     <div>
@@ -63,7 +63,7 @@
       <p>Settings</p>
     </div>
   </a>
-  <div class="absolute top-0 w-20 h-full bg-background-1000 rounded-[3rem]" class:slide={slide} style={"left: " + xPosition + "px"} />
+  <div class="absolute -top-[11px] w-24 h-20 bg-background-1000 rounded-[3rem]" class:slide={slide} style={"left: " + xPosition + "px"} />
 </div>
 
 <style>
