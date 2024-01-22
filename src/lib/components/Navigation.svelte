@@ -7,15 +7,22 @@
   export let brandLogo: any;
 
   let links: any[] = [];
+  let slide = false;
   let xPosition = 0;
 
   $: {
     if (links[0] && links[1] && links[2]) {
+      slide = true;
       handleHighlight($page.url.pathname);
+      setTimeout(() => slide = false, 200);
     }
   }
 
-  onMount(() => window.addEventListener("resize", () => handleHighlight($page.url.pathname)));
+  onMount(() => {
+    window.addEventListener("resize", () => {
+      handleHighlight($page.url.pathname);
+    });
+  });
 
   function handleHighlight(page: string) {
     let currentPage: number;
@@ -56,5 +63,11 @@
       <p>Settings</p>
     </div>
   </a>
-  <div class="absolute top-0 w-20 h-full bg-slate-500 rounded-[3rem]" style={"left: " + xPosition + "px"} />
+  <div class="absolute top-0 w-20 h-full bg-slate-500 rounded-[3rem] slide" class:slide={slide} style={"left: " + xPosition + "px"} />
 </div>
+
+<style>
+  .slide {
+    transition: left ease-in-out 0.2s;
+  }
+</style>
