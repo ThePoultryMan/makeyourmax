@@ -12,9 +12,11 @@
 
   $: {
     if (links[0] && links[1] && links[2]) {
-      slide = true;
-      handleHighlight($page.url.pathname);
-      setTimeout(() => slide = false, 200);
+      setTimeout(() => {
+        slide = true;
+        handleHighlight($page.url.pathname);
+        setTimeout(() => slide = false, 200);
+      }, 1);
     }
   }
 
@@ -22,6 +24,7 @@
     window.addEventListener("resize", () => {
       handleHighlight($page.url.pathname);
     });
+    handleHighlight($page.url.pathname);
   });
 
   function handleHighlight(page: string) {
