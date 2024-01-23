@@ -70,7 +70,7 @@
     {/each}
   {:else}
     {#each versions as version}
-      <div class="w-full p-2 bg-accent-300 rounded-lg">
+      <div class="w-full mb-3 p-2 bg-accent-300 rounded-lg">
         <span class="text-lg">{version.version}</span>
         <ul>
           {#each version.changes as change}
