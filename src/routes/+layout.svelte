@@ -5,7 +5,6 @@
   import { onMount } from "svelte";
 
   import themes from "$lib/assets/themes.json";
-  import info from "$lib/assets/info.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
   import { getBrandTheme } from "$lib/vercel-config";
