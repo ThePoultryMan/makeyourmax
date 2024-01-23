@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
+  import { items } from "$lib/assets/meta/news.json";
+  import { versions } from "$lib/assets/meta/changelog.json";
+
   let currentTab = "news";
 
   let slide = false;
@@ -41,8 +44,8 @@
   }
 </script>
 
-<div class="flex justify-center p-3">
-  <div class="relative bg-accent-500 p-2 rounded-lg">
+<div class="flex flex-col items-center p-3">
+  <div class="relative w-fit mb-3 bg-accent-500 p-2 rounded-lg">
     <button bind:this={news} on:click={() => switchTab("news")} class="relative z-10 mx-3"
       >News</button
     >
@@ -56,6 +59,27 @@
       style:width={width + "px"}
     />
   </div>
+
+  {#if currentTab === "news"}
+    {#each items as item}
+      <div class="w-full p-2 bg-accent-300 rounded-lg">
+        <span class="text-lg">{item.title}</span>
+        <p>{item.content}</p>
+        <span class="text-sm">{item.date}</span>
+      </div>
+    {/each}
+  {:else}
+    {#each versions as version}
+      <div class="w-full p-2 bg-accent-300 rounded-lg">
+        <span class="text-lg">{version.version}</span>
+        <ul>
+          {#each version.changes as change}
+            <li>{change}</li>
+          {/each}
+        </ul>
+      </div>
+    {/each}
+  {/if}
 </div>
 
 <style>
