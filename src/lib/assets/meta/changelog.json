@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "version": "v1.5.3",
+      "changes": [
+        "Fix app freezing when rounding set to '2.5'"
+      ]
+    },
+    {
       "version": "v1.5.2",
       "changes": [
         "Fix Percentage table not showing correct barbell weight."

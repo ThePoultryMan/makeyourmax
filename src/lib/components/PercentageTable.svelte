@@ -43,6 +43,9 @@
           barbellWeights.push(weightI);
           weightM -= weightI;
           break;
+        } else if (weightM < 2.5 && weightM > 0) {
+          barbellWeights.push(weightM);
+          weightM = 0;
         }
       }
     }
