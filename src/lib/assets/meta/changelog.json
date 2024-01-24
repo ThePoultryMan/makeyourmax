@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "version": "v1.5.2",
+      "changes": [
+        "Fix Percentage table not showing correct barbell weight."
+      ]
+    },
+    {
       "version": "v1.5.1",
       "changes": [
         "Move nav up so it won't be hidden on ios."
