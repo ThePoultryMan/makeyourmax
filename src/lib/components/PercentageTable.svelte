@@ -88,7 +88,7 @@
                 id={(weightPercentages.length - i - 1) * 5 + "Explain"}
                 class="hidden ml-3 w-fit"
               >
-                <span class="italic">Plates Required for a 45lbs. Bar:</span>
+                <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
                 <ul>
                   {#each calculateWeights(value) as weight}
                     <li class="ml-1.5">- {weight}lbs.</li>
