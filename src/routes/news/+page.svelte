@@ -72,9 +72,9 @@
     {#each versions as version}
       <div class="w-full mb-3 p-2 bg-accent-300 rounded-lg">
         <span class="text-lg">{version.version}</span>
-        <ul>
+        <ul class="list-inside list-['-']">
           {#each version.changes as change}
-            <li>{change}</li>
+            <li><span class="ml-2">{change}</span></li>
           {/each}
         </ul>
       </div>
