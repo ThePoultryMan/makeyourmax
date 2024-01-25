@@ -12,7 +12,7 @@
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
-  import Sidebar from "$components/Sidebar.svelte";
+  // import Sidebar from "$components/Sidebar.svelte";
   import WebManifest from "$lib/pwa";
   import { hexToRGB } from "$lib/util";
 
@@ -130,13 +130,13 @@
         brandLogo={brand.logo}
       />
     </div>
-    <Sidebar
+    <!-- <Sidebar
       on:sidebar-close={(value) => (sidebarOpen = value.detail)}
       on:set-theme={(value) => (theme = value.detail)}
       open={sidebarOpen}
       currentTheme={theme}
       showThemeSelect={brand.key === null}
-    />
+    /> -->
   {/if}
 {:else}
   <div class="flex items-center justify-center min-h-screen bg-gray-900">
