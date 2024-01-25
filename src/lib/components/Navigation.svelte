@@ -46,7 +46,7 @@
 </script>
 
 <div
-  class="flex justify-around items-center sticky bottom-0 w-full px-1.5 py-3 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
+  class="flex justify-around items-center sticky bottom-0 w-full px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
   <a href="/news" bind:this={links[0]} class="z-10">
     <div>
@@ -66,7 +66,7 @@
       <p>Settings</p>
     </div>
   </a>
-  <div class="absolute -top-[5px] w-24 h-20 bg-background-1000 rounded-[3rem]" class:slide={slide} style={"left: " + xPosition + "px"} />
+  <div class="absolute -top-[9px] w-24 h-24 bg-background-1000 rounded-[3rem]" class:slide={slide} style={"left: " + xPosition + "px"} />
 </div>
 
 <style>
