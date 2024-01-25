@@ -2,10 +2,10 @@
 
 @layer utilities {
   .rounded-not-flipped {
-    @apply [&>*]:rounded-r-lg;
+    @apply rounded-r-lg [&>*]:rounded-r-lg;
   }
 
   .rounded-flipped {
-    @apply [&>*]:rounded-l-lg;
+    @apply rounded-l-lg [&>*]:rounded-l-lg;
   }
 }

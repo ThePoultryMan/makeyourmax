@@ -5,7 +5,7 @@
   import { preferences } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
-    import { onMount } from "svelte";
+  import { onMount } from "svelte";
 
   export let weight = 0;
 
@@ -18,6 +18,7 @@
       weightPercentages.push(Math.round(percent / round) * round);
     }
   }
+  let customPercentage = 0;
   let barbellWeight: number;
 
   onMount(async () => {
@@ -74,6 +75,16 @@
           <th class="bg-accent-600 border-b">Weight</th>
         </tr>
       </thead>
+      <tr class="[&>td]:last:border-b-0 odd:bg-background-900 bg-background-950">
+        <td class="p-2 md:p-1 border-r border-b">
+          <LabeledInput inputId="customPercent" label="%" flipped>
+            <input id="customPercent" type="number" bind:value={customPercentage} class="w-16" />
+          </LabeledInput>
+        </td>
+        <td class="p-2 md:p-1 border-b">
+          {Math.round(weight * (customPercentage / 100) / round) * round}
+        </td>
+      </tr>
       {#each weightPercentages as value, i}
         {#if i !== 0 && i !== weightPercentages.length - 1}
           <tr class="[&>td]:last:border-b-0 odd:bg-background-900 bg-background-950">

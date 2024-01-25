@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "version": "1.6.0",
+      "changes": [
+        "Add custom percentage input."
+      ]
+    },
+    {
       "version": "v1.5.4",
       "changes": [
         "Adjust navigation sizing to fit better on mobile.",
