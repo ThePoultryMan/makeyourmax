@@ -61,8 +61,12 @@
   </div>
 
   {#if currentTab === "news"}
+  <div class="w-full mb-3 p-2 bg-accent-300 rounded-lg">
+    <span class="text-lg">Feedback or Issues?</span>
+    <p>Let me know <a href="https://forms.gle/JHEXobJ9Uhaa41319" class="underline">here</a>!</p>
+  </div>
     {#each items as item}
-      <div class="w-full p-2 bg-accent-300 rounded-lg">
+      <div class="w-full mb-3 p-2 bg-accent-300 rounded-lg">
         <span class="text-lg">{item.title}</span>
         <p>{item.content}</p>
         <span class="text-sm">{item.date}</span>
