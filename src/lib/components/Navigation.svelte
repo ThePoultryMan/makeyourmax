@@ -60,6 +60,7 @@
 
   function setNewsCheck() {
     preferences.setItem("lastNewsCheck", Date.now());
+    newNews = false;
   }
 </script>
 
@@ -67,8 +68,11 @@
   class="flex justify-around items-center sticky bottom-0 w-full px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
   <a href="/news" on:click={setNewsCheck} bind:this={links[0]} class="z-10">
-    <div>
+    <div class="relative">
       <Icon icon="ion:newspaper" class="w-8 h-8 mx-auto" />
+      {#if newNews}
+        <Icon icon="ic:sharp-circle" class="absolute top-0 right-0 text-primary-500" />
+      {/if}
       <p>News</p>
     </div>
   </a>
