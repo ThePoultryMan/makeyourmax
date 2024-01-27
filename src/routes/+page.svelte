@@ -1,38 +1,75 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
 
-  import { preferences } from "$lib/indy";
-
+  import { movements } from "$lib/assets/movements.json";
+  import { prs } from "$lib/indy";
   import LabeledInput from "$components/LabeledInput.svelte";
-  import PercentageTable from "$components/PercentageTable.svelte";
-  import { browser } from "$app/environment";
 
-  let weight = 0;
+  let allPRs: any = {};
   $: {
-    if (browser) {
-      preferences.setItem("weightCalculator", weight);
+    for (const [movement, pr] of Object.entries(allPRs)) {
+      prs.setItem(movement, pr);
     }
   }
+  let creatingNewMovement = false;
+  let movementName = "";
 
   onMount(async () => {
-    preferences.getItem("weightCalculator").then((value) => (weight = value));
+    for (const movement of (await prs.keys()).concat(movements)) {
+      prs.getItem(movement).then((value) => {
+        if (value) {
+          allPRs[movement] = value;
+        } else {
+          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+        }
+      });
+    }
   });
+
+  function createMovement() {
+    console.log(fromTitleCase(movementName));
+    allPRs[fromTitleCase(movementName)] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+    movementName = "";
+    creatingNewMovement = false;
+  }
+
+  function toTitleCase(text: string) {
+    return text.replace(/([A-Z])/g, " $1").replace(/^./g, (str) => str.toUpperCase());
+  }
+
+  function fromTitleCase(text: string) {
+    return text.replaceAll(" ", "").replace(/^./g, (str) => str.toLowerCase());
+  }
 </script>
 
 <svelte:head>
-  <title>Make Your Max</title>
+  <title>Make Your Max - PRs</title>
 </svelte:head>
 
-<div class="flex flex-col items-center [&>*]:my-3">
-  <div>
-    <LabeledInput inputId="weight-calculator" label="Weight: ">
-      <input
-        id="weight-calculator"
-        type="number"
-        bind:value={weight}
-        on:focus={(event) => event.target.select()}
-      />
-    </LabeledInput>
+<div class="flex flex-col items-center">
+  <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
+    {#each Object.entries(allPRs) as [movement, max]}
+      <a href={"/m/" + movement} class="min-w-[264px] p-2 border border-primary-500 rounded-lg">
+        <h2>{toTitleCase(movement)}</h2>
+        <p>{max === "Not Set" ? max : max[0]}</p>
+      </a>
+    {/each}
   </div>
-  <PercentageTable {weight} />
+  <button on:click={() => (creatingNewMovement = true)} class="p-2 bg-accent-500 rounded-lg"
+    >Create New Movement</button
+  >
 </div>
+{#if creatingNewMovement}
+  <div
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg"
+  >
+    <div class="mb-2 text-lg">Create New Movement</div>
+    <LabeledInput inputId="name" label="Name">
+      <input id="name" type="text" bind:value={movementName} class="block" />
+    </LabeledInput>
+    <div class="flex gap-3 [&>button]:flex-1">
+      <button on:click={() => creatingNewMovement = false} class="mt-3 p-2 border border-accent-500 rounded-lg">Close</button>
+      <button on:click={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
+    </div>
+  </div>
+{/if}

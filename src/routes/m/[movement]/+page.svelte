@@ -2,15 +2,18 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
 
+  import { movements } from "$lib/assets/movements.json";
   import { prs } from "$lib/indy";
-
+  
   import PercentageTable from "$components/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
 
   let max = 0;
   let maxes = [0, 0, 0, 0];
   let logOpen = false;
+  let deleteStatus = 0;
 
   onMount(async () => {
     prs.getItem($page.params.movement).then((value: any) => {
@@ -29,6 +32,13 @@
     if (browser) {
       prs.setItem($page.params.movement, maxes);
       max = 0;
+    }
+  }
+
+  function deleteMovement() {
+    if (confirm("Are you sure you want to delete this movement? It will delete all data associated with the movement.")) {
+      prs.removeItem($page.params.movement);
+      goto("/");
     }
   }
 
@@ -72,6 +82,11 @@
       </select>
     </LabeledInput>
   </PercentageTable>
+  {#if !movements.includes($page.params.movement)}
+    <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
+  {:else}
+    <p class="my-5"><i>This movement cannot be deleted.</i></p>
+  {/if}
   {#if logOpen}
     <div
       id="log"
@@ -80,16 +95,16 @@
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="webkit-fix" />
+          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="webkit-fix" />
+          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="webkit-fix" />
+          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="webkit-fix" />
+          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="w-full" />
         </LabeledInput>
       </div>
       <button

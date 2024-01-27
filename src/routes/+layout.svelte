@@ -5,7 +5,6 @@
   import { onMount } from "svelte";
 
   import themes from "$lib/assets/themes.json";
-  import info from "$lib/assets/info.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
   import { getBrandTheme } from "$lib/vercel-config";
@@ -13,7 +12,7 @@
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
-  import Sidebar from "$components/Sidebar.svelte";
+  // import Sidebar from "$components/Sidebar.svelte";
   import WebManifest from "$lib/pwa";
   import { hexToRGB } from "$lib/util";
 
@@ -104,7 +103,7 @@
 
 {#if ready}
   {#if !pwaAccept}
-    <div class="flex flex-col min-h-screen min-w-full items-center justify-center [&>p]:mx-56 [&>p]:mb-2">
+    <div class="flex flex-col px-5 md:px-32 min-h-screen min-w-full items-center justify-center [&>p]:mb-2">
       <p>
         <i>Make Your Max</i> is designed to be installed on your device as if it was a regular app.
         Using it in a browser is unsupported. If you would like to continue in the browser, please
@@ -121,25 +120,22 @@
       <button on:click={() => pwaAccept = "accept"} class="p-2 border border-accent-500 rounded-lg">Continue Anyway</button>
     </div>
   {:else}
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-screen mb-[-36px]">
+      <div class="flex-1">
+        <slot />
+      </div>
       <Navigation
         on:sidebar-open={(value) => (sidebarOpen = value.detail)}
         brandLogo={brand.logo}
       />
-      <div class="flex-1">
-        <slot />
-      </div>
-      <footer class="p-3 bg-background-950 text-text-400 text-center">
-        <span>Make Your Max v{info.version}</span>
-      </footer>
     </div>
-    <Sidebar
+    <!-- <Sidebar
       on:sidebar-close={(value) => (sidebarOpen = value.detail)}
       on:set-theme={(value) => (theme = value.detail)}
       open={sidebarOpen}
       currentTheme={theme}
       showThemeSelect={brand.key === null}
-    />
+    /> -->
   {/if}
 {:else}
   <div class="flex items-center justify-center min-h-screen bg-gray-900">

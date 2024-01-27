@@ -1,0 +1,53 @@
+{
+  "versions": [
+    {
+      "version": "1.7.0",
+      "changes": [
+        "Add notifier to news link for when something new is released."
+      ]
+    },
+    {
+      "version": "1.6.1",
+      "changes": [
+        "Fix(?) the input sizing issues on chrome."
+      ]
+    },
+    {
+      "version": "1.6.0",
+      "changes": [
+        "Add custom percentage input."
+      ]
+    },
+    {
+      "version": "v1.5.4",
+      "changes": [
+        "Adjust navigation sizing to fit better on mobile.",
+        "Remove unused sidebar element."
+      ]
+    },
+    {
+      "version": "v1.5.3",
+      "changes": [
+        "Fix app freezing when rounding set to '2.5'"
+      ]
+    },
+    {
+      "version": "v1.5.2",
+      "changes": [
+        "Fix Percentage table not showing correct barbell weight."
+      ]
+    },
+    {
+      "version": "v1.5.1",
+      "changes": [
+        "Move nav up so it won't be hidden on ios."
+      ]
+    },
+    {
+      "version": "v1.5.0",
+      "changes": [
+        "UI Overhaul with the intention of feeling more like a native app."
+      ]
+    }
+  ]
+}

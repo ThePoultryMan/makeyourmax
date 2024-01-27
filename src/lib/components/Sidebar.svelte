@@ -43,10 +43,11 @@
     <nav class="text-2xl">
       <div class="flex flex-col gap-3 mb-3">
         <a on:click={() => dispatch("sidebar-close", false)} href="/">Home</a>
-        <a on:click={() => dispatch("sidebar-close", false)} href="/prs">PRs</a>
+        <a on:click={() => dispatch("sidebar-close", false)} href="/calculator">Calculator</a>
       </div>
       <hr class="my-3" />
       <div class="flex flex-col gap-3 mb-3">
+        <a on:click={() => dispatch("sidebar-close", false)} href="/settings">Settings</a>
         <a on:click={() => dispatch("sidebar-close", false)} href="/roadmap">Roadmap</a>
       </div>
     </nav>
