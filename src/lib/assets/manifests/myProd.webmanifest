@@ -1,0 +1,21 @@
+{
+  "name": "Make Your Max",
+  "short_name": "Make Your Max",
+  "description": "An app to keep track of your PRs.",
+  "lang": "en",
+  "dir": "ltr",
+  "display": "standalone",
+  "display_override": ["windows-control-overlay"],
+  "orientation": "portrait",
+  "id": "/",
+  "icons": [
+    {
+      "src": "https://makeyourmax.vercel.app/maxer-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "http://localhost:5173?mode=pwa",
+  "theme_color": "#ccd0d4",
+  "background_color": "#dbdee1"
+}

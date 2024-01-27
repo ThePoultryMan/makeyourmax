@@ -7,8 +7,6 @@
   import { lastUpdate } from "$lib/assets/meta/news.json";
   import { preferences } from "$lib/indy";
 
-  export let brandLogo: any;
-
   let links: any[] = [];
   let slide = false;
   let xPosition = 0;
