@@ -1,6 +1,13 @@
 {
   "versions": [
     {
+      "version": "1.8.0",
+      "changes": [
+        "Remove unused and deprecated features.",
+        "Use hardcoded Web Manifest, should fix a few styling issues."
+      ]
+    },
+    {
       "version": "1.7.0",
       "changes": [
         "Add notifier to news link for when something new is released."
