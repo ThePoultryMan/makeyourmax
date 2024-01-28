@@ -54,15 +54,15 @@
     </LabeledInput>
   </div>
   <h2 class="mb-1 text-lg">Backup</h2>
-  <div class="flex gap-2 items-start">
+  <div class="flex flex-wrap gap-2 items-start">
     {#if fileObject}
       <a href={dataUrl} download={fileObject.name} class="p-2 bg-accent-500 rounded-lg"
         >Download Data</a
       >
     {/if}
-    <div class="p-2 bg-accent-500 rounded-lg">
-      <div class="flex">
-        <label for="backupImport" class="block p-2 cursor-pointer bg-accent-400 rounded-lg"
+    <div class="p-2 bg-accent-500 rounded-lg w-min">
+      <div>
+        <label for="backupImport" class="block mb-1 cursor-pointer"
           >Import Backup</label
         >
         <input
@@ -71,7 +71,7 @@
           on:change={() => (backupStatus = 1)}
           bind:files={backupFile}
           accept=".mymdata"
-          class="w-0"
+          class="w-72"
         />
       </div>
       {#if backupStatus == 1}
