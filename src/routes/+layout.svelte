@@ -6,7 +6,6 @@
 
   import "$lib/styles/global.css";
 
-  import myProdManifest from "$lib/assets/manifests/myProd.webmanifest";
   import themes from "$lib/assets/themes.json";
   import "$lib/pwa";
   import { preferences } from "$lib/indy";
@@ -59,7 +58,7 @@
 
 <svelte:head>
   <!--Adapted from https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-for-pwa-in-reactjs#answer-68511528-->
-  <link rel="manifest" href={myProdManifest} />
+  <link rel="manifest" href="/myProd.webmanifest" />
 </svelte:head>
 
 {#if ready}
