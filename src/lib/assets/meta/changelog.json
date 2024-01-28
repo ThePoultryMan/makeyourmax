@@ -3,7 +3,9 @@
     {
       "version": "1.8.3",
       "changes": [
-        "Add bottom margin to create movement button."
+        "Add bottom margin to create movement button.",
+        "Remove unneeded css.",
+        "Make Web Manifest use relative paths."
       ]
     },
     {
