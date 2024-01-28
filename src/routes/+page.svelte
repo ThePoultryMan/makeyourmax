@@ -55,7 +55,7 @@
       </a>
     {/each}
   </div>
-  <button on:click={() => (creatingNewMovement = true)} class="p-2 bg-accent-500 rounded-lg"
+  <button on:click={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg"
     >Create New Movement</button
   >
 </div>
