@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "version": "1.8.2",
+      "changes": [
+        "Disable overscroll"
+      ]
+    },
+    {
       "version": "1.8.1",
       "changes": [
         "Remove highlight on webkit.",
