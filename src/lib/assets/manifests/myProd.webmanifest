@@ -10,12 +10,12 @@
   "id": "/",
   "icons": [
     {
-      "src": "https://makeyourmax.vercel.app/maxer-192.png",
+      "src": "/maxer-192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
   ],
-  "start_url": "http://localhost:5173?mode=pwa",
+  "start_url": "/?mode=pwa",
   "theme_color": "#ccd0d4",
   "background_color": "#dbdee1"
 }
