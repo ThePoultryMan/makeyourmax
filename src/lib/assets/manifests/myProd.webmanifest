@@ -20,7 +20,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/?mode=pwa",
+  "start_url": "https://makeyourmax.vercel.app/?mode=pwa",
   "theme_color": "#ccd0d4",
   "background_color": "#dbdee1"
 }
