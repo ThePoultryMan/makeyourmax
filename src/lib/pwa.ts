@@ -1,3 +1,5 @@
+import { pwaInfo } from "virtual:pwa-info";
+
 // Relative URLs become invalid using this method.
 export default class WebManifest {
   private name: string = "Make Your Max";
@@ -38,4 +40,16 @@ interface Icon {
   src: string;
   sizes: string;
   type: string;
+}
+
+export async function registerServiceWorker() {
+  if (pwaInfo) {
+    const { useRegisterSW } = await import("virtual:pwa-register/svelte");
+    useRegisterSW({
+      onOfflineReady() {
+        console.log("Ready for offline");
+      },
+      immediate: true,
+    });
+  }
 }

@@ -4,6 +4,8 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
+  import { pwaInfo } from "virtual:pwa-info";
+
   import "$lib/styles/global.css";
 
   import myProdManifest from "$lib/assets/manifests/myProd.webmanifest";
@@ -14,6 +16,7 @@
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
+  import { registerServiceWorker } from "$lib/pwa";
 
   let ready = false;
 
@@ -48,6 +51,8 @@
 
   onMount(async () => {
     setUpTheme();
+
+    await registerServiceWorker();
 
     ready = true;
 
