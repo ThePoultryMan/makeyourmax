@@ -4,8 +4,6 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
-  import { pwaInfo } from "virtual:pwa-info";
-
   import "$lib/styles/global.css";
 
   import myProdManifest from "$lib/assets/manifests/myProd.webmanifest";
