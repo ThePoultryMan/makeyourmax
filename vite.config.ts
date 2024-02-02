@@ -9,6 +9,9 @@ export default defineConfig({
 		SvelteKitPWA({
 			workbox: {
 				cleanupOutdatedCaches: true,
+			},
+			devOptions: {
+				enabled: true,
 			}
 		}),
 	],
