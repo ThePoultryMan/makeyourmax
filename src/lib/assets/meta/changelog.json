@@ -1,6 +1,13 @@
 {
   "versions": [
     {
+      "version": "1.8.4",
+      "changes": [
+        "Add service worker and registration.",
+        "Offline support"
+      ]
+    },
+    {
       "version": "1.8.3",
       "changes": [
         "Add bottom margin to create movement button.",
