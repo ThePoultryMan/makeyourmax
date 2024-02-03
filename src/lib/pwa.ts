@@ -39,7 +39,3 @@ interface Icon {
   sizes: string;
   type: string;
 }
-
-export async function registerServiceWorker() {
-  
-}

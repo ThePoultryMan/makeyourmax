@@ -14,7 +14,6 @@
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
-  import { registerServiceWorker } from "$lib/pwa";
 
   let ready = false;
 
@@ -49,8 +48,6 @@
 
   onMount(async () => {
     setUpTheme();
-
-    await registerServiceWorker();
 
     ready = true;
 
