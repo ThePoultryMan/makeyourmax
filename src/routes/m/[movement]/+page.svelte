@@ -64,9 +64,10 @@
   <title>PRs - {toTitleCase($page.params.movement)}</title>
 </svelte:head>
 
-<div class="flex flex-col pt-8 text-text-400 items-center">
-  <div class="relative flex flex-col items-center w-5/6">
-    <a href="/" class="absolute top-0 left-0 text-lg">&lt Back</a>
+<div class="mb-3 p-1.5 text-lg bg-background-950">
+  <a href="/" class="ml-2 font-semibold">Back</a>
+</div>
+<div class="flex flex-col text-text-400 items-center">
     <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
     <h2 class="text-lg">{numToMax()} Rep Max: 
       <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
@@ -76,7 +77,6 @@
         >Log Score</button
       >
     </div>
-  </div>
   <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0}>
     <LabeledInput inputId="max" label="Rep Max" flipped>
       <select id="max" bind:value={max}>
