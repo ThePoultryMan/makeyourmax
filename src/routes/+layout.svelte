@@ -18,7 +18,6 @@
   let ready = false;
 
   let pwaAccept = $page.url.searchParams.get("mode");
-  let sidebarOpen = false;
   let theme = "";
 
   $: {
