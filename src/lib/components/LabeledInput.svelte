@@ -6,7 +6,7 @@
   export let flipped = false;
 </script>
 
-<div class="flex items-stretch w-fit text-text-400 text-lg" class:flex-row-reverse={flipped}>
+<div class="inline-flex items-stretch w-fit text-text-400 text-lg" class:flex-row-reverse={flipped}>
   <label
     for={inputId}
     class="inline-block w-fit h-fit p-1 pr-2 border border-accent-500"

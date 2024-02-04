@@ -20,6 +20,9 @@
   }
   let customPercentage = 0;
   let barbellWeight: number;
+  $: {
+    preferences.setItem("defaultBarbellWeight", barbellWeight);
+  }
 
   onMount(async () => {
     const weight = await preferences.getItem<number>("defaultBarbellWeight");
@@ -35,7 +38,7 @@
     }
   }
 
-  function calculateWeights(weight: number) {
+  $: calculateWeights = (weight: number) => {
     let weightM = (weight - barbellWeight) / 2;
     let barbellWeights = [];
     while (weightM > 0) {
@@ -123,7 +126,18 @@
                 id={(weightPercentages.length - i - 1) * 5 + "Explain"}
                 class="hidden w-fit ml-3 mb-1 p-2 bg-accent-400 rounded-lg"
               >
-                <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
+                <span class="italic">
+                  Plates Required for a 
+                  <LabeledInput inputId={(weightPercentages.length - i - 1) * 5 + "Bar"} label="lbs." flipped>
+                    <select id={(weightPercentages.length - i - 1) * 5 + "Bar"} bind:value={barbellWeight}>
+                      <option value={45}>45</option>
+                      <option value={35}>35</option>
+                      <option value={25}>25</option>
+                      <option value={15}>15</option>
+                    </select>
+                  </LabeledInput>
+                  Bar:
+                </span>
                 <ul>
                   {#each calculateWeights(value) as weight}
                     <li class="ml-1.5">- {weight}lbs.</li>
