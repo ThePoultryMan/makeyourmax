@@ -95,6 +95,6 @@
 
 <style>
   .slide {
-    transition: left ease-in-out 0.2s;
+    transition: left ease-in-out 0.1s;
   }
 </style>
