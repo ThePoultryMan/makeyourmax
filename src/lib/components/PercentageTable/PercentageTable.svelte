@@ -1,10 +1,10 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
 
-  import { weights } from "$lib/assets/weights.json";
   import { preferences } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
+  import PlateExplain from "$lib/components/PercentageTable/PlateExplain.svelte";
   import { onMount } from "svelte";
 
   export let weight = 0;
@@ -20,9 +20,6 @@
   }
   let customPercentage = 0;
   let barbellWeight: number;
-  $: {
-    preferences.setItem("defaultBarbellWeight", barbellWeight);
-  }
 
   onMount(async () => {
     const weight = await preferences.getItem<number>("defaultBarbellWeight");
@@ -36,24 +33,6 @@
     } else {
       explain?.classList.add("hidden");
     }
-  }
-
-  $: calculateWeights = (weight: number) => {
-    let weightM = (weight - barbellWeight) / 2;
-    let barbellWeights = [];
-    while (weightM > 0) {
-      for (const weightI of weights) {
-        if (weightI <= weightM) {
-          barbellWeights.push(weightI);
-          weightM -= weightI;
-          break;
-        } else if (weightM < 2.5 && weightM > 0) {
-          barbellWeights.push(weightM);
-          weightM = 0;
-        }
-      }
-    }
-    return barbellWeights;
   }
 </script>
 
@@ -94,16 +73,7 @@
               /></button
             >
           </div>
-          <div id="customExplain" class="hidden w-fit ml-3 mb-1 p-2 bg-accent-400 rounded-lg">
-            <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
-            <ul>
-              {#each calculateWeights(Math.round((weight * (customPercentage / 100)) / round) * round) as plate}
-                <li class="ml-1.5">- {plate}lbs.</li>
-              {:else}
-                <li class="ml-1.5">- Just The Bar</li>
-              {/each}
-            </ul>
-          </div>
+          <PlateExplain targetWeight={Math.round((weight * (customPercentage / 100)) / round) * round} percentage="custom" class="mt-2" />
         </td>
       </tr>
       {#each weightPercentages as value, i}
@@ -122,30 +92,7 @@
                   /></button
                 >
               </div>
-              <div
-                id={(weightPercentages.length - i - 1) * 5 + "Explain"}
-                class="hidden w-fit ml-3 mb-1 p-2 bg-accent-400 rounded-lg"
-              >
-                <span class="italic">
-                  Plates Required for a 
-                  <LabeledInput inputId={(weightPercentages.length - i - 1) * 5 + "Bar"} label="lbs." flipped>
-                    <select id={(weightPercentages.length - i - 1) * 5 + "Bar"} bind:value={barbellWeight}>
-                      <option value={45}>45</option>
-                      <option value={35}>35</option>
-                      <option value={25}>25</option>
-                      <option value={15}>15</option>
-                    </select>
-                  </LabeledInput>
-                  Bar:
-                </span>
-                <ul>
-                  {#each calculateWeights(value) as weight}
-                    <li class="ml-1.5">- {weight}lbs.</li>
-                  {:else}
-                    <li class="ml-1.5">- Just The Bar</li>
-                  {/each}
-                </ul>
-              </div>
+              <PlateExplain targetWeight={value} percentage={(weightPercentages.length - i -1) * 5} class="mt-2" />
             </td>
           </tr>
         {/if}
