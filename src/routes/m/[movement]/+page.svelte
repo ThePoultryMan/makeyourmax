@@ -5,7 +5,7 @@
   import { goto } from "$app/navigation";
 
   import { movements } from "$lib/assets/movements.json";
-  import { prs } from "$lib/indy";
+  import { PRs, prs } from "$lib/indy";
   
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
@@ -15,6 +15,8 @@
   let tempMaxes = maxes;
   let logOpen = false;
   let deleteStatus = 0;
+
+  let allPRs: any = $PRs;
 
   onMount(async () => {
     prs.getItem($page.params.movement).then((value: any) => {
@@ -31,6 +33,7 @@
       logOpen = false
       maxes = tempMaxes;
       prs.setItem($page.params.movement, maxes);
+      allPRs[$page.params.movement] = maxes;
     }
   }
 

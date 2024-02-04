@@ -1,30 +1,16 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
-  import { movements } from "$lib/assets/movements.json";
-  import { prs } from "$lib/indy";
+  import { PRs, prs } from "$lib/indy";
   import LabeledInput from "$components/LabeledInput.svelte";
 
-  let allPRs: any = {};
+  let allPRs: any = $PRs;
   $: {
     for (const [movement, pr] of Object.entries(allPRs)) {
       prs.setItem(movement, pr);
+      allPRs[movement] = pr;
     }
   }
   let creatingNewMovement = false;
   let movementName = "";
-
-  onMount(async () => {
-    for (const movement of (await prs.keys()).concat(movements)) {
-      prs.getItem(movement).then((value) => {
-        if (value) {
-          allPRs[movement] = value;
-        } else {
-          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
-        }
-      });
-    }
-  });
 
   function createMovement() {
     console.log(fromTitleCase(movementName));
