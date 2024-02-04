@@ -91,7 +91,7 @@
               /></button
             >
           </div>
-          <div id="customExplain" class="hidden ml-3 w-fit">
+          <div id="customExplain" class="hidden w-fit ml-3 mb-1 p-2 bg-accent-400 rounded-lg">
             <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
             <ul>
               {#each calculateWeights(Math.round((weight * (customPercentage / 100)) / round) * round) as plate}
@@ -121,7 +121,7 @@
               </div>
               <div
                 id={(weightPercentages.length - i - 1) * 5 + "Explain"}
-                class="hidden ml-3 w-fit"
+                class="hidden w-fit ml-3 mb-1 p-2 bg-accent-400 rounded-lg"
               >
                 <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
                 <ul>
