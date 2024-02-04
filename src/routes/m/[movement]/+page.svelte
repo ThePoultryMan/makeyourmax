@@ -12,6 +12,7 @@
 
   let max = 0;
   let maxes = [0, 0, 0, 0];
+  let tempMaxes = maxes;
   let logOpen = false;
   let deleteStatus = 0;
 
@@ -31,7 +32,6 @@
   function savePRs() {
     if (browser) {
       prs.setItem($page.params.movement, maxes);
-      max = 0;
     }
   }
 
