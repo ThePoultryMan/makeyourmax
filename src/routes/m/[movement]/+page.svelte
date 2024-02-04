@@ -46,7 +46,7 @@
     }
   }
 
-  function numToMax() {
+  function numToMax(max: number) {
     switch (max) {
       case 1:
         return "2";
@@ -73,7 +73,7 @@
 </div>
 <div class="flex flex-col text-text-400 items-center">
     <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
-    <h2 class="text-lg">{numToMax()} Rep Max: 
+    <h2 class="text-lg">{numToMax(max)} Rep Max: 
       <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
     </h2>
     <div class="my-3">
