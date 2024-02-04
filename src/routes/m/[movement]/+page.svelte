@@ -31,6 +31,7 @@
 
   function savePRs() {
     if (browser) {
+      maxes = tempMaxes;
       prs.setItem($page.params.movement, maxes);
     }
   }
@@ -100,16 +101,16 @@
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="w-full" />
+          <input id="one-rep" type="number" bind:value={tempMaxes[0]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="w-full" />
+          <input id="two-rep" type="number" bind:value={tempMaxes[1]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="w-full" />
+          <input id="three-rep" type="number" bind:value={tempMaxes[2]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="w-full" />
+          <input id="five-rep" type="number" bind:value={tempMaxes[3]} size="5" class="w-full" />
         </LabeledInput>
       </div>
       <button
