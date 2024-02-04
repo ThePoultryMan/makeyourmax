@@ -92,7 +92,7 @@
       <div class="flex-1">
         <slot />
       </div>
-      <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
+      <Navigation />
     </div>
   {/if}
 {:else}
