@@ -82,7 +82,25 @@
           </LabeledInput>
         </td>
         <td class="p-2 md:p-1 border-b">
-          {Math.round(weight * (customPercentage / 100) / round) * round}
+          <div class="flex justify-between items-center">
+            <span>{Math.round((weight * (customPercentage / 100)) / round) * round}</span>
+            <button on:click={() => toggleExplain("custom")}
+              ><Icon
+                icon="ion:barbell"
+                class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md"
+              /></button
+            >
+          </div>
+          <div id="customExplain" class="hidden ml-3 w-fit">
+            <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
+            <ul>
+              {#each calculateWeights(Math.round((weight * (customPercentage / 100)) / round) * round) as plate}
+                <li class="ml-1.5">- {plate}lbs.</li>
+              {:else}
+                <li class="ml-1.5">- Just The Bar</li>
+              {/each}
+            </ul>
+          </div>
         </td>
       </tr>
       {#each weightPercentages as value, i}
@@ -95,7 +113,10 @@
                 <button
                   on:click={() =>
                     toggleExplain(((weightPercentages.length - i - 1) * 5).toString())}
-                  ><Icon icon="ion:barbell" class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md" /></button
+                  ><Icon
+                    icon="ion:barbell"
+                    class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md"
+                  /></button
                 >
               </div>
               <div
