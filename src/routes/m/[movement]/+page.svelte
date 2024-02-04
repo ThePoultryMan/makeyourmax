@@ -20,20 +20,23 @@
     prs.getItem($page.params.movement).then((value: any) => {
       if (value) {
         maxes = value;
+        tempMaxes = maxes;
       }
       max = 0;
     });
   });
 
-  function openLogMenu(open: boolean) {
-    logOpen = open;
-  }
-
   function savePRs() {
     if (browser) {
+      logOpen = false
       maxes = tempMaxes;
       prs.setItem($page.params.movement, maxes);
     }
+  }
+
+  function cancelPRChanges() {
+    logOpen = false;
+    tempMaxes = maxes;
   }
 
   function deleteMovement() {
@@ -74,7 +77,7 @@
       <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
     </h2>
     <div class="my-3">
-      <button on:click={() => openLogMenu(true)} class="p-2 bg-accent-500 rounded-lg"
+      <button on:click={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
         >Log Score</button
       >
     </div>
@@ -113,15 +116,17 @@
           <input id="five-rep" type="number" bind:value={tempMaxes[3]} size="5" class="w-full" />
         </LabeledInput>
       </div>
-      <button
-        on:click={() => {
-          savePRs();
-          openLogMenu(false);
-        }}
-        class="p-1 px-2 bg-accent-500 rounded-lg"
-      >
-        Save
-      </button>
+      <div class="flex gap-3">
+        <button on:click={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+          Cancel
+        </button>
+        <button
+          on:click={savePRs}
+          class="w-full p-1 px-2 bg-accent-500 rounded-lg"
+        >
+          Save
+        </button>
+      </div>
     </div>
   {/if}
 </div>
