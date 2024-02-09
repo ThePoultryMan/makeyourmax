@@ -58,10 +58,6 @@
     PRs.set(allPRs);
 
     ready = true;
-
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-    });
   });
 </script>
 
