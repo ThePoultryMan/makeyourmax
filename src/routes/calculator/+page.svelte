@@ -4,7 +4,7 @@
   import { preferences } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
-  import PercentageTable from "$components/PercentageTable.svelte";
+  import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import { browser } from "$app/environment";
 
   let weight = 0;

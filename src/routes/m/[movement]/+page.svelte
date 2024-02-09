@@ -5,34 +5,41 @@
   import { goto } from "$app/navigation";
 
   import { movements } from "$lib/assets/movements.json";
-  import { prs } from "$lib/indy";
+  import { PRs, prs } from "$lib/indy";
   
-  import PercentageTable from "$components/PercentageTable.svelte";
+  import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
 
   let max = 0;
   let maxes = [0, 0, 0, 0];
+  let tempMaxes = maxes;
   let logOpen = false;
   let deleteStatus = 0;
+
+  let allPRs: any = $PRs;
 
   onMount(async () => {
     prs.getItem($page.params.movement).then((value: any) => {
       if (value) {
         maxes = value;
+        tempMaxes = maxes;
       }
       max = 0;
     });
   });
 
-  function openLogMenu(open: boolean) {
-    logOpen = open;
-  }
-
   function savePRs() {
     if (browser) {
+      logOpen = false
+      maxes = tempMaxes;
       prs.setItem($page.params.movement, maxes);
-      max = 0;
+      allPRs[$page.params.movement] = maxes;
     }
+  }
+
+  function cancelPRChanges() {
+    logOpen = false;
+    tempMaxes = maxes;
   }
 
   function deleteMovement() {
@@ -42,7 +49,7 @@
     }
   }
 
-  function numToMax() {
+  function numToMax(max: number) {
     switch (max) {
       case 1:
         return "2";
@@ -64,19 +71,19 @@
   <title>PRs - {toTitleCase($page.params.movement)}</title>
 </svelte:head>
 
-<div class="flex flex-col pt-8 text-text-400 items-center">
-  <div class="relative flex flex-col items-center w-5/6">
-    <a href="/" class="absolute top-0 left-0 text-lg">&lt Back</a>
+<div class="mb-3 p-1.5 text-lg bg-background-950">
+  <a href="/" class="ml-2 font-semibold">Back</a>
+</div>
+<div class="flex flex-col text-text-400 items-center">
     <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
-    <h2 class="text-lg">{numToMax()} Rep Max: 
+    <h2 class="text-lg">{numToMax(max)} Rep Max: 
       <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
     </h2>
     <div class="my-3">
-      <button on:click={() => openLogMenu(true)} class="p-2 bg-accent-500 rounded-lg"
+      <button on:click={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
         >Log Score</button
       >
     </div>
-  </div>
   <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0}>
     <LabeledInput inputId="max" label="Rep Max" flipped>
       <select id="max" bind:value={max}>
@@ -100,27 +107,29 @@
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="[&>*]:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={maxes[0]} size="5" class="w-full" />
+          <input id="one-rep" type="number" bind:value={tempMaxes[0]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={maxes[1]} size="5" class="w-full" />
+          <input id="two-rep" type="number" bind:value={tempMaxes[1]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={maxes[2]} size="5" class="w-full" />
+          <input id="three-rep" type="number" bind:value={tempMaxes[2]} size="5" class="w-full" />
         </LabeledInput>
         <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={maxes[3]} size="5" class="w-full" />
+          <input id="five-rep" type="number" bind:value={tempMaxes[3]} size="5" class="w-full" />
         </LabeledInput>
       </div>
-      <button
-        on:click={() => {
-          savePRs();
-          openLogMenu(false);
-        }}
-        class="p-1 px-2 bg-accent-500 rounded-lg"
-      >
-        Save
-      </button>
+      <div class="flex gap-3">
+        <button on:click={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+          Cancel
+        </button>
+        <button
+          on:click={savePRs}
+          class="w-full p-1 px-2 bg-accent-500 rounded-lg"
+        >
+          Save
+        </button>
+      </div>
     </div>
   {/if}
 </div>

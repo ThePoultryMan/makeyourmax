@@ -1,10 +1,10 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
 
-  import { weights } from "$lib/assets/weights.json";
   import { preferences } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
+  import PlateExplain from "$lib/components/PercentageTable/PlateExplain.svelte";
   import { onMount } from "svelte";
 
   export let weight = 0;
@@ -33,24 +33,6 @@
     } else {
       explain?.classList.add("hidden");
     }
-  }
-
-  function calculateWeights(weight: number) {
-    let weightM = (weight - barbellWeight) / 2;
-    let barbellWeights = [];
-    while (weightM > 0) {
-      for (const weightI of weights) {
-        if (weightI <= weightM) {
-          barbellWeights.push(weightI);
-          weightM -= weightI;
-          break;
-        } else if (weightM < 2.5 && weightM > 0) {
-          barbellWeights.push(weightM);
-          weightM = 0;
-        }
-      }
-    }
-    return barbellWeights;
   }
 </script>
 
@@ -82,7 +64,16 @@
           </LabeledInput>
         </td>
         <td class="p-2 md:p-1 border-b">
-          {Math.round(weight * (customPercentage / 100) / round) * round}
+          <div class="flex justify-between items-center">
+            <span>{Math.round((weight * (customPercentage / 100)) / round) * round}</span>
+            <button on:click={() => toggleExplain("custom")}
+              ><Icon
+                icon="ion:barbell"
+                class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md"
+              /></button
+            >
+          </div>
+          <PlateExplain targetWeight={Math.round((weight * (customPercentage / 100)) / round) * round} percentage="custom" class="mt-2" />
         </td>
       </tr>
       {#each weightPercentages as value, i}
@@ -95,22 +86,13 @@
                 <button
                   on:click={() =>
                     toggleExplain(((weightPercentages.length - i - 1) * 5).toString())}
-                  ><Icon icon="ion:barbell" class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md" /></button
+                  ><Icon
+                    icon="ion:barbell"
+                    class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md"
+                  /></button
                 >
               </div>
-              <div
-                id={(weightPercentages.length - i - 1) * 5 + "Explain"}
-                class="hidden ml-3 w-fit"
-              >
-                <span class="italic">Plates Required for a {barbellWeight}lbs. Bar:</span>
-                <ul>
-                  {#each calculateWeights(value) as weight}
-                    <li class="ml-1.5">- {weight}lbs.</li>
-                  {:else}
-                    <li class="ml-1.5">- Just The Bar</li>
-                  {/each}
-                </ul>
-              </div>
+              <PlateExplain targetWeight={value} percentage={(weightPercentages.length - i -1) * 5} class="mt-2" />
             </td>
           </tr>
         {/if}

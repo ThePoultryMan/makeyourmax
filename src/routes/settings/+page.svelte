@@ -59,12 +59,12 @@
       <a href={dataUrl} download={fileObject.name} class="p-2 bg-accent-500 rounded-lg"
         >Download Data</a
       >
+    {:else}
+      <div class="p-2 bg-accent-500 rounded-lg">Download Data</div>
     {/if}
     <div class="p-2 bg-accent-500 rounded-lg w-min">
       <div>
-        <label for="backupImport" class="block mb-1 cursor-pointer"
-          >Import Backup</label
-        >
+        <label for="backupImport" class="block mb-1 cursor-pointer">Import Backup</label>
         <input
           id="backupImport"
           type="file"

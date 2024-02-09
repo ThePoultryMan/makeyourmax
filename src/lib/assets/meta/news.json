@@ -1,6 +1,11 @@
 {
-  "lastUpdate": 1706308779520,
+  "lastUpdate": 1707004869592,
   "items": [
+    {
+      "title": "Offline Support",
+      "content": "Make Your Max is now usable offline! If there are any issues with this, please report it using the feedback link.",
+      "date": "February 3, 2024"
+    },
     {
       "title": "UI Overhaul",
       "content": "The UI has been overhauled to make the mobile experience feel more intuitive.",

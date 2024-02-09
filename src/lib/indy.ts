@@ -1,4 +1,5 @@
 import localforage from "localforage";
+import { writable } from "svelte/store";
 
 export const preferences = localforage.createInstance({
   name: "preferences",
@@ -22,3 +23,6 @@ export async function importFromObject(forage: LocalForage, object: Record<strin
     forage.setItem(key, object[key]);
   }
 }
+
+// Svelte Store
+export const PRs = writable();

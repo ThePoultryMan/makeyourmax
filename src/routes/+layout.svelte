@@ -7,8 +7,9 @@
   import "$lib/styles/global.css";
 
   import themes from "$lib/assets/themes.json";
+  import { movements } from "$lib/assets/movements.json";
   import "$lib/pwa";
-  import { preferences } from "$lib/indy";
+  import { preferences, prs, PRs } from "$lib/indy";
 
   import Icon from "@iconify/svelte";
 
@@ -17,7 +18,6 @@
   let ready = false;
 
   let pwaAccept = $page.url.searchParams.get("mode");
-  let sidebarOpen = false;
   let theme = "";
 
   $: {
@@ -47,6 +47,17 @@
 
   onMount(async () => {
     setUpTheme();
+
+    let allPRs: any = {};
+    for (const movement of (await prs.keys()).concat(movements)) {
+      let value = prs.getItem(movement);
+      if (value) {
+        allPRs[movement] = value;
+      } else {
+        allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+      }
+    }
+    PRs.set(allPRs);
 
     ready = true;
 
@@ -91,7 +102,7 @@
       <div class="flex-1">
         <slot />
       </div>
-      <Navigation on:sidebar-open={(value) => (sidebarOpen = value.detail)} />
+      <Navigation />
     </div>
   {/if}
 {:else}

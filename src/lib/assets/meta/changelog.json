@@ -1,6 +1,24 @@
 {
   "versions": [
     {
+      "version": "1.9.0",
+      "changes": [
+        "News: Changed the background of news items to be darker.",
+        "PRs: Make movement title more pronounced.",
+        "PRs: Change movement button width sizing.",
+        "PRs: Update movement button border color.",
+        "PRs: Fix flash of white due to missing content.",
+        "Movement: Style back button to feel more fitting.",
+        "Movement: Added cancel button to movement PR log.",
+        "Movement: Fix the wrong rep count being displayed below movement title.",
+        "Movement: Barbell weight can now be changed in the plate calculator page.",
+        "Settings: Fixed settings flashing when opened.",
+        "Added plate calculator button to custom percentage.",
+        "Added a background to the plate explanation section.",
+        "Navigation sliding animations are now slightly shorter."
+      ]
+    },
+    {
       "version": "1.8.4",
       "changes": [
         "Add service worker and registration.",
