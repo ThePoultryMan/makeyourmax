@@ -12,5 +12,5 @@ vite.config.ts.timestamp-*
 # VSCode
 .vscode
 
-.vercel
-dev-dist
+ios
+android
