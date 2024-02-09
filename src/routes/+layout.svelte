@@ -1,7 +1,6 @@
 <script lang="ts">
   import "../app.postcss";
   import { browser } from "$app/environment";
-  import { page } from "$app/stores";
   import { onMount } from "svelte";
 
   import "$lib/styles/global.css";
