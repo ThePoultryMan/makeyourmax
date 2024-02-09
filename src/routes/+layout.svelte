@@ -51,13 +51,12 @@
 
     let allPRs: any = {};
     for (const movement of (await prs.keys()).concat(movements)) {
-      prs.getItem(movement).then((value) => {
-        if (value) {
-          allPRs[movement] = value;
-        } else {
-          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
-        }
-      });
+      let value = prs.getItem(movement);
+      if (value) {
+        allPRs[movement] = value;
+      } else {
+        allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+      }
     }
     PRs.set(allPRs);
 
