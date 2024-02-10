@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { getAll, preferences, prs, importFromObject } from "$lib/indy";
+  import { preferences, prs } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -24,13 +24,13 @@
     defaultBarbellWeight = dBW ? dBW : 45;
 
     // Backup
-    fileObject = new File([JSON.stringify(await getAll(prs))], "prs.mymdata", {
+    fileObject = new File([JSON.stringify(await prs.toObject())], "prs.mymdata", {
       type: "application/json",
     });
     dataUrl = URL.createObjectURL(fileObject);
 
     fileReader.onload = () => {
-      importFromObject(prs, JSON.parse(fileReader.result));
+      prs.fromObject(JSON.parse(fileReader.result));
     };
   });
 

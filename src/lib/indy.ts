@@ -1,28 +1,66 @@
-import localforage from "localforage";
+import { Preferences } from "@capacitor/preferences";
 import { writable } from "svelte/store";
 
-export const preferences = localforage.createInstance({
-  name: "preferences",
-});
+class Storage {
+  private name: string;
 
-export const prs = localforage.createInstance({
-  name: "prs",
-});
-
-export async function getAll(forage: LocalForage) {
-  let items: Record<string, any> = {};
-  for (const key of await forage.keys()) {
-    items[key] = await forage.getItem(key);
+  constructor(name: string) {
+    this.name = name;
   }
-  return items;
+
+  public fromObject(object: any) {
+    this.clear();
+    for (const [key, value] of object) {
+      this.setItem(key, value);
+    }
+  }
+
+  public async getItem(key: string) {
+    return JSON.parse((await Preferences.get({ key: this.name + "_" + key })).value as string);
+  }
+
+  public async setItem(key: string, value: any) {
+    Preferences.set({
+      key: this.name + "_" + key,
+      value: JSON.stringify(value),
+    });
+  }
+
+  public async getKeys() {
+    const keys: string[] = [];
+    (await Preferences.keys()).keys.forEach((key) => {
+      if (key.startsWith(this.name + "_")) {
+        keys.push(key.replace(this.name + "_", ""));
+      }
+    });
+    return keys;
+  }
+
+  public async clear() {
+    (await Preferences.keys()).keys.forEach(async (key) => {
+      Preferences.remove({ key: this.name + "_" + key });
+    });
+  }
+
+  public async toObject() {
+    let items: Record<string, any> = {};
+    (await Preferences.keys()).keys.forEach(async (key) => {
+      items[key] = await this.getItem(key);
+    });
+    return items;
+  }
 }
 
-export async function importFromObject(forage: LocalForage, object: Record<string, any>) {
-  forage.clear();
-  for (const key in object) {
-    forage.setItem(key, object[key]);
+export function storageFromObject(name: string, object: any) {
+  let storage = new Storage(name);
+  for (const [key, value] of object) {
+    storage.setItem(key, value);
   }
+  return storage;
 }
+
+export const preferences = new Storage("preferences");
+export const prs = new Storage("prs");
 
 // Svelte Store
 export const PRs = writable();

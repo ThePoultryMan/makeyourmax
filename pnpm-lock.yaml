@@ -11,6 +11,9 @@ dependencies:
   '@capacitor/ios':
     specifier: ^5.7.0
     version: 5.7.0(@capacitor/core@5.7.0)
+  '@capacitor/preferences':
+    specifier: ^5.0.7
+    version: 5.0.7(@capacitor/core@5.7.0)
   '@iconify/svelte':
     specifier: ^3.1.6
     version: 3.1.6(svelte@4.2.9)
@@ -150,6 +153,14 @@ packages:
     resolution: {integrity: sha512-zoEdsYQHI1zz2vjKsTpu5bSfxQQ5jrk3Qs6Op9MYcckZZ2QWIs0YpL99p+zODXNpkkyLG73NXEIrOjvyI9jx8A==}
     peerDependencies:
       '@capacitor/core': ^5.7.0
+    dependencies:
+      '@capacitor/core': 5.7.0
+    dev: false
+
+  /@capacitor/preferences@5.0.7(@capacitor/core@5.7.0):
+    resolution: {integrity: sha512-JvfGP1m8nITWEFdBpKR9HXNeBjLKwO0q1pry7Z5lYrYmCrbyRBLWzaGZGll8py4KmGWL3F5+PZvhrpT4gPoeAQ==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
     dependencies:
       '@capacitor/core': 5.7.0
     dev: false

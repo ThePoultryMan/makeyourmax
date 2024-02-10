@@ -47,8 +47,8 @@
     setUpTheme();
 
     let allPRs: any = {};
-    for (const movement of (await prs.keys()).concat(movements)) {
-      let value = prs.getItem(movement);
+    for (const movement of (await prs.getKeys()).concat(movements)) {
+      let value = await prs.getItem(movement);
       if (value) {
         allPRs[movement] = value;
       } else {
