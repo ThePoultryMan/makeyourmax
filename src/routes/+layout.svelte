@@ -68,7 +68,8 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen mb-[-36px]">
-    <div class="flex-1">
+    <div class="flex-1 bg-background-900">
+      <div class="sticky top-0 safe-top bg-background-950" />
       <slot />
     </div>
     <Navigation />
@@ -78,3 +79,9 @@
     <Icon icon="line-md:loading-loop" class="text-white text-[128px]" />
   </div>
 {/if}
+
+<style>
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+</style>
