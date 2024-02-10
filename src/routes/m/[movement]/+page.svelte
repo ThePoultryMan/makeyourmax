@@ -19,7 +19,7 @@
   let allPRs: any = $PRs;
 
   onMount(async () => {
-    prs.getItem($page.params.movement).then((value: any) => {
+    prs.getItemJson($page.params.movement).then((value: any) => {
       if (value) {
         maxes = value;
         tempMaxes = maxes;
@@ -32,7 +32,7 @@
     if (browser) {
       logOpen = false
       maxes = tempMaxes;
-      prs.setItem($page.params.movement, maxes);
+      prs.setItemJson($page.params.movement, maxes);
       allPRs[$page.params.movement] = maxes;
     }
   }

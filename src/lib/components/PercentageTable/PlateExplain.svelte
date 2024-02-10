@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { weights } from "$lib/assets/weights.json";
-  import { preferences } from "$lib/indy";
+  import PREFERENCES from "$lib/scripts/preferences";
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -12,13 +12,22 @@
   export { clazz as class };
 
   let barbellWeight: number;
+  let barbellReady = false;
   $: {
-    preferences.setItem("defaultBarbellWeight", barbellWeight);
+    if (barbellReady) {
+      PREFERENCES.setDefaultBarbellWeight(barbellWeight);
+      PREFERENCES.save();
+    }
   }
 
   onMount(async () => {
-    const weight = await preferences.getItem<number>("defaultBarbellWeight");
-    barbellWeight = weight ? weight : 45;
+    const weight = PREFERENCES.getDefaultBarbellWeight();
+    if (typeof weight === "string") {
+      barbellWeight = parseInt(weight);
+    } else {
+      barbellWeight = weight;
+    }
+    barbellReady = true;
   });
 
   $: calculateWeights = (weight: number) => {
@@ -40,7 +49,10 @@
   };
 </script>
 
-<div id={percentage + "Explain"} class={"hidden w-fit mb-1 p-2 text-xl bg-accent-400 rounded-lg " + clazz}>
+<div
+  id={percentage + "Explain"}
+  class={"hidden w-fit mb-1 p-2 text-xl bg-accent-400 rounded-lg " + clazz}
+>
   <span class="italic">
     Plates Required for a
     <LabeledInput inputId={percentage + "Bar"} label="lbs." flipped>

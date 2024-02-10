@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { preferences, prs } from "$lib/indy";
+  import PREFERENCES from "$lib/scripts/preferences";
+  import { prs } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -9,8 +10,12 @@
 
   // Preferences
   let defaultBarbellWeight: number;
+  let barbellReady = false;
   $: {
-    preferences.setItem("defaultBarbellWeight", defaultBarbellWeight);
+    if (barbellReady) {
+      PREFERENCES.setDefaultBarbellWeight(defaultBarbellWeight);
+      PREFERENCES.save();
+    }
   }
 
   // Backup
@@ -20,8 +25,13 @@
   let backupStatus = 0;
 
   onMount(async () => {
-    let dBW = await preferences.getItem<number>("defaultBarbellWeight");
-    defaultBarbellWeight = dBW ? dBW : 45;
+    const weight = PREFERENCES.getDefaultBarbellWeight();
+    if (typeof weight === "string") {
+      defaultBarbellWeight = parseInt(weight);
+    } else {
+      defaultBarbellWeight = weight;
+    }
+    barbellReady = true;
 
     // Backup
     fileObject = new File([JSON.stringify(await prs.toObject())], "prs.mymdata", {

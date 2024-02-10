@@ -8,7 +8,8 @@
   import themes from "$lib/assets/themes.json";
   import { movements } from "$lib/assets/movements.json";
   import "$lib/pwa";
-  import { preferences, prs, PRs } from "$lib/indy";
+  import PREFERENCES from "$lib/scripts/preferences";
+  import { prs, PRs } from "$lib/indy";
 
   import Icon from "@iconify/svelte";
 
@@ -21,8 +22,9 @@
   $: {
     if (browser) {
       if (theme) {
-        preferences.setItem("theme", theme);
+        PREFERENCES.setTheme(theme);
         setTheme(themes[theme]);
+        PREFERENCES.save();
       }
     }
   }
@@ -39,16 +41,16 @@
   }
 
   async function setUpTheme() {
-    preferences.setItem("theme", "myProd");
     theme = "myProd";
   }
 
   onMount(async () => {
+    await PREFERENCES.load();
     setUpTheme();
 
     let allPRs: any = {};
     for (const movement of (await prs.getKeys()).concat(movements)) {
-      let value = await prs.getItem(movement);
+      let value = await prs.getItemJson(movement);
       if (value) {
         allPRs[movement] = value;
       } else {

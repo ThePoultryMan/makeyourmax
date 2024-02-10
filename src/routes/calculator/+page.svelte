@@ -1,22 +1,8 @@
 <script>
-  import { onMount } from "svelte";
-
-  import { preferences } from "$lib/indy";
-
   import LabeledInput from "$components/LabeledInput.svelte";
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
-  import { browser } from "$app/environment";
 
   let weight = 0;
-  $: {
-    if (browser) {
-      preferences.setItem("weightCalculator", weight);
-    }
-  }
-
-  onMount(async () => {
-    preferences.getItem("weightCalculator").then((value) => (weight = value));
-  });
 </script>
 
 <svelte:head>

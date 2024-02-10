@@ -5,7 +5,7 @@
   let allPRs: any = $PRs;
   $: {
     for (const [movement, pr] of Object.entries(allPRs)) {
-      prs.setItem(movement, pr);
+      prs.setItemJson(movement, pr);
       allPRs[movement] = pr;
     }
   }

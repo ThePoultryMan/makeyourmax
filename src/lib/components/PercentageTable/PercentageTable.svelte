@@ -1,11 +1,8 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
 
-  import { preferences } from "$lib/indy";
-
   import LabeledInput from "$components/LabeledInput.svelte";
   import PlateExplain from "$lib/components/PercentageTable/PlateExplain.svelte";
-  import { onMount } from "svelte";
 
   export let weight = 0;
 
@@ -19,12 +16,6 @@
     }
   }
   let customPercentage = 0;
-  let barbellWeight: number;
-
-  onMount(async () => {
-    const weight = await preferences.getItem<number>("defaultBarbellWeight");
-    barbellWeight = weight ? weight : 45;
-  });
 
   function toggleExplain(percentage: string) {
     let explain = document.getElementById(percentage + "Explain");
