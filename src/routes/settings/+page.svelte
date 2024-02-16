@@ -52,12 +52,16 @@
 
   async function copyBackupCode() {
     let code = "";
-    for (const key of await prs.keys()) {
-      let data: any = await prs.getItem(key);
+    for (const key of await prs.getKeys()) {
+      let data: any = await prs.getItemJson(key);
       if (!data) continue;
-      code += key + `:${data[0]}:${data[1]}:${data[2]}:${data[3]};`
+      code += key;
+      for (let i = 0; i < 4; i++) {
+        code += ":" + (data[i] === "Not Set" ? "NS" : data[i]);
+      }
+      code += ";";
     }
-    navigator.clipboard.writeText(code + "{legacyCodeVersion:1}");
+    navigator.clipboard.writeText(code + "{legacyCodeVersion:1};");
     copied = true;
     setTimeout(() => copied = false, 5000);
   }
