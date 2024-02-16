@@ -18,6 +18,7 @@
   let fileObject: any;
   let backupFile: any;
   let backupStatus = 0;
+  let copied = false;
 
   onMount(async () => {
     let dBW = await preferences.getItem<number>("defaultBarbellWeight");
@@ -37,6 +38,18 @@
   function importBackup() {
     fileReader.readAsText(backupFile[0]);
     backupStatus = 2;
+  }
+
+  async function copyBackupCode() {
+    let code = "";
+    for (const key of await prs.keys()) {
+      let data: any = await prs.getItem(key);
+      if (!data) continue;
+      code += key + `:${data[0]}:${data[1]}:${data[2]}:${data[3]};`
+    }
+    navigator.clipboard.writeText(code + "{legacyCodeVersion:1}");
+    copied = true;
+    setTimeout(() => copied = false, 5000);
   }
 </script>
 
@@ -83,5 +96,6 @@
         <p class="my-2">Imported Data!</p>
       {/if}
     </div>
+    <button on:click={copyBackupCode} class="p-2 bg-accent-500 rounded-lg">{copied ? "Copied" : "Copy Code"}</button>
   </div>
 </div>
