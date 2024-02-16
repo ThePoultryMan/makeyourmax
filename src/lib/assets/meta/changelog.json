@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "version": "1.9.1",
+      "changes": [
+        "Add option to copy backup code."
+      ]
+    },
+    {
       "version": "1.9.0",
       "changes": [
         "News: Changed the background of news items to be darker.",
