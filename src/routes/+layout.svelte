@@ -70,8 +70,8 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen mb-[-36px]">
+    <div class="sticky top-0 safe-top bg-background-950" />
     <div class="flex-1 bg-background-900">
-      <div class="sticky top-0 safe-top bg-background-950" />
       <slot />
     </div>
     <Navigation />

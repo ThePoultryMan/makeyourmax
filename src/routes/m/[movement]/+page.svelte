@@ -6,7 +6,7 @@
 
   import { movements } from "$lib/assets/movements.json";
   import { PRs, prs } from "$lib/indy";
-  
+
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -30,7 +30,7 @@
 
   function savePRs() {
     if (browser) {
-      logOpen = false
+      logOpen = false;
       maxes = tempMaxes;
       prs.setItemJson($page.params.movement, maxes);
       allPRs[$page.params.movement] = maxes;
@@ -43,7 +43,11 @@
   }
 
   function deleteMovement() {
-    if (confirm("Are you sure you want to delete this movement? It will delete all data associated with the movement.")) {
+    if (
+      confirm(
+        "Are you sure you want to delete this movement? It will delete all data associated with the movement."
+      )
+    ) {
       prs.removeItem($page.params.movement);
       goto("/");
     }
@@ -71,19 +75,19 @@
   <title>PRs - {toTitleCase($page.params.movement)}</title>
 </svelte:head>
 
-<div class="mb-3 p-1.5 text-lg bg-background-950">
+<div class="fixed top-safe w-full mb-3 p-1.5 text-lg bg-background-950">
   <a href="/" class="ml-2 font-semibold">Back</a>
 </div>
-<div class="flex flex-col text-text-400 items-center">
-    <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
-    <h2 class="text-lg">{numToMax(max)} Rep Max: 
-      <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
-    </h2>
-    <div class="my-3">
-      <button on:click={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
-        >Log Score</button
-      >
-    </div>
+<div class="flex flex-col mt-safe text-text-400 items-center">
+  <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
+  <h2 class="text-lg">
+    {numToMax(max)} Rep Max:
+    <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
+  </h2>
+  <div class="my-3">
+    <button on:click={() => (logOpen = true)} class="p-2 bg-accent-500 rounded-lg">Log Score</button
+    >
+  </div>
   <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0}>
     <LabeledInput inputId="max" label="Rep Max" flipped>
       <select id="max" bind:value={max}>
@@ -95,7 +99,9 @@
     </LabeledInput>
   </PercentageTable>
   {#if !movements.includes($page.params.movement)}
-    <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
+    <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg"
+      >{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button
+    >
   {:else}
     <p class="my-5"><i>This movement cannot be deleted.</i></p>
   {/if}
@@ -120,15 +126,13 @@
         </LabeledInput>
       </div>
       <div class="flex gap-3">
-        <button on:click={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+        <button
+          on:click={cancelPRChanges}
+          class="w-full p-1 px-2 border border-accent-500 rounded-lg"
+        >
           Cancel
         </button>
-        <button
-          on:click={savePRs}
-          class="w-full p-1 px-2 bg-accent-500 rounded-lg"
-        >
-          Save
-        </button>
+        <button on:click={savePRs} class="w-full p-1 px-2 bg-accent-500 rounded-lg"> Save </button>
       </div>
     </div>
   {/if}
@@ -140,5 +144,13 @@
   :global(_::-webkit-full-page-media, _:future, :root .webkit-fix) {
     appearance: none;
     width: 100%;
+  }
+
+  .top-safe {
+    top: calc(env(safe-area-inset-top) - 1rem);
+  }
+
+  .mt-safe {
+    margin-top: calc(env(safe-area-inset-top) - 1rem);
   }
 </style>
