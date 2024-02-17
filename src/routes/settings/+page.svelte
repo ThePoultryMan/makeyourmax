@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
+  import { Clipboard} from "@capacitor/clipboard";
+
   import PREFERENCES from "$lib/scripts/preferences";
   import { prs, PRs } from "$lib/indy";
 
@@ -63,7 +65,7 @@
       }
       code += ";";
     }
-    navigator.clipboard.writeText(code + "{legacyCodeVersion:1};");
+    await Clipboard.write({string: code + "{legacyCodeVersion:1};"});
     copied = true;
     setTimeout(() => (copied = false), 5000);
   }
