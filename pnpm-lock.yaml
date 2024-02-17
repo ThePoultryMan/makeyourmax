@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@capacitor/clipboard':
+    specifier: ^5.0.7
+    version: 5.0.7(@capacitor/core@5.7.0)
   '@iconify/svelte':
     specifier: ^3.1.6
     version: 3.1.6(svelte@4.2.9)
@@ -104,6 +107,20 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.22
+
+  /@capacitor/clipboard@5.0.7(@capacitor/core@5.7.0):
+    resolution: {integrity: sha512-N9JJruFB1mKNmA/+HPXyhcSugvEmYYfM4BibYB8lPqGc9QUY8WirU1+/5Keo8+lKJ6Sv9FVyHr2Sf8XFpwK7Tw==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.0
+    dev: false
+
+  /@capacitor/core@5.7.0:
+    resolution: {integrity: sha512-wa9Fao+Axa1t2ZERMyQD9r0xyfglQyC4DHQKintzKaIqcRuVe9J31TmfD3IxROYi9LGpY4X8cq4m4bjb0W94Qg==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /@esbuild/aix-ppc64@0.19.12:
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
