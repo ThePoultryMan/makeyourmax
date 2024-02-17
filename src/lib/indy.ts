@@ -50,7 +50,9 @@ export class Storage {
 
   public async clear() {
     (await Preferences.keys()).keys.forEach(async (key) => {
-      Preferences.remove({ key: this.name + "_" + key });
+      if (key.startsWith(this.name + "_")) {
+        await Preferences.remove({ key: key });
+      }
     });
   }
 
@@ -59,6 +61,18 @@ export class Storage {
     for (const key of (await Preferences.keys()).keys) {
       if (key.startsWith(this.name + "_")) {
         items[key.replace(this.name + "_", "")] = await this.getItem(
+          key.replace(this.name + "_", "")
+        );
+      }
+    }
+    return items;
+  }
+
+  public async toObjectJson() {
+    let items: Record<string, any> = {};
+    for (const key of (await Preferences.keys()).keys) {
+      if (key.startsWith(this.name + "_")) {
+        items[key.replace(this.name + "_", "")] = await this.getItemJson(
           key.replace(this.name + "_", "")
         );
       }

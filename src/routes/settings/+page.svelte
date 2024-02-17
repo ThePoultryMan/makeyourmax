@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import PREFERENCES from "$lib/scripts/preferences";
-  import { prs } from "$lib/indy";
+  import { prs, PRs } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -24,6 +24,8 @@
   let backupFile: any;
   let backupStatus = 0;
   let copied = false;
+  let codeBackupStatus = 0;
+  let backupCode = "";
 
   onMount(async () => {
     const weight = PREFERENCES.getDefaultBarbellWeight();
@@ -63,7 +65,44 @@
     }
     navigator.clipboard.writeText(code + "{legacyCodeVersion:1};");
     copied = true;
-    setTimeout(() => copied = false, 5000);
+    setTimeout(() => (copied = false), 5000);
+  }
+
+  async function importWithBackupCode() {
+    if (
+      !backupCode.endsWith("{legacyCodeVersion:1};") &&
+      !backupCode.endsWith("{legacyCodeVersion:1}")
+    ) {
+      codeBackupStatus = -1;
+      setTimeout(() => (codeBackupStatus = 0), 1500);
+      return;
+    }
+    const items = backupCode.split(";");
+    const parsedData: Record<string, any[]> = {};
+
+    for (const item of items) {
+      const sections = item.split(":");
+      const prArray = [];
+      for (let i = 1; i < 5; i++) {
+        if (!sections[0] || sections[0] === "{legacyCodeVersion") continue;
+        let parsedPr = parseInt(sections[i]);
+        prArray.push(parsedPr ? parsedPr : "Not Set");
+      }
+      
+      if (prArray.length > 0) {
+        parsedData[sections[0]] = prArray;
+      }
+    }
+
+    // Wait to clear until after parsing. Preventing invalid data to be passed.
+    await prs.clear();
+    for (const [key, value] of Object.entries(parsedData)) {
+      await prs.setItemJson(key, value);
+    }
+    PRs.set(await prs.toObjectJson());
+
+    codeBackupStatus = 2;
+    setTimeout(() => (codeBackupStatus = 0), 1500);
   }
 </script>
 
@@ -110,6 +149,25 @@
         <p class="my-2">Imported Data!</p>
       {/if}
     </div>
-    <button on:click={copyBackupCode} class="p-2 bg-accent-500 rounded-lg">{copied ? "Copied" : "Copy Code"}</button>
+    <button on:click={copyBackupCode} class="p-2 bg-accent-500 rounded-lg"
+      >{copied ? "Copied" : "Copy Code"}</button
+    >
+    <div class="[&>*]:p-2 bg-accent-500 rounded-lg">
+      {#if codeBackupStatus === 0}
+        <button on:click={() => (codeBackupStatus = 1)} class="bg-accent-500 rounded-lg"
+          >Import From Code</button
+        >
+      {:else if codeBackupStatus === 1}
+        <div>
+          <label for="codeInput">Paste Backup Code</label>
+          <input id="codeInput" type="text" bind:value={backupCode} />
+          <button on:click={importWithBackupCode}>Import</button>
+        </div>
+      {:else if codeBackupStatus === 2}
+        <p>Imported Successfully</p>
+      {:else}
+        <p>Your entered code is invalid.</p>
+      {/if}
+    </div>
   </div>
 </div>
