@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
+  import { Clipboard } from "@capacitor/clipboard";
+
   import { getAll, preferences, prs, importFromObject } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
@@ -47,7 +49,7 @@
       if (!data) continue;
       code += key + `:${data[0]}:${data[1]}:${data[2]}:${data[3]};`
     }
-    navigator.clipboard.writeText(code + "{legacyCodeVersion:1}");
+    Clipboard.write({string: code + "{legacyCodeVersion:1};"});
     copied = true;
     setTimeout(() => copied = false, 5000);
   }
