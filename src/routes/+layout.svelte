@@ -8,6 +8,7 @@
   import themes from "$lib/assets/themes.json";
   import { movements } from "$lib/assets/movements.json";
   import "$lib/pwa";
+  import init from "makeyourmax-rust";
   import PREFERENCES from "$lib/scripts/preferences";
   import { prs, PRs } from "$lib/indy";
 
@@ -45,6 +46,7 @@
   }
 
   onMount(async () => {
+    init();
     await PREFERENCES.load();
     setUpTheme();
 

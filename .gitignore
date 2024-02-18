@@ -9,6 +9,9 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+/makeyourmax-rust/target
+/makeyourmax-rust/Cargo.lock
+
 # VSCode
 .vscode
 
