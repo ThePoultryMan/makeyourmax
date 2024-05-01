@@ -41,7 +41,7 @@
       >
         <p class="text-lg font-semibold">{toTitleCase(movement)}</p>
         {#await max then max}
-          <p>{max === "Not Set" ? max : max[0]}</p>
+          <p>{max ? max : "Not Set"}</p>
         {/await}
       </a>
     {/each}
