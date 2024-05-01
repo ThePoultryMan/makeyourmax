@@ -4,7 +4,9 @@
       "version": "1.9.2",
       "changes": [
         "Fix: PRs page weight's not displaying properly.",
-        "PRs: Specify what rep count pr is being displayed."
+        "Fix: Backup code can now be copied on all devices (hopefully).",
+        "PRs: Specify what rep count pr is being displayed.",
+        "Settings: On devices with clipboard permissions, the code is now displayed to be copied."
       ]
     },
     {

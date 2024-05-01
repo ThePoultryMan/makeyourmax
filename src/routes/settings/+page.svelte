@@ -6,6 +6,7 @@
   import { getAll, preferences, prs, importFromObject } from "$lib/indy";
 
   import LabeledInput from "$components/LabeledInput.svelte";
+  import PopUp from "$components/PopUp.svelte";
 
   const fileReader = new FileReader();
 
@@ -20,6 +21,7 @@
   let fileObject: any;
   let backupFile: any;
   let backupStatus = 0;
+  let copyStatus = 0;
   let copied = false;
 
   onMount(async () => {
@@ -43,17 +45,36 @@
   }
 
   async function copyBackupCode() {
+    if (copyStatus === 0) {
+      if (copyStatus === 0) setTimeout(() => (copied = false), 5000);
+      Clipboard.write({ string: await getBackupCode() }).catch(() => (copyStatus = 2));
+      copied = true;
+    }
+  }
+
+  async function getBackupCode() {
     let code = "";
     for (const key of await prs.keys()) {
       let data: any = await prs.getItem(key);
       if (!data) continue;
-      code += key + `:${data[0]}:${data[1]}:${data[2]}:${data[3]};`
+      code += key + `:${data[0]}:${data[1]}:${data[2]}:${data[3]};`;
     }
-    Clipboard.write({string: code + "{legacyCodeVersion:1};"});
-    copied = true;
-    setTimeout(() => copied = false, 5000);
+    return code + "{legacyCodeVersion:1};";
+  }
+
+  function manualCopy(event) {
+    copyStatus = 2;
+    event.target.select();
+  }
+
+  function windowFocus() {
+    if (copyStatus === 2) {
+      copyStatus = 1;
+    }
   }
 </script>
+
+<svelte:body on:click={windowFocus} />
 
 <div class="mt-5 ml-8">
   <h1 class="mb-3 text-xl font-semibold">Settings</h1>
@@ -98,6 +119,18 @@
         <p class="my-2">Imported Data!</p>
       {/if}
     </div>
-    <button on:click={copyBackupCode} class="p-2 bg-accent-500 rounded-lg">{copied ? "Copied" : "Copy Code"}</button>
+    <button
+      on:click|stopPropagation={copyStatus === 0 ? copyBackupCode : manualCopy}
+      
+      class="p-2 bg-accent-500 rounded-lg"
+    >
+      {#if copyStatus <= 1}
+        {copied ? "Copied" : "Copy Code"}
+      {:else}
+        {#await getBackupCode() then backupCode}
+          <p class="select-all">{backupCode}</p>
+        {/await}
+      {/if}
+    </button>
   </div>
 </div>
