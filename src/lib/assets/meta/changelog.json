@@ -1,6 +1,13 @@
 {
   "versions": [
     {
+      "version": "1.9.2",
+      "changes": [
+        "Fix: PRs page weight's not displaying properly.",
+        "PRs: Specify what rep count pr is being displayed."
+      ]
+    },
+    {
       "version": "1.9.1",
       "changes": [
         "Add option to copy backup code."
