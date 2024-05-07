@@ -69,7 +69,6 @@
 </script>
 
 <svelte:head>
-  <!--Adapted from https://stackoverflow.com/questions/52997333/how-to-create-dynamic-manifest-json-file-for-pwa-in-reactjs#answer-68511528-->
   <link rel="manifest" href={myProdManifest} />
 </svelte:head>
 
