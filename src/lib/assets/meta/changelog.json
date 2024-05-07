@@ -1,6 +1,23 @@
 {
   "versions": [
     {
+      "version": "1.9.2",
+      "changes": [
+        "Fix: PRs page weight's not displaying properly.",
+        "Fix: Backup code can now be copied on all devices (hopefully).",
+        "Text can no longer be selected in order to enhance the native experience.",
+        "PRs: Specify what rep count pr is being displayed.",
+        "Settings: On devices with clipboard permissions, the code is now displayed to be copied.",
+        "News (Changelog): Display current version."
+      ]
+    },
+    {
+      "version": "1.9.1",
+      "changes": [
+        "Add option to copy backup code."
+      ]
+    },
+    {
       "version": "1.9.0",
       "changes": [
         "News: Changed the background of news items to be darker.",

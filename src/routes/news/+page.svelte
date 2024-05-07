@@ -3,6 +3,7 @@
 
   import { items } from "$lib/assets/meta/news.json";
   import { versions } from "$lib/assets/meta/changelog.json";
+  import { version as currentVersion } from "$lib/assets/meta/info.json";
 
   let currentTab = "news";
 
@@ -75,7 +76,12 @@
   {:else}
     {#each versions as version}
       <div class="w-full mb-3 p-2 bg-accent-400 rounded-lg">
-        <span class="text-lg">{version.version}</span>
+        <span class="text-lg">
+          {version.version}
+          {#if version.version === currentVersion}
+            <i> - Current Version</i>
+          {/if}
+        </span>
         <ul class="list-inside list-['-']">
           {#each version.changes as change}
             <li><span class="ml-2">{change}</span></li>
