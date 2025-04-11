@@ -1,11 +1,9 @@
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer utilities {
-  .rounded-not-flipped {
-    @apply rounded-r-lg [&>*]:rounded-r-lg;
-  }
+@utility rounded-not-flipped {
+  @apply rounded-r-lg *:rounded-r-lg;
+}
 
-  .rounded-flipped {
-    @apply rounded-l-lg [&>*]:rounded-l-lg;
-  }
+@utility rounded-flipped {
+  @apply rounded-l-lg *:rounded-l-lg;
 }

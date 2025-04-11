@@ -23,7 +23,7 @@
   <title>Make Your Max</title>
 </svelte:head>
 
-<div class="flex flex-col items-center [&>*]:my-3">
+<div class="flex flex-col items-center *:my-3">
   <div>
     <LabeledInput inputId="weight-calculator" label="Weight: ">
       <input

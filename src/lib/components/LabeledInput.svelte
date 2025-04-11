@@ -14,7 +14,7 @@
     class:rounded-r-lg={flipped}>{label}</label
   >
   <div
-    class="flex items-center [&>*]:h-9 [&>*]:p-1 [&>*]:bg-accent-500 bg-accent-500"
+    class="flex items-center *:h-9 *:p-1 *:bg-accent-500 bg-accent-500"
     class:rounded-not-flipped={!flipped}
     class:rounded-flipped={flipped}
   >

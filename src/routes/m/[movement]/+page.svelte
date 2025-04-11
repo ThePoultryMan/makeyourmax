@@ -105,7 +105,7 @@
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
     >
       <h2 class="mb-1.5 text-center">Log Scores</h2>
-      <div class="[&>*]:mb-2">
+      <div class="*:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
           <input id="one-rep" type="number" bind:value={tempMaxes[0]} size="5" class="w-full" />
         </LabeledInput>

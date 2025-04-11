@@ -57,7 +57,7 @@
           <th class="bg-accent-600 border-b">Weight</th>
         </tr>
       </thead>
-      <tr class="[&>td]:last:border-b-0 odd:bg-background-900 bg-background-950">
+      <tr class="last:[&>td]:border-b-0 odd:bg-background-900 bg-background-950">
         <td class="p-2 md:p-1 border-r border-b">
           <LabeledInput inputId="customPercent" label="%" flipped>
             <input id="customPercent" type="number" bind:value={customPercentage} class="w-16" />
@@ -78,7 +78,7 @@
       </tr>
       {#each weightPercentages as value, i}
         {#if i !== 0 && i !== weightPercentages.length - 1}
-          <tr class="[&>td]:last:border-b-0 odd:bg-background-900 bg-background-950">
+          <tr class="last:[&>td]:border-b-0 odd:bg-background-900 bg-background-950">
             <td class="p-2 md:p-1 border-r border-b">{(weightPercentages.length - i - 1) * 5}%</td>
             <td class="p-2 md:p-1 border-b">
               <div class="flex justify-between items-center">
