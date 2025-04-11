@@ -5,13 +5,13 @@
   import { versions } from "$lib/assets/meta/changelog.json";
   import { version as currentVersion } from "$lib/assets/meta/info.json";
 
-  let currentTab = "news";
+  let currentTab = $state("news");
 
-  let slide = false;
-  let xPosition = 0;
-  let width = 15;
-  let news: any;
-  let changelog: any;
+  let slide = $state(false);
+  let xPosition = $state(0);
+  let width = $state(15);
+  let news: any = $state();
+  let changelog: any = $state();
 
   onMount(() => {
     handleHighlight();
@@ -47,10 +47,10 @@
 
 <div class="flex flex-col items-center p-3">
   <div class="relative w-fit mb-3 bg-accent-500 p-2 rounded-lg">
-    <button bind:this={news} on:click={() => switchTab("news")} class="relative z-10 mx-3"
+    <button bind:this={news} onclick={() => switchTab("news")} class="relative z-10 mx-3"
       >News</button
     >
-    <button bind:this={changelog} on:click={() => switchTab("changelog")} class="relative z-10 mx-3"
+    <button bind:this={changelog} onclick={() => switchTab("changelog")} class="relative z-10 mx-3"
       >Changelog</button
     >
     <div
@@ -58,7 +58,7 @@
       class:slide
       style:left={xPosition + "px"}
       style:width={width + "px"}
-    />
+></div>
   </div>
 
   {#if currentTab === "news"}

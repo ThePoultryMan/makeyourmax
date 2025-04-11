@@ -1,16 +1,17 @@
 <script lang="ts">
-  import { PRs, prs } from "$lib/indy";
+  import { prs } from "$lib/indy";
   import LabeledInput from "$components/LabeledInput.svelte";
 
-  let allPRs: any = $PRs;
-  $: {
+  let allPRs: any = $derived.by(() => {
+    let allPRs: Record<string, unknown> = {};
     for (const [movement, pr] of Object.entries(allPRs)) {
       prs.setItem(movement, pr);
       allPRs[movement] = pr;
     }
-  }
-  let creatingNewMovement = false;
-  let movementName = "";
+    return allPRs;
+  });
+  let creatingNewMovement = $state(false);
+  let movementName = $state("");
 
   function createMovement() {
     console.log(fromTitleCase(movementName));
@@ -34,19 +35,23 @@
 
 <div class="flex flex-col items-center">
   <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
-    {#each Object.entries(allPRs) as [movement, max]}
+    {#each Object.entries(allPRs) as [movement, score]}
       <a
         href={"/m/" + movement}
         class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
       >
         <p class="text-lg font-semibold">{toTitleCase(movement)}</p>
-        {#await max then max}
-          <p>1 Rep PR: {max && typeof max[0] === "number" ? max[0] + "lb" + (max[0] > 1 ? "s." : ".") : "Not Set"}</p>
+        {#await score then score}
+          <p>
+            1 Rep PR: {score && typeof score[0] === "number"
+              ? score[0] + "lb" + (score[0] > 1 ? "s." : ".")
+              : "Not Set"}
+          </p>
         {/await}
       </a>
     {/each}
   </div>
-  <button on:click={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg"
+  <button onclick={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg"
     >Create New Movement</button
   >
 </div>
@@ -60,10 +65,10 @@
     </LabeledInput>
     <div class="flex gap-3 [&>button]:flex-1">
       <button
-        on:click={() => (creatingNewMovement = false)}
+        onclick={() => (creatingNewMovement = false)}
         class="mt-3 p-2 border border-accent-500 rounded-lg">Close</button
       >
-      <button on:click={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
+      <button onclick={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
     </div>
   </div>
 {/if}

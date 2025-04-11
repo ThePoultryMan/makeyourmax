@@ -10,10 +10,10 @@
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
 
-  let max = 0;
-  let maxes = [0, 0, 0, 0];
-  let tempMaxes = maxes;
-  let logOpen = false;
+  let max = $state(0);
+  let maxes = $state([0, 0, 0, 0]);
+  let tempMaxes = $state(maxes);
+  let logOpen = $state(false);
   let deleteStatus = 0;
 
   let allPRs: any = $PRs;
@@ -80,7 +80,7 @@
       <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
     </h2>
     <div class="my-3">
-      <button on:click={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
+      <button onclick={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
         >Log Score</button
       >
     </div>
@@ -95,7 +95,7 @@
     </LabeledInput>
   </PercentageTable>
   {#if !movements.includes($page.params.movement)}
-    <button on:click={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
+    <button onclick={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
   {:else}
     <p class="my-5"><i>This movement cannot be deleted.</i></p>
   {/if}
@@ -120,11 +120,11 @@
         </LabeledInput>
       </div>
       <div class="flex gap-3">
-        <button on:click={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+        <button onclick={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
           Cancel
         </button>
         <button
-          on:click={savePRs}
+          onclick={savePRs}
           class="w-full p-1 px-2 bg-accent-500 rounded-lg"
         >
           Save

@@ -1,9 +1,19 @@
 <script lang="ts">
   import "$lib/styles/labledinput.css";
 
-  export let inputId = "";
-  export let label = "";
-  export let flipped = false;
+  interface Props {
+    inputId?: string;
+    label?: string;
+    flipped?: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    inputId = "",
+    label = "",
+    flipped = false,
+    children
+  }: Props = $props();
 </script>
 
 <div class="inline-flex items-stretch w-fit text-text-400 text-lg" class:flex-row-reverse={flipped}>
@@ -18,6 +28,6 @@
     class:rounded-not-flipped={!flipped}
     class:rounded-flipped={flipped}
   >
-    <slot />
+    {@render children?.()}
   </div>
 </div>

@@ -14,20 +14,17 @@
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
-
-  let ready = false;
-
-  let pwaAccept = $page.url.searchParams.get("mode");
-  let theme = "";
-
-  $: {
-    if (browser) {
-      if (theme) {
-        preferences.setItem("theme", theme);
-        setTheme(themes[theme]);
-      }
-    }
+  interface Props {
+    children?: import('svelte').Snippet;
   }
+
+  let { children }: Props = $props();
+
+  let ready = $state(false);
+
+  let pwaAccept = $state($page.url.searchParams.get("mode"));
+  let theme = $state("");
+
 
   function setTheme(themeData: any) {
     const root = document.querySelector(":root");
@@ -65,6 +62,12 @@
       event.preventDefault();
     });
   });
+  $effect(() => {
+      if (theme) {
+        preferences.setItem("theme", theme);
+        setTheme(themes[theme]);
+      }
+  });
 </script>
 
 <svelte:head>
@@ -93,14 +96,14 @@
         >
       </p>
       <button
-        on:click={() => (pwaAccept = "accept")}
+        onclick={() => (pwaAccept = "accept")}
         class="p-2 border border-accent-500 rounded-lg">Continue Anyway</button
       >
     </div>
   {:else}
     <div class="flex flex-col min-h-screen mb-[-36px]">
       <div class="flex-1">
-        <slot />
+        {@render children?.()}
       </div>
       <Navigation />
     </div>

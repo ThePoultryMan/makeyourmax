@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run, stopPropagation } from 'svelte/legacy';
+
   import { onMount } from "svelte";
 
   import { Clipboard } from "@capacitor/clipboard";
@@ -11,18 +13,18 @@
   const fileReader = new FileReader();
 
   // Preferences
-  let defaultBarbellWeight: number;
-  $: {
+  let defaultBarbellWeight: number = $state();
+  run(() => {
     preferences.setItem("defaultBarbellWeight", defaultBarbellWeight);
-  }
+  });
 
   // Backup
-  let dataUrl = "";
-  let fileObject: any;
-  let backupFile: any;
-  let backupStatus = 0;
-  let copyStatus = 0;
-  let copied = false;
+  let dataUrl = $state("");
+  let fileObject: any = $state();
+  let backupFile: any = $state();
+  let backupStatus = $state(0);
+  let copyStatus = $state(0);
+  let copied = $state(false);
 
   onMount(async () => {
     let dBW = await preferences.getItem<number>("defaultBarbellWeight");
@@ -74,7 +76,7 @@
   }
 </script>
 
-<svelte:body on:click={windowFocus} />
+<svelte:body onclick={windowFocus} />
 
 <div class="mt-5 ml-8">
   <h1 class="mb-3 text-xl font-semibold">Settings</h1>
@@ -104,7 +106,7 @@
         <input
           id="backupImport"
           type="file"
-          on:change={() => (backupStatus = 1)}
+          onchange={() => (backupStatus = 1)}
           bind:files={backupFile}
           accept=".mymdata"
           class="w-72"
@@ -114,13 +116,13 @@
         <p class="my-2">
           <b>WARNING:</b> Completing this action will overwrite your currently saved PRs.
         </p>
-        <button on:click={importBackup} class="p-2 bg-accent-400 rounded-lg">Confirm Import</button>
+        <button onclick={importBackup} class="p-2 bg-accent-400 rounded-lg">Confirm Import</button>
       {:else if backupStatus == 2}
         <p class="my-2">Imported Data!</p>
       {/if}
     </div>
     <button
-      on:click|stopPropagation={copyStatus === 0 ? copyBackupCode : manualCopy}
+      onclick={stopPropagation(copyStatus === 0 ? copyBackupCode : manualCopy)}
       
       class="p-2 bg-accent-500 rounded-lg"
     >

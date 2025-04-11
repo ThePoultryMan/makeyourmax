@@ -5,14 +5,11 @@
 
   import LabeledInput from "$components/LabeledInput.svelte";
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
-  import { browser } from "$app/environment";
 
-  let weight = 0;
-  $: {
-    if (browser) {
-      preferences.setItem("weightCalculator", weight);
-    }
-  }
+  let weight = $state(0);
+  $effect(() => {
+    preferences.setItem("weightCalculator", weight);
+  });
 
   onMount(async () => {
     preferences.getItem("weightCalculator").then((value) => (weight = value));
@@ -30,7 +27,7 @@
         id="weight-calculator"
         type="number"
         bind:value={weight}
-        on:focus={(event) => event.target.select()}
+        onfocus={(event) => event.target.select()}
       />
     </LabeledInput>
   </div>

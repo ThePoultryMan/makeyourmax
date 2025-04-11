@@ -6,22 +6,25 @@
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
-  export let targetWeight: number;
-  export let percentage: number | string;
-  let clazz: string = "";
-  export { clazz as class };
-
-  let barbellWeight: number;
-  $: {
-    preferences.setItem("defaultBarbellWeight", barbellWeight);
+  interface Props {
+    targetWeight: number;
+    percentage: number | string;
+    class?: string;
   }
+
+  let { targetWeight, percentage, class: clazz = "" }: Props = $props();
+
+  let barbellWeight: number = $state();
+  $effect(() => {
+    preferences.setItem("defaultBarbellWeight", barbellWeight);
+  });
 
   onMount(async () => {
     const weight = await preferences.getItem<number>("defaultBarbellWeight");
     barbellWeight = weight ? weight : 45;
   });
 
-  $: calculateWeights = (weight: number) => {
+  let calculateWeights = $derived((weight: number) => {
     let weightM = (weight - barbellWeight) / 2;
     let barbellWeights = [];
     while (weightM > 0) {
@@ -37,10 +40,13 @@
       }
     }
     return barbellWeights;
-  };
+  });
 </script>
 
-<div id={percentage + "Explain"} class={"hidden w-fit mb-1 p-2 text-xl bg-accent-400 rounded-lg " + clazz}>
+<div
+  id={percentage + "Explain"}
+  class={"hidden w-fit mb-1 p-2 text-xl bg-accent-400 rounded-lg " + clazz}
+>
   <span class="italic">
     Plates Required for a
     <LabeledInput inputId={percentage + "Bar"} label="lbs." flipped>

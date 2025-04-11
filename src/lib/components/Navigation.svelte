@@ -7,20 +7,10 @@
   import { lastUpdate } from "$lib/assets/meta/news.json";
   import { preferences } from "$lib/indy";
 
-  let links: any[] = [];
-  let slide = false;
-  let xPosition = 0;
-  let newNews = false;
-
-  $: {
-    if (links[0] && links[1] && links[2]) {
-      setTimeout(() => {
-        slide = true;
-        handleHighlight($page.url.pathname);
-        setTimeout(() => (slide = false), 200);
-      }, 1);
-    }
-  }
+  let links: any[] = $state([]);
+  let slide = $state(false);
+  let xPosition = $state(0);
+  let newNews = $state(false);
 
   onMount(() => {
     window.addEventListener("resize", () => {
@@ -60,12 +50,21 @@
     preferences.setItem("lastNewsCheck", Date.now());
     newNews = false;
   }
+  $effect(() => {
+    if (links[0] && links[1] && links[2]) {
+      setTimeout(() => {
+        slide = true;
+        handleHighlight($page.url.pathname);
+        setTimeout(() => (slide = false), 200);
+      }, 1);
+    }
+  });
 </script>
 
 <div
   class="flex justify-around items-center sticky bottom-0 w-full px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
-  <a href="/news" on:click={setNewsCheck} bind:this={links[0]} class="z-10">
+  <a href="/news" onclick={setNewsCheck} bind:this={links[0]} class="z-10">
     <div class="relative">
       <Icon icon="ion:newspaper" class="w-8 h-8 mx-auto" />
       {#if newNews}
@@ -90,7 +89,7 @@
     class="absolute -top-[9px] w-24 h-24 bg-background-1000 rounded-[3rem]"
     class:slide
     style={"left: " + xPosition + "px"}
-  />
+  ></div>
 </div>
 
 <style>

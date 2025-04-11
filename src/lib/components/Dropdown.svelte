@@ -7,15 +7,16 @@
 
   let dispatch = createEventDispatcher();
 
-  export let options: any[];
-  export let currentOption: any;
-
-  let open = false;
-
-  let dropdownHeight = 0;
-  $: {
-    dropdownHeight = (options.length - 1) * 24;
+  interface Props {
+    options: any[];
+    currentOption: any;
   }
+
+  let { options, currentOption = $bindable() }: Props = $props();
+
+  let open = $state(false);
+
+  let dropdownHeight = $derived((options.length - 1) * 24);
 
   function setSelected(option: string) {
     currentOption = option;
@@ -23,7 +24,11 @@
   }
 </script>
 
-<button on:click={() => open = !open} class="p-2 bg-accent-600 rounded-lg w-full" style="--dropdown-height: {dropdownHeight}px">
+<button
+  onclick={() => (open = !open)}
+  class="p-2 bg-accent-600 rounded-lg w-full"
+  style="--dropdown-height: {dropdownHeight}px"
+>
   <div class="flex justify-between items-center">
     <div>{toTitleCase(currentOption)}</div>
     <div class:rotate-0={open} class:rotate-180={!open} class="dropdown-arrow">
@@ -32,7 +37,9 @@
   </div>
   <div class:max-h-0={!open} class:dropdown-open={open} class="dropdown overflow-hidden">
     {#each options.filter((value) => value !== currentOption) as option}
-      <button on:click={() => setSelected(option)} class="w-full text-left">{toTitleCase(option)}</button>
+      <button onclick={() => setSelected(option)} class="w-full text-left"
+        >{toTitleCase(option)}</button
+      >
     {/each}
   </div>
 </button>
