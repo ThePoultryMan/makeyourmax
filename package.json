@@ -1,6 +1,6 @@
 {
-	"name": "max-and-maxer",
-	"version": "1.9.2",
+	"name": "makeyourmax",
+	"version": "2.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -11,10 +11,12 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"license": "PolyForm Shield License 1.0.0",
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/kit": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
+		"@tauri-apps/cli": "^2.4.1",
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
 		"@typescript-eslint/parser": "^6.21.0",
 		"autoprefixer": "^10.4.19",
