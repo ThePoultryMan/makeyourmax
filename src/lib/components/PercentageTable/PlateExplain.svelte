@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { weights } from "$lib/assets/weights.json";
-  import { preferences } from "$lib/indy";
+  import { preferences } from "$lib/scripts/stores.svelte";
 
   import LabeledInput from "$components/LabeledInput.svelte";
 
@@ -16,11 +16,11 @@
 
   let barbellWeight: number = $state();
   $effect(() => {
-    preferences.setItem("defaultBarbellWeight", barbellWeight);
+    preferences.get().defaultBarbellWeight = barbellWeight;
   });
 
   onMount(async () => {
-    const weight = await preferences.getItem<number>("defaultBarbellWeight");
+    const weight = preferences.get().defaultBarbellWeight;
     barbellWeight = weight ? weight : 45;
   });
 

@@ -1,10 +1,6 @@
 import localforage from "localforage";
 import { writable } from "svelte/store";
 
-export const preferences = localforage.createInstance({
-  name: "preferences",
-});
-
 export const prs = localforage.createInstance({
   name: "prs",
 });

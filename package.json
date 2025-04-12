@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"dev:tauri": "tauri dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -26,6 +27,7 @@
 		"eslint-plugin-svelte": "^2.45.1",
 		"postcss": "^8.4.38",
 		"prettier": "^3.5.3",
+		"prettier-plugin-svelte": "^3.3.3",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"svelte-eslint-parser": "^0.42.0",
@@ -36,6 +38,8 @@
 	"dependencies": {
 		"@capacitor/clipboard": "^6.0.0",
 		"@iconify/svelte": "^3.1.6",
+		"@tauri-apps/api": "^2.4.1",
+		"@tauri-apps/plugin-store": "~2",
 		"firebase": "^10.11.1",
 		"localforage": "^1.10.0"
 	}

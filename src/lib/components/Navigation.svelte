@@ -5,7 +5,6 @@
   import Icon from "@iconify/svelte";
 
   import { lastUpdate } from "$lib/assets/meta/news.json";
-  import { preferences } from "$lib/indy";
 
   let links: any[] = $state([]);
   let slide = $state(false);
@@ -18,15 +17,15 @@
     });
     handleHighlight($page.url.pathname);
 
-    preferences.getItem<number>("lastNewsCheck").then((lastNewsCheck) => {
-      if (lastNewsCheck) {
-        if (lastUpdate > lastNewsCheck) {
-          newNews = true;
-        }
-      } else {
-        preferences.setItem("lastNewsCheck", Date.now());
-      }
-    });
+    // preferences.getItem<number>("lastNewsCheck").then((lastNewsCheck) => {
+    //   if (lastNewsCheck) {
+    //     if (lastUpdate > lastNewsCheck) {
+    //       newNews = true;
+    //     }
+    //   } else {
+    //     preferences.setItem("lastNewsCheck", Date.now());
+    //   }
+    // });
   });
 
   function handleHighlight(page: string) {
@@ -47,7 +46,7 @@
   }
 
   function setNewsCheck() {
-    preferences.setItem("lastNewsCheck", Date.now());
+    // preferences.setItem("lastNewsCheck", Date.now());
     newNews = false;
   }
   $effect(() => {

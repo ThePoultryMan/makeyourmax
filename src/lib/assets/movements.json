@@ -1,19 +1,19 @@
 {
   "movements": [
-    "backSquat",
-    "benchPress",
-    "deadlift",
-    "frontSquat",
-    "fullClean",
-    "hangPowerClean",
-    "overheadSquat",
-    "powerClean",
-    "pushJerk",
-    "pushPress",
-    "snatch",
-    "splitJerk",
-    "strictPress",
-    "sumoDeadlift",
-    "sumoDeadliftHighPull"
+    "Back Squat",
+    "Bench Press",
+    "Deadlift",
+    "Front Squat",
+    "Full Clean",
+    "Hang Power Clean",
+    "Overhead Squat",
+    "Power Clean",
+    "Push Jerk",
+    "Push Press",
+    "Snatch",
+    "Split Jerk",
+    "Strict Press",
+    "Sumo Deadlift",
+    "Sumo Deadlift High Pull"
   ]
 }

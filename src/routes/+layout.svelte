@@ -1,30 +1,31 @@
 <script lang="ts">
   import "../app.postcss";
-  import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
   import "$lib/styles/global.css";
 
-  import themes from "$lib/assets/themes.json";
   import { movements } from "$lib/assets/movements.json";
+  import themes from "$lib/assets/themes.json";
   import "$lib/pwa";
-  import { preferences, prs, PRs } from "$lib/indy";
+  import { prs, PRs } from "$lib/indy";
 
   import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
+  import { preferences } from "$lib/scripts/stores.svelte";
+  import { invoke } from "@tauri-apps/api/core";
+
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   }
 
   let { children }: Props = $props();
 
   let ready = $state(false);
+  let preferencesPromise: Promise<void> | undefined = $state();
 
   let pwaAccept = $state($page.url.searchParams.get("mode"));
-  let theme = $state("");
-
 
   function setTheme(themeData: any) {
     const root = document.querySelector(":root");
@@ -37,36 +38,40 @@
     }
   }
 
-  async function setUpTheme() {
-    preferences.setItem("theme", "myProd");
-    theme = "myProd";
-  }
-
   onMount(async () => {
-    setUpTheme();
+    preferencesPromise = preferences.setUp();
+    preferencesPromise.then(async () => {
+      preferences.setTheme("MyProd");
 
-    let allPRs: any = {};
-    for (const movement of (await prs.keys()).concat(movements)) {
-      let value = prs.getItem(movement);
-      if (value) {
-        allPRs[movement] = value;
-      } else {
-        allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+      let allPRs: any = {};
+      for (const movement of (await prs.keys()).concat(movements)) {
+        let value = prs.getItem(movement);
+        if (value) {
+          allPRs[movement] = value;
+        } else {
+          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+        }
       }
-    }
-    PRs.set(allPRs);
+      PRs.set(allPRs);
 
-    ready = true;
+      ready = true;
 
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+      });
     });
   });
   $effect(() => {
-      if (theme) {
-        preferences.setItem("theme", theme);
-        setTheme(themes[theme]);
-      }
+    if (preferences.get()) {
+      setTheme(themes[preferences.get().theme]);
+    }
+  });
+  $effect(() => {
+    if (preferences.get()) {
+      invoke("save_preferences", {
+        frontendPreferences: preferences.get(),
+      });
+    }
   });
 </script>
 
@@ -75,7 +80,7 @@
   <link rel="manifest" href="/manifests/myProd.webmanifest" />
 </svelte:head>
 
-{#if ready}
+{#await preferencesPromise then _}
   {#if !pwaAccept}
     <div
       class="flex flex-col px-5 md:px-32 min-h-screen min-w-full items-center justify-center [&>p]:mb-2"
@@ -95,9 +100,8 @@
           reinstall.</i
         >
       </p>
-      <button
-        onclick={() => (pwaAccept = "accept")}
-        class="p-2 border border-accent-500 rounded-lg">Continue Anyway</button
+      <button onclick={() => (pwaAccept = "accept")} class="p-2 border border-accent-500 rounded-lg"
+        >Continue Anyway</button
       >
     </div>
   {:else}
@@ -108,8 +112,4 @@
       <Navigation />
     </div>
   {/if}
-{:else}
-  <div class="flex items-center justify-center min-h-screen bg-gray-900">
-    <Icon icon="line-md:loading-loop" class="text-white text-[128px]" />
-  </div>
-{/if}
+{/await}

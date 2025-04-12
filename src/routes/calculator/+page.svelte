@@ -1,20 +1,10 @@
 <script>
   import { onMount } from "svelte";
 
-  import { preferences } from "$lib/indy";
-
   import LabeledInput from "$components/LabeledInput.svelte";
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
 
   let weight = $state(0);
-  $effect(() => {
-    preferences.setItem("weightCalculator", weight);
-  });
-
-  onMount(async () => {
-    preferences.getItem("weightCalculator").then((value) => (weight = value));
-  });
-</script>
 
 <svelte:head>
   <title>Make Your Max</title>

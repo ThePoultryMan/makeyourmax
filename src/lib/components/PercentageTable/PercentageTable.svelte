@@ -1,11 +1,10 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
 
-  import { preferences } from "$lib/indy";
-
   import LabeledInput from "$components/LabeledInput.svelte";
   import PlateExplain from "$components/PercentageTable/PlateExplain.svelte";
   import { onMount } from "svelte";
+  import { preferences } from "$lib/scripts/stores.svelte";
 
   export let weight = 0;
 
@@ -22,7 +21,7 @@
   let barbellWeight: number;
 
   onMount(async () => {
-    const weight = await preferences.getItem<number>("defaultBarbellWeight");
+    const weight = preferences.get().defaultBarbellWeight;
     barbellWeight = weight ? weight : 45;
   });
 

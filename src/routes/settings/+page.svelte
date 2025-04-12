@@ -1,22 +1,18 @@
 <script lang="ts">
-  import { run, stopPropagation } from 'svelte/legacy';
+  import { run, stopPropagation } from "svelte/legacy";
 
   import { onMount } from "svelte";
 
   import { Clipboard } from "@capacitor/clipboard";
 
-  import { getAll, preferences, prs, importFromObject } from "$lib/indy";
+  import { getAll, prs, importFromObject } from "$lib/indy";
+  import { preferences } from "$lib/scripts/stores.svelte";
 
   import LabeledInput from "$components/LabeledInput.svelte";
   import PopUp from "$components/PopUp.svelte";
+  import type { BarbellWeight } from "$lib/types";
 
   const fileReader = new FileReader();
-
-  // Preferences
-  let defaultBarbellWeight: number = $state();
-  run(() => {
-    preferences.setItem("defaultBarbellWeight", defaultBarbellWeight);
-  });
 
   // Backup
   let dataUrl = $state("");
@@ -26,9 +22,15 @@
   let copyStatus = $state(0);
   let copied = $state(false);
 
+  let barbellWeight: BarbellWeight | undefined = $state();
+  $effect(() => {
+    if (barbellWeight) {
+      preferences.setDefaultBarbellWeight(barbellWeight);
+    }
+  });
+
   onMount(async () => {
-    let dBW = await preferences.getItem<number>("defaultBarbellWeight");
-    defaultBarbellWeight = dBW ? dBW : 45;
+    barbellWeight = preferences.get().defaultBarbellWeight;
 
     // Backup
     fileObject = new File([JSON.stringify(await getAll(prs))], "prs.mymdata", {
@@ -74,6 +76,8 @@
       copyStatus = 1;
     }
   }
+
+  $inspect(preferences.get());
 </script>
 
 <svelte:body onclick={windowFocus} />
@@ -83,12 +87,14 @@
   <h2 class="mb-1 text-lg">Preferences</h2>
   <div class="flex">
     <LabeledInput inputId="barbellWeightDefault" label="Default Barbell Weight">
-      <select id="barbellWeightDefault" bind:value={defaultBarbellWeight}>
-        <option value={45}>45lbs.</option>
-        <option value={35}>35lbs.</option>
-        <option value={25}>25lbs.</option>
-        <option value={15}>15lbs.</option>
-      </select>
+      {#if barbellWeight}
+        <select id="barbellWeightDefault" bind:value={barbellWeight}>
+          <option value={45}>45lbs.</option>
+          <option value={35}>35lbs.</option>
+          <option value={25}>25lbs.</option>
+          <option value={15}>15lbs.</option>
+        </select>
+      {/if}
     </LabeledInput>
   </div>
   <h2 class="mb-1 text-lg">Backup</h2>
@@ -123,7 +129,6 @@
     </div>
     <button
       onclick={stopPropagation(copyStatus === 0 ? copyBackupCode : manualCopy)}
-      
       class="p-2 bg-accent-500 rounded-lg"
     >
       {#if copyStatus <= 1}
