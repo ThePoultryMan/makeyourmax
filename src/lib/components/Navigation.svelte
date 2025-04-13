@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { onMount } from "svelte";
-
+``
   import Icon from "@iconify/svelte";
 
   import { lastUpdate } from "$lib/assets/meta/news.json";
@@ -13,9 +13,9 @@
 
   onMount(() => {
     window.addEventListener("resize", () => {
-      handleHighlight($page.url.pathname);
+      handleHighlight(page.url.pathname);
     });
-    handleHighlight($page.url.pathname);
+    handleHighlight(page.url.pathname);
 
     // preferences.getItem<number>("lastNewsCheck").then((lastNewsCheck) => {
     //   if (lastNewsCheck) {
@@ -42,7 +42,9 @@
         break;
     }
 
-    xPosition = links[currentPage].offsetLeft - (96 - links[currentPage].offsetWidth) / 2;
+    if (links[currentPage]) {
+      xPosition = links[currentPage].offsetLeft - (96 - links[currentPage].offsetWidth) / 2;
+    }
   }
 
   function setNewsCheck() {
@@ -50,10 +52,11 @@
     newNews = false;
   }
   $effect(() => {
+    const _ = page.url.pathname;
     if (links[0] && links[1] && links[2]) {
       setTimeout(() => {
         slide = true;
-        handleHighlight($page.url.pathname);
+        handleHighlight(page.url.pathname);
         setTimeout(() => (slide = false), 200);
       }, 1);
     }
