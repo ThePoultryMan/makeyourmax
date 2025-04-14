@@ -1,19 +1,14 @@
 <script lang="ts">
   import "../app.postcss";
-  import { page } from "$app/stores";
   import { onMount } from "svelte";
 
   import "$lib/styles/global.css";
 
-  import { movements } from "$lib/assets/movements.json";
   import themes from "$lib/assets/themes.json";
   import "$lib/pwa";
-  import { prs, PRs } from "$lib/indy";
-
-  import Icon from "@iconify/svelte";
 
   import Navigation from "$components/Navigation.svelte";
-  import { preferences } from "$lib/scripts/stores.svelte";
+  import { preferences, scores } from "$lib/scripts/stores.svelte";
   import { invoke } from "@tauri-apps/api/core";
 
   interface Props {
@@ -23,9 +18,7 @@
   let { children }: Props = $props();
 
   let ready = $state(false);
-  let preferencesPromise: Promise<void> | undefined = $state();
-
-  let pwaAccept = $state($page.url.searchParams.get("mode"));
+  let storePromises: Promise<void[]> | undefined = $state();
 
   function setTheme(themeData: any) {
     const root = document.querySelector(":root");
@@ -38,23 +31,15 @@
     }
   }
 
+  $inspect(preferences.get());
+  $inspect(scores.get());
+
   onMount(async () => {
-    preferencesPromise = preferences.setUp();
-    preferencesPromise.then(async () => {
-      preferences.setTheme("MyProd");
-
-      let allPRs: any = {};
-      for (const movement of (await prs.keys()).concat(movements)) {
-        let value = prs.getItem(movement);
-        if (value) {
-          allPRs[movement] = value;
-        } else {
-          allPRs[movement] = ["Not Set", "Not Set", "Not Set", "Not Set"];
-        }
-      }
-      PRs.set(allPRs);
-
+    storePromises = Promise.all([preferences.setUp(), scores.setUp()]);
+    storePromises.then(async () => {
       ready = true;
+
+      preferences.setTheme("MyProd");
 
       window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
@@ -62,14 +47,21 @@
     });
   });
   $effect(() => {
-    if (preferences.get()) {
+    if (ready) {
       setTheme(themes[preferences.get().theme]);
     }
   });
   $effect(() => {
-    if (preferences.get()) {
+    if (ready) {
       invoke("save_preferences", {
         frontendPreferences: preferences.get(),
+      });
+    }
+  });
+  $effect(() => {
+    if (ready) {
+      invoke("save_scores", {
+        frontendScores: scores.get(),
       });
     }
   });
@@ -80,36 +72,11 @@
   <link rel="manifest" href="/manifests/myProd.webmanifest" />
 </svelte:head>
 
-{#await preferencesPromise then _}
-  {#if !pwaAccept}
-    <div
-      class="flex flex-col px-5 md:px-32 min-h-screen min-w-full items-center justify-center [&>p]:mb-2"
-    >
-      <p>
-        <i>Make Your Max</i> is designed to be installed on your device as if it was a regular app.
-        Using it in a browser is unsupported. If you would like to continue in the browser, please
-        note that any information between the installed and browser version will <em>not</em> sync.
-      </p>
-      <p>
-        To install <i>Make Your Max</i> to your (ios) device, click
-        <i>Share > Add To Home Screen</i>
-      </p>
-      <p>
-        <i
-          >Note: If you are seeing this pop up but you have already installed the app, please
-          reinstall.</i
-        >
-      </p>
-      <button onclick={() => (pwaAccept = "accept")} class="p-2 border border-accent-500 rounded-lg"
-        >Continue Anyway</button
-      >
+{#await storePromises then _}
+  <div class="flex flex-col min-h-screen mb-[-36px]">
+    <div class="flex-1">
+      {@render children?.()}
     </div>
-  {:else}
-    <div class="flex flex-col min-h-screen mb-[-36px]">
-      <div class="flex-1">
-        {@render children?.()}
-      </div>
-      <Navigation />
-    </div>
-  {/if}
+    <Navigation />
+  </div>
 {/await}

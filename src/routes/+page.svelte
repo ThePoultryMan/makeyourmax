@@ -1,31 +1,17 @@
 <script lang="ts">
-  import { prs } from "$lib/indy";
   import LabeledInput from "$components/LabeledInput.svelte";
+  import { scores } from "$lib/scripts/stores.svelte";
 
-  let allPRs: any = $derived.by(() => {
-    let allPRs: Record<string, unknown> = {};
-    for (const [movement, pr] of Object.entries(allPRs)) {
-      prs.setItem(movement, pr);
-      allPRs[movement] = pr;
-    }
-    return allPRs;
-  });
   let creatingNewMovement = $state(false);
   let movementName = $state("");
 
   function createMovement() {
-    console.log(fromTitleCase(movementName));
-    allPRs[fromTitleCase(movementName)] = ["Not Set", "Not Set", "Not Set", "Not Set"];
+    scores.get().scores[movementName] = {
+      score: 0,
+      scoreType: "Weight",
+    };
     movementName = "";
     creatingNewMovement = false;
-  }
-
-  function toTitleCase(text: string) {
-    return text.replace(/([A-Z])/g, " $1").replace(/^./g, (str) => str.toUpperCase());
-  }
-
-  function fromTitleCase(text: string) {
-    return text.replaceAll(" ", "").replace(/^./g, (str) => str.toLowerCase());
   }
 </script>
 
@@ -35,21 +21,19 @@
 
 <div class="flex flex-col items-center">
   <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
-    {#each Object.entries(allPRs) as [movement, score]}
-      <a
-        href={"/m/" + movement}
-        class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
-      >
-        <p class="text-lg font-semibold">{toTitleCase(movement)}</p>
-        {#await score then score}
+    {#if scores.get()}
+      {#each Object.entries(scores.get().scores) as [movement, score]}
+        <a
+          href={"/m/" + movement}
+          class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
+        >
+          <p class="text-lg font-semibold">{movement}</p>
           <p>
-            1 Rep PR: {score && typeof score[0] === "number"
-              ? score[0] + "lb" + (score[0] > 1 ? "s." : ".")
-              : "Not Set"}
+            1 Rep PR: {score?.score + "lb"}
           </p>
-        {/await}
-      </a>
-    {/each}
+        </a>
+      {/each}
+    {/if}
   </div>
   <button onclick={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg"
     >Create New Movement</button

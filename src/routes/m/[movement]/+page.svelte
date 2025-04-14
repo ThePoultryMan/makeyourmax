@@ -1,104 +1,68 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { page } from "$app/stores";
-  import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
 
-  import { movements } from "$lib/assets/movements.json";
-  import { PRs, prs } from "$lib/indy";
-  
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
+  import { scores } from "$lib/scripts/stores.svelte";
+  import type { Score } from "$lib/types";
 
-  let max = $state(0);
-  let maxes = $state([0, 0, 0, 0]);
-  let tempMaxes = $state(maxes);
+  let score: Score = $state({
+    score: 0,
+    scoreType: "Weight",
+  });
+  let tempScore: Score = $state(score);
   let logOpen = $state(false);
   let deleteStatus = 0;
 
-  let allPRs: any = $PRs;
-
   onMount(async () => {
-    prs.getItem($page.params.movement).then((value: any) => {
-      if (value) {
-        maxes = value;
-        tempMaxes = maxes;
-      }
-      max = 0;
-    });
+    score = scores.getScore($page.params.movement);
   });
 
   function savePRs() {
-    if (browser) {
-      logOpen = false
-      maxes = tempMaxes;
-      prs.setItem($page.params.movement, maxes);
-      allPRs[$page.params.movement] = maxes;
-    }
+    logOpen = false;
+    score = tempScore;
+    scores.setScore($page.params.movement, score);
   }
 
   function cancelPRChanges() {
     logOpen = false;
-    tempMaxes = maxes;
+    tempScore = score;
   }
 
   function deleteMovement() {
-    if (confirm("Are you sure you want to delete this movement? It will delete all data associated with the movement.")) {
-      prs.removeItem($page.params.movement);
+    if (
+      confirm(
+        "Are you sure you want to delete this movement? It will delete all data associated with the movement."
+      )
+    ) {
+      scores.removeScore($page.params.movement);
       goto("/");
     }
-  }
-
-  function numToMax(max: number) {
-    switch (max) {
-      case 1:
-        return "2";
-      case 2:
-        return "3";
-      case 3:
-        return "5";
-      default:
-        return "1";
-    }
-  }
-
-  function toTitleCase(text: string) {
-    return text.replace(/([A-Z])/g, " $1").replace(/^./g, (str) => str.toUpperCase());
   }
 </script>
 
 <svelte:head>
-  <title>PRs - {toTitleCase($page.params.movement)}</title>
+  <title>PRs - {$page.params.movement}</title>
 </svelte:head>
 
 <div class="mb-3 p-1.5 text-lg bg-background-950">
   <a href="/" class="ml-2 font-semibold">Back</a>
 </div>
 <div class="flex flex-col text-text-400 items-center">
-    <h1 class="mb-2 text-xl font-semibold">{toTitleCase($page.params.movement)}</h1>
-    <h2 class="text-lg">{numToMax(max)} Rep Max: 
-      <span>{maxes[max] ? maxes[max] : "Not Set"}</span>
-    </h2>
-    <div class="my-3">
-      <button onclick={() => logOpen = true} class="p-2 bg-accent-500 rounded-lg"
-        >Log Score</button
-      >
-    </div>
-  <PercentageTable weight={typeof maxes[max] !== "string" ? maxes[max] : 0}>
-    <LabeledInput inputId="max" label="Rep Max" flipped>
-      <select id="max" bind:value={max}>
-        <option value={0} selected>1</option>
-        <option value={1} selected>2</option>
-        <option value={2} selected>3</option>
-        <option value={3} selected>5</option>
-      </select>
-    </LabeledInput>
-  </PercentageTable>
-  {#if !movements.includes($page.params.movement)}
-    <button onclick={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">{deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}</button>
-  {:else}
-    <p class="my-5"><i>This movement cannot be deleted.</i></p>
-  {/if}
+  <h1 class="mb-2 text-xl font-semibold">{$page.params.movement}</h1>
+  <h2 class="text-lg">
+    1 Rep Max:
+    <span>{score ? score.score : "Not Set"}</span>
+  </h2>
+  <div class="my-3">
+    <button onclick={() => (logOpen = true)} class="p-2 bg-accent-500 rounded-lg">Log Score</button>
+  </div>
+  <PercentageTable weight={typeof score !== "string" ? score?.score : 0} />
+  <button onclick={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">
+    {deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}
+  </button>
   {#if logOpen}
     <div
       id="log"
@@ -107,28 +71,17 @@
       <h2 class="mb-1.5 text-center">Log Scores</h2>
       <div class="*:mb-2">
         <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={tempMaxes[0]} size="5" class="w-full" />
-        </LabeledInput>
-        <LabeledInput inputId="two-rep" label="2 Rep Max ">
-          <input id="two-rep" type="number" bind:value={tempMaxes[1]} size="5" class="w-full" />
-        </LabeledInput>
-        <LabeledInput inputId="three-rep" label="3 Rep Max ">
-          <input id="three-rep" type="number" bind:value={tempMaxes[2]} size="5" class="w-full" />
-        </LabeledInput>
-        <LabeledInput inputId="five-rep" label="5 Rep Max ">
-          <input id="five-rep" type="number" bind:value={tempMaxes[3]} size="5" class="w-full" />
+          <input id="one-rep" type="number" bind:value={tempScore.score} size="5" class="w-full" />
         </LabeledInput>
       </div>
       <div class="flex gap-3">
-        <button onclick={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+        <button
+          onclick={cancelPRChanges}
+          class="w-full p-1 px-2 border border-accent-500 rounded-lg"
+        >
           Cancel
         </button>
-        <button
-          onclick={savePRs}
-          class="w-full p-1 px-2 bg-accent-500 rounded-lg"
-        >
-          Save
-        </button>
+        <button onclick={savePRs} class="w-full p-1 px-2 bg-accent-500 rounded-lg"> Save </button>
       </div>
     </div>
   {/if}

@@ -1,11 +1,13 @@
 use std::sync::Mutex;
 
 use preferences::Preferences;
+use scores::Scores;
 use store::StoreInterface;
 use tauri::{Manager, generate_handler};
 use tauri_plugin_store::StoreExt;
 
 mod preferences;
+mod scores;
 mod store;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -23,13 +25,16 @@ pub fn run() {
 
             let store = app.store("data.json")?;
 
-            app.manage(Mutex::new(Preferences::from_store(store.clone())));
+            app.manage(Mutex::new(Preferences::from_store(&store)));
+            app.manage(Mutex::new(Scores::from_store(&store)));
 
             Ok(())
         })
         .invoke_handler(generate_handler![
             preferences::get_preferences,
-            preferences::save_preferences
+            preferences::save_preferences,
+            scores::get_scores,
+            scores::save_scores,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
