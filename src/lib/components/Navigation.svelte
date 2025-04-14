@@ -30,16 +30,12 @@
 
   function handleHighlight(page: string) {
     let currentPage: number;
-    switch (page) {
-      case "/news":
-        currentPage = 0;
-        break;
-      case "/settings":
-        currentPage = 2;
-        break;
-      default:
-        currentPage = 1;
-        break;
+    if (page.startsWith("/news")) {
+      currentPage = 0;
+    } else if (page.startsWith("/more")) {
+      currentPage = 2;
+    } else {
+      currentPage = 1;
     }
 
     if (links[currentPage]) {
@@ -81,10 +77,10 @@
       <p>PRs</p>
     </div>
   </a>
-  <a href="/settings" bind:this={links[2]} class="z-10">
+  <a href="/more" bind:this={links[2]} class="z-10">
     <div>
-      <Icon icon="ic:round-settings" class="w-8 h-8 mx-auto" />
-      <p>Settings</p>
+      <Icon icon="mdi:dots-horizontal" class="w-8 h-8 mx-auto" />
+      <p>More</p>
     </div>
   </a>
   <div
