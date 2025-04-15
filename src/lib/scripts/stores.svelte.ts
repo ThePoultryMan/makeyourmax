@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 
 import type { BarbellWeight, Preferences, Score, Scores, Theme } from "$lib/types";
+import { toAbbreviation } from "./util";
 
 function setUpPreferences() {
   let preferences: Preferences | undefined = $state();
@@ -16,6 +17,13 @@ function setUpPreferences() {
     setDefaultBarbellWeight: (barbellWeight: BarbellWeight) => {
       if (preferences) {
         preferences.defaultBarbellWeight = barbellWeight;
+      }
+    },
+    getWeightUnitsAbbreviation: (plural: boolean = false) => {
+      if (preferences) {
+        return toAbbreviation(preferences.weightUnits, plural);
+      } else {
+        return toAbbreviation("Pounds", plural);
       }
     },
     setUp: async () => {

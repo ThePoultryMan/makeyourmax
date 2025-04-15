@@ -13,7 +13,16 @@ pub struct Preferences {
         alias = "defaultBarbellWeight"
     )]
     default_barbell_weight: u32,
+    #[serde(rename(serialize = "weightUnits"), alias = "weightUnits", default)]
+    weight_units: WeightUnit,
     theme: Theme,
+}
+
+#[derive(Clone, Copy, Default, Serialize, Deserialize)]
+pub enum WeightUnit {
+    #[default]
+    Pounds,
+    Kilograms,
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
@@ -27,6 +36,7 @@ impl Default for Preferences {
         Self {
             default_barbell_weight: 45,
             theme: Theme::default(),
+            weight_units: WeightUnit::default(),
         }
     }
 }

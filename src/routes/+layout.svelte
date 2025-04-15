@@ -72,11 +72,11 @@
   <link rel="manifest" href="/manifests/myProd.webmanifest" />
 </svelte:head>
 
-{#await storePromises then _}
+{#if ready}
   <div class="flex flex-col min-h-screen mb-[-36px]">
     <div class="flex-1">
       {@render children?.()}
     </div>
     <Navigation />
   </div>
-{/await}
+{/if}
