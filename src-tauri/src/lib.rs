@@ -9,6 +9,7 @@ use tauri_plugin_store::StoreExt;
 mod preferences;
 mod scores;
 mod store;
+mod util;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -35,6 +36,7 @@ pub fn run() {
             preferences::save_preferences,
             scores::get_scores,
             scores::save_scores,
+            util::calculate_plates,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

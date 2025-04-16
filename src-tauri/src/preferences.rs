@@ -18,7 +18,7 @@ pub struct Preferences {
     theme: Theme,
 }
 
-#[derive(Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Clone, Copy, Default, Serialize, Deserialize, PartialEq)]
 pub enum WeightUnit {
     #[default]
     Pounds,
@@ -29,6 +29,12 @@ pub enum WeightUnit {
 pub enum Theme {
     #[default]
     MyProd,
+}
+
+impl Preferences {
+    pub fn weight_units(&self) -> WeightUnit {
+        self.weight_units
+    }
 }
 
 impl Default for Preferences {
