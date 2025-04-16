@@ -36,7 +36,7 @@
     Plates Required for a
     <LabeledInput
       inputId={percentage + "Bar"}
-      label={preferences.getWeightUnitsAbbreviation()}
+      label={preferences.getWeightUnitsAbbreviation(true)}
       flipped
     >
       <select id="barbellWeightDefault" bind:value={barbellWeight}>
@@ -56,13 +56,13 @@
   <ul>
     {#await calculatePlates(targetWeight)}
       {#each lastPlates as weight}
-        <li class="ml-1.5">- {weight + preferences.getWeightUnitsAbbreviation()}</li>
+        <li class="ml-1.5">- {weight + preferences.getWeightUnitsAbbreviation(weight > 1)}</li>
       {:else}
         <li class="ml-1.5">- Just The Bar</li>
       {/each}
     {:then plates}
       {#each plates as weight}
-        <li class="ml-1.5">- {weight + preferences.getWeightUnitsAbbreviation()}</li>
+        <li class="ml-1.5">- {weight} {preferences.getWeightUnitsAbbreviation(weight > 1)}</li>
       {:else}
         <li class="ml-1.5">- Just The Bar</li>
       {/each}
