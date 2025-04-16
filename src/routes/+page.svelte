@@ -28,10 +28,12 @@
           class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
         >
           <p class="text-lg font-semibold">{movement}</p>
-          <p>
-            1 Rep PR: {score?.score}
-            {preferences.getWeightUnitsAbbreviation(score?.score ? score.score > 1 : false)}
-          </p>
+          {#if preferences.get().showMaxOnPrPage}
+            <p>
+              1 Rep PR: {score?.score}
+              {preferences.getWeightUnitsAbbreviation(score?.score ? score.score > 1 : false)}
+            </p>
+          {/if}
         </a>
       {/each}
     {/if}

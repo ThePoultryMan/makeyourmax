@@ -9,12 +9,20 @@ use crate::store::StoreInterface;
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Preferences {
     #[serde(
+        rename(serialize = "showMaxOnPrPage"),
+        alias = "showMaxOnPrPage",
+        default
+    )]
+    show_max_on_pr_page: bool,
+    #[serde(
         rename(serialize = "defaultBarbellWeight"),
-        alias = "defaultBarbellWeight"
+        alias = "defaultBarbellWeight",
+        default
     )]
     default_barbell_weight: u32,
     #[serde(rename(serialize = "weightUnits"), alias = "weightUnits", default)]
     weight_units: WeightUnit,
+    #[serde(default)]
     theme: Theme,
 }
 
@@ -40,6 +48,7 @@ impl Preferences {
 impl Default for Preferences {
     fn default() -> Self {
         Self {
+            show_max_on_pr_page: true,
             default_barbell_weight: 45,
             theme: Theme::default(),
             weight_units: WeightUnit::default(),

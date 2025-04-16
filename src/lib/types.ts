@@ -1,4 +1,5 @@
 export type Preferences = {
+  showMaxOnPrPage: boolean,
   defaultBarbellWeight: BarbellWeight;
   weightUnits: WeightUnit;
   theme: Theme;
