@@ -29,7 +29,7 @@
   <hr class="mb-3" />
   <h2 class="mb-1 text-xl">Preferences</h2>
   <div>
-    <LabeledInput inputId="barbellWeightDefault" label="Default Barbell Weight">
+    <LabeledInput inputId="barbellWeightDefault" label="Default Barbell Weight" class="mb-3">
       <select id="barbellWeightDefault" bind:value={barbellWeight}>
         {#if preferences.get().weightUnits === "Pounds"}
           <option value={45}>45{toAbbreviation("Pounds")}</option>

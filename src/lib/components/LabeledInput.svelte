@@ -5,14 +5,15 @@
     inputId?: string;
     label?: string;
     flipped?: boolean;
+    class?: string;
     children?: import("svelte").Snippet;
   }
 
-  let { inputId = "", label = "", flipped = false, children }: Props = $props();
+  let { inputId = "", label = "", flipped = false, class: clazz, children }: Props = $props();
 </script>
 
 <div
-  class="inline-flex items-stretch w-full text-text-400 text-lg"
+  class={"inline-flex items-stretch w-full text-text-400 text-lg " + clazz}
   class:flex-row-reverse={flipped}
 >
   <label
