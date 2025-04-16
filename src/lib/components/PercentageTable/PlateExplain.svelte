@@ -41,13 +41,13 @@
     >
       <select id="barbellWeightDefault" bind:value={barbellWeight}>
         {#if preferences.get().weightUnits === "Pounds"}
-          <option value={45}>45{toAbbreviation("Pounds")}</option>
-          <option value={35}>35{toAbbreviation("Pounds")}</option>
-          <option value={25}>25{toAbbreviation("Pounds")}</option>
-          <option value={15}>15{toAbbreviation("Pounds")}</option>
+          <option value={45}>45</option>
+          <option value={35}>35</option>
+          <option value={25}>25</option>
+          <option value={15}>15</option>
         {:else}
-          <option value={20}>20{toAbbreviation("Kilograms")}</option>
-          <option value={15}>15{toAbbreviation("Kilograms")}</option>
+          <option value={20}>20</option>
+          <option value={15}>15</option>
         {/if}
       </select>
     </LabeledInput>
