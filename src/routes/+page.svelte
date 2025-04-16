@@ -1,6 +1,6 @@
 <script lang="ts">
   import LabeledInput from "$components/LabeledInput.svelte";
-  import { scores } from "$lib/scripts/stores.svelte";
+  import { preferences, scores } from "$lib/scripts/stores.svelte";
 
   let creatingNewMovement = $state(false);
   let movementName = $state("");
@@ -20,7 +20,7 @@
 </svelte:head>
 
 <div class="flex flex-col items-center">
-  <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400">
+  <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400 w-full">
     {#if scores.get()}
       {#each Object.entries(scores.get().scores) as [movement, score]}
         <a
@@ -29,15 +29,16 @@
         >
           <p class="text-lg font-semibold">{movement}</p>
           <p>
-            1 Rep PR: {score?.score + "lb"}
+            1 Rep PR: {score?.score}
+            {preferences.getWeightUnitsAbbreviation(score?.score ? score.score > 1 : false)}
           </p>
         </a>
       {/each}
     {/if}
   </div>
-  <button onclick={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg"
-    >Create New Movement</button
-  >
+  <button onclick={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg">
+    Create New Movement
+  </button>
 </div>
 {#if creatingNewMovement}
   <div
