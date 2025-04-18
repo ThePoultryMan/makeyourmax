@@ -6,17 +6,41 @@ use tauri_plugin_store::StoreExt;
 
 use crate::store::StoreInterface;
 
-#[derive(Clone, Serialize, Deserialize)]
-pub struct Scores {
-    movements: Vec<String>,
-    scores: HashMap<String, Score>,
+macro_rules! movement_map {
+    ($($name:literal),+ $(,)?) => {
+        HashMap::from([
+            $((String::from($name), Movement::new_weight(String::from($name)))),+
+        ])
+    };
 }
 
-#[derive(Clone, Copy, Default, Serialize, Deserialize)]
-pub struct Score {
-    score: u32,
-    #[serde(rename(serialize = "scoreType"), alias = "scoreType")]
+#[derive(Clone, Serialize, Deserialize)]
+pub struct Scores {
+    movements: HashMap<String, Movement>,
+    scores: HashMap<String, ScoreData>,
+}
+
+#[derive(Clone, Default, Serialize, Deserialize)]
+pub struct Movement {
+    name: String,
+    #[serde(rename(serialize = "scoreType"), alias = "scoreType", default)]
     score_type: ScoreType,
+}
+
+#[derive(Clone, Default, Serialize, Deserialize)]
+pub struct ScoreData {
+    highest: Option<Score>,
+    scores: Vec<Score>,
+}
+
+#[derive(Clone, Copy, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Score {
+    Weight {
+        weight: u32,
+        reps: u32,
+        sets: Option<u32>,
+    },
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
@@ -25,27 +49,46 @@ pub enum ScoreType {
     Weight,
 }
 
+impl Movement {
+    fn new_weight(name: String) -> Self {
+        Movement {
+            name,
+            score_type: ScoreType::Weight,
+        }
+    }
+}
+
 impl Default for Scores {
     fn default() -> Self {
         Self {
-            movements: vec![
-                String::from("Back Squat"),
-                String::from("Bench Press"),
-                String::from("Deadlift"),
-                String::from("Front Squat"),
-                String::from("Full Clean"),
-                String::from("Hang Power Clean"),
-                String::from("Overhead Squat"),
-                String::from("Power Clean"),
-                String::from("Push Jerk"),
-                String::from("Push Press"),
-                String::from("Snatch"),
-                String::from("Split Jerk"),
-                String::from("Strict Press"),
-                String::from("Sumo Deadlift"),
-                String::from("Sumo Deadlift High Pull"),
+            movements: movement_map![
+                "Back Squat",
+                "Bench Press",
+                "Deadlift",
+                "Front Squat",
+                "Full Clean",
+                "Hang Power Clean",
+                "Overhead Squat",
+                "Power Clean",
+                "Push Jerk",
+                "Push Press",
+                "Snatch",
+                "Split Jerk",
+                "Strict Press",
+                "Sumo Deadlift",
+                "Sumo Deadlift High Pull",
             ],
             scores: Default::default(),
+        }
+    }
+}
+
+impl Default for Score {
+    fn default() -> Self {
+        Score::Weight {
+            weight: 0,
+            reps: 1,
+            sets: None,
         }
     }
 }

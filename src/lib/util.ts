@@ -1,3 +1,5 @@
+import type { AbstractScore, WeightScore } from "./types";
+
 export function toTitleCase(text: string) {
   return text.replace(/([A-Z])/g, " $1").replace(/^./g, (str) => str.toUpperCase());
 }
@@ -16,4 +18,11 @@ export function hexToRGB(hex: string) {
   b = "0x" + base[4] + base[5];
 
   return `rgb(${+r}, ${+g}, ${+b})`;
+}
+
+export function getScoreNumber(score: AbstractScore) {
+  switch (score.type) {
+    case "Weight":
+      return (score as WeightScore).weight
+  }
 }

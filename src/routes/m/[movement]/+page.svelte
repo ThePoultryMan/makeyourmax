@@ -5,30 +5,34 @@
 
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
-  import { scores } from "$lib/scripts/stores.svelte";
-  import type { Score } from "$lib/types";
+  import { preferences, scores } from "$lib/scripts/stores.svelte";
+  import type { AbstractScore, ScoreData, WeightScore } from "$lib/types";
+  import { toAbbreviation } from "$lib/scripts/util";
 
-  let score: Score = $state({
-    score: 0,
-    scoreType: "Weight",
-  });
-  let tempScore: Score = $state(score);
+  let scoreData: ScoreData = $derived(scores.getScoreData($page.params.movement));
+  let tempScoreData: ScoreData = $state(scoreData);
+  let currentScore: number = $state(0);
   let logOpen = $state(false);
   let deleteStatus = 0;
 
   onMount(async () => {
-    score = scores.getScore($page.params.movement);
+    const highestScore = scores.get().scores[$page.params.movement].highest;
+    if (highestScore) {
+      currentScore = scores.get().scores[$page.params.movement].scores.indexOf(highestScore);
+    } else {
+      currentScore = -1;
+    }
   });
 
   function savePRs() {
     logOpen = false;
-    score = tempScore;
-    scores.setScore($page.params.movement, score);
+    // scoreData = tempScore;
+    scores.setScore($page.params.movement, scoreData);
   }
 
   function cancelPRChanges() {
     logOpen = false;
-    tempScore = score;
+    // tempScore = scoreData;
   }
 
   function deleteMovement() {
@@ -39,6 +43,20 @@
     ) {
       scores.removeScore($page.params.movement);
       goto("/");
+    }
+  }
+
+  function scoreLabel(score: AbstractScore) {
+    if (scores.get().movements[$page.params.movement].scoreType === "Weight") {
+      const weightScore = score as WeightScore;
+      return `${weightScore.reps}${weightScore.sets ? "x" + weightScore.reps : ""} -`;
+    }
+  }
+
+  function scoreDisplay(score: AbstractScore) {
+    if (score.type === "Weight") {
+      const weightScore = score as WeightScore;
+      return `${weightScore.weight} ${toAbbreviation(preferences.get().weightUnits)}`;
     }
   }
 </script>
@@ -52,40 +70,77 @@
 </div>
 <div class="flex flex-col text-text-400 items-center">
   <h1 class="mb-2 text-xl font-semibold">{$page.params.movement}</h1>
-  <h2 class="text-lg">
-    1 Rep Max:
-    <span>{score ? score.score : "Not Set"}</span>
-  </h2>
+  {#if currentScore >= 0}
+    <LabeledInput inputId="score" label={scoreLabel(scoreData.scores[currentScore])}>
+      <select id="score">
+        {#each scoreData.scores as score}
+          <option>{scoreDisplay(score)}</option>
+        {/each}
+      </select>
+    </LabeledInput>
+  {/if}
   <div class="my-3">
-    <button onclick={() => (logOpen = true)} class="p-2 bg-accent-500 rounded-lg">Log Score</button>
+    <button onclick={() => (logOpen = true)} class="p-2 bg-accent-500 rounded-lg cursor-pointer"
+      >All Scores</button
+    >
   </div>
-  <PercentageTable weight={typeof score !== "string" ? score?.score : 0} />
+  {#if scores.get().movements[$page.params.movement].scoreType === "Weight"}
+    <PercentageTable weight={(scoreData.scores[currentScore] as WeightScore).weight} />
+  {/if}
   <button onclick={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">
     {deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}
   </button>
-  {#if logOpen}
-    <div
-      id="log"
-      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
-    >
-      <h2 class="mb-1.5 text-center">Log Scores</h2>
-      <div class="*:mb-2">
-        <LabeledInput inputId="one-rep" label="1 Rep Max ">
-          <input id="one-rep" type="number" bind:value={tempScore.score} size="5" class="w-full" />
-        </LabeledInput>
-      </div>
-      <div class="flex gap-3">
-        <button
-          onclick={cancelPRChanges}
-          class="w-full p-1 px-2 border border-accent-500 rounded-lg"
-        >
-          Cancel
-        </button>
-        <button onclick={savePRs} class="w-full p-1 px-2 bg-accent-500 rounded-lg"> Save </button>
-      </div>
-    </div>
-  {/if}
 </div>
+{#if logOpen}
+  <div
+    id="log"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
+  >
+    <h2 class="mb-1.5 text-center">Scores</h2>
+    <div class="*:mb-2">
+      <button class="bg-accent-500 rounded-lg w-full">+</button>
+      {#if scores.get().movements[$page.params.movement].scoreType === "Weight"}
+        <!--TODO: Make borders rounded for last items-->
+        <ul class="border border-accent-500 rounded-lg">
+          {#each tempScoreData.scores as score}
+            <li class="text-center">
+              <div>[INSERT DATE HERE]</div>
+              <div class="flex">
+                <div class="flex-1 bg-accent-400">
+                  <p class="text-xl">
+                    {(score as WeightScore).reps}
+                    {"Rep" + ((score as WeightScore).reps > 1 ? "s." : ".")}
+                  </p>
+                  <p></p>
+                </div>
+                {#if (score as WeightScore).sets}
+                  <div class="flex-1 bg-accent-500">
+                    <p class="text-xl">
+                      {(score as WeightScore).sets}
+                      {"Set" + ((score as WeightScore).sets > 1 ? "s." : ".")}
+                    </p>
+                  </div>
+                {/if}
+                <div class="flex-1 bg-accent-600">
+                  <p class="text-xl">
+                    {(score as WeightScore).weight}
+                    {preferences.getWeightUnitsAbbreviation((score as WeightScore).weight > 1)}
+                  </p>
+                </div>
+              </div>
+            </li>
+          {/each}
+        </ul>
+      {/if}
+    </div>
+    <div class="flex gap-3">
+      <button onclick={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
+        Cancel
+      </button>
+      <button onclick={savePRs} class="w-full p-1 px-2 bg-accent-500 rounded-lg"> Save </button>
+    </div>
+  </div>
+{/if}
 
 <style>
   /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari 

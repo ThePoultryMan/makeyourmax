@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 
-import type { BarbellWeight, Preferences, Score, Scores, Theme } from "$lib/types";
+import type { BarbellWeight, Preferences, ScoreData, Scores, Theme } from "$lib/types";
 import { toAbbreviation } from "./util";
 
 function setUpPreferences() {
@@ -39,7 +39,7 @@ function setUpScores() {
     get: () => {
       return scores as Scores;
     },
-    getScore: (movement: string): Score => {
+    getScoreData: (movement: string): ScoreData => {
       if (scores) {
         const score = scores.scores[movement];
         if (score) {
@@ -47,23 +47,21 @@ function setUpScores() {
         }
       }
       return {
-        score: 0,
-        scoreType: "Weight",
+        scores: [],
       };
     },
-    setScore: (movement: string, score: Score | undefined) => {
+    setScore: (movement: string, score: ScoreData | undefined) => {
       if (scores) {
         scores.scores[movement] = score
           ? score
           : {
-              score: 0,
-              scoreType: "Weight",
+              scores: [],
             };
       }
     },
     removeScore: (movement: string) => {
       if (scores) {
-        scores.scores[movement] = undefined;
+        delete scores.scores[movement];
       }
     },
     setUp: async () => {

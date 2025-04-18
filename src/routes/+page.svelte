@@ -1,14 +1,19 @@
 <script lang="ts">
   import LabeledInput from "$components/LabeledInput.svelte";
   import { preferences, scores } from "$lib/scripts/stores.svelte";
+  import type { AbstractScore } from "$lib/types";
+  import { getScoreNumber } from "$lib/util";
 
   let creatingNewMovement = $state(false);
   let movementName = $state("");
 
   function createMovement() {
-    scores.get().scores[movementName] = {
-      score: 0,
+    scores.get().movements[movementName] = {
+      name: movementName,
       scoreType: "Weight",
+    };
+    scores.get().scores[movementName] = {
+      scores: [],
     };
     movementName = "";
     creatingNewMovement = false;
@@ -22,7 +27,7 @@
 <div class="flex flex-col items-center">
   <div class="flex flex-wrap justify-center gap-3 m-5 text-text-400 w-full">
     {#if scores.get()}
-      {#each Object.entries(scores.get().scores) as [movement, score]}
+      {#each Object.entries(scores.get().scores) as [movement, scoreData]}
         <a
           href={"/m/" + movement}
           class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
@@ -30,8 +35,10 @@
           <p class="text-lg font-semibold">{movement}</p>
           {#if preferences.get().showMaxOnPrPage}
             <p>
-              1 Rep PR: {score?.score}
-              {preferences.getWeightUnitsAbbreviation(score?.score ? score.score > 1 : false)}
+              1 Rep PR: {scoreData?.highest}
+              {preferences.getWeightUnitsAbbreviation(
+                scoreData?.highest ? getScoreNumber(scoreData.highest) > 1 : false
+              )}
             </p>
           {/if}
         </a>

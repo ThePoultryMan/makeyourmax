@@ -9,11 +9,25 @@ export type BarbellWeight = 45 | 35 | 25 | 15 | 20 | 15;
 export type WeightUnit = "Pounds" | "Kilograms";
 
 export type Scores = {
-  movements: string[];
-  scores: Record<string, Score | undefined>;
+  movements: Record<string, Movement>;
+  scores: Record<string, ScoreData>;
 };
-export type Score = {
-  score: number;
-  scoreType: ScoreType;
+export type Movement = {
+  name: string,
+  scoreType: ScoreType,
+}
+export type ScoreData = {
+  highest?: AbstractScore,
+  scores: AbstractScore[],
+}
+export interface AbstractScore {
+  type: ScoreType,
 };
+export interface WeightScore extends AbstractScore {
+  weight: number,
+  reps: number,
+  sets?: number,
+}
 export type ScoreType = "Weight";
+
+export type Score = WeightScore;
