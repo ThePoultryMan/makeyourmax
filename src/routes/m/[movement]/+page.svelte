@@ -73,43 +73,50 @@
   <title>PRs - {page.params.movement}</title>
 </svelte:head>
 
-<div class="sticky top-0 left-0 mb-1 p-1.5 text-lg bg-background-950">
-  <a href="/" class="ml-2 font-semibold">Back</a>
-</div>
 <h1 class="mb-1 text-2xl font-semibold text-center">{page.params.movement}</h1>
 <hr class="mx-5" />
 <TabBar tabs={["Scores", "Percentages"]} initialWidth={77} bind:currentTab />
 {#if currentTab === 0}
   <div class="flex flex-col mx-5">
-    <button class="w-full mb-4 text-2xl bg-accent-500 rounded-lg" onclick={() => (addingScore = true)}>
+    <button
+      class="w-full mb-4 text-2xl bg-accent-500 rounded-lg"
+      onclick={() => (addingScore = true)}
+    >
       +
     </button>
-    <ul class="border-2 rounded-lg border-accent-700">
-      {#await sortedScores then sortedScores}
+    {#await sortedScores then sortedScores}
+      {#if sortedScores.entries.length > 0}
         {#each sortedScores as entry, dateIndex}
-          <li class="border-accent-700 text-center">
-            <div class="text-lg border-accent-700">{entry.date}</div>
-            {#each entry.entries as score, scoreIndex}
-              <div
-                class="flex text-2xl border-t-2 border-accent-700 *:py-1 last:*:first:rounded-bl-[5px] last:*:last:rounded-br-[5px]"
-              >
-                <span class="flex-1 bg-accent-500">{scoreLabel(score)}</span>
-                <button
-                  onclick={() => selectScore(dateIndex, scoreIndex)}
-                  class="flex justify-between items-center flex-1 bg-accent-600"
+          <ul class="border-2 rounded-lg border-accent-700">
+            <li class="border-accent-700 text-center">
+              <div class="text-lg border-accent-700">{entry.date}</div>
+              {#each entry.entries as score, scoreIndex}
+                <div
+                  class="flex text-2xl border-t-2 border-accent-700 *:py-1 last:*:first:rounded-bl-[5px] last:*:last:rounded-br-[5px]"
                 >
-                  <span class="ml-5">{scoreDisplay(score)}</span>
-                  <Icon
-                    icon="material-symbols:arrow-forward-ios-rounded"
-                    class="inline w-6 h-6 mr-1"
-                  />
-                </button>
-              </div>
-            {/each}
-          </li>
+                  <span class="flex-1 bg-accent-500">{scoreLabel(score)}</span>
+                  <button
+                    onclick={() => selectScore(dateIndex, scoreIndex)}
+                    class="flex justify-between items-center flex-1 bg-accent-600"
+                  >
+                    <span class="ml-5">{scoreDisplay(score)}</span>
+                    <Icon
+                      icon="material-symbols:arrow-forward-ios-rounded"
+                      class="inline w-6 h-6 mr-1"
+                    />
+                  </button>
+                </div>
+              {/each}
+            </li>
+          </ul>
         {/each}
-      {/await}
-    </ul>
+      {:else}
+        <div class="mt-1 text-center">
+          <p>No scores yet.</p>
+          <p>Click "+" to add a new score.</p>
+        </div>
+      {/if}
+    {/await}
   </div>
 
   <div
@@ -131,7 +138,8 @@
       <div class="flex gap-3 mt-7">
         <button
           onclick={() => (addingScore = false)}
-          class="flex-1 p-1.5 text-center border border-accent-500 rounded-lg">
+          class="flex-1 p-1.5 text-center border border-accent-500 rounded-lg"
+        >
           Cancel
         </button>
         <button onclick={addNewScore} class="flex-1 p-1.5 text-center bg-accent-500 rounded-lg">

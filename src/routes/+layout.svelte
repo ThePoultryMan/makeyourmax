@@ -10,6 +10,7 @@
   import Navigation from "$components/Navigation.svelte";
   import { preferences, scores } from "$lib/scripts/stores.svelte";
   import { invoke } from "@tauri-apps/api/core";
+  import TopBar from "$components/TopBar.svelte";
 
   interface Props {
     children?: import("svelte").Snippet;
@@ -75,6 +76,7 @@
 
 {#if ready}
   <div class="flex flex-col min-h-screen max-h-screen mb-[-36px]">
+    <TopBar />
     <div class="flex-1 overflow-scroll">
       {@render children?.()}
     </div>
