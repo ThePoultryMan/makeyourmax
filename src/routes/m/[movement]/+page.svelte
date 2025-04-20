@@ -85,7 +85,7 @@
       +
     </button>
     {#await sortedScores then sortedScores}
-      {#if sortedScores.entries.length > 0}
+      {#if sortedScores.length > 0}
         {#each sortedScores as entry, dateIndex}
           <ul class="border-2 rounded-lg border-accent-700">
             <li class="border-accent-700 text-center">
