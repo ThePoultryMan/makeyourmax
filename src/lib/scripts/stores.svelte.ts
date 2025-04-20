@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 
-import type { BarbellWeight, Preferences, ScoreData, Scores, Theme } from "$lib/types";
+import type { AbstractScore, BarbellWeight, Preferences, ScoreData, Scores, Theme } from "$lib/types";
 import { toAbbreviation } from "./util";
 
 function setUpPreferences() {
@@ -35,7 +35,14 @@ export const preferences = setUpPreferences();
 
 function setUpScores() {
   let scores: Scores | undefined = $state();
+  let isBackendSynced = $state(false);
   return {
+    isBackendSynced: () => {
+      return isBackendSynced;
+    },
+    setBackendSynced: (synced: boolean) => {
+      isBackendSynced = synced;
+    },
     get: () => {
       return scores as Scores;
     },
@@ -50,22 +57,21 @@ function setUpScores() {
         scores: [],
       };
     },
-    setScore: (movement: string, score: ScoreData | undefined) => {
+    setScore: (movement: string, score: AbstractScore) => {
       if (scores) {
-        scores.scores[movement] = score
-          ? score
-          : {
-              scores: [],
-            };
+        isBackendSynced = false;
+        scores.scores[movement].scores.push(score);
       }
     },
     removeScore: (movement: string) => {
       if (scores) {
+        isBackendSynced = false;
         delete scores.scores[movement];
       }
     },
     setUp: async () => {
       scores = (await invoke("get_scores")) as Scores;
+      isBackendSynced = true;
     },
   };
 }

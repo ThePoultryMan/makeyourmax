@@ -17,17 +17,21 @@ export type Movement = {
   scoreType: ScoreType,
 }
 export type ScoreData = {
-  highest?: AbstractScore,
   scores: AbstractScore[],
 }
 export interface AbstractScore {
   type: ScoreType,
+  date?: string
 };
 export interface WeightScore extends AbstractScore {
   weight: number,
   reps: number,
-  sets?: number,
 }
 export type ScoreType = "Weight";
 
 export type Score = WeightScore;
+
+export type DatedEntries<T> = {
+  date?: Date,
+  entries: T[],
+}

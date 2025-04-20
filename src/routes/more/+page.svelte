@@ -14,4 +14,15 @@
       </div>
     </a>
   </li>
+  <li class="mt-5">
+    <a href="/more/danger">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <Icon icon="jam:triangle-danger-f" class="w-6 h-6 ml-1 mr-2 bg-red-700 rounded-md p-0.5" />
+          <span class="text-xl mb-1">Danger Zone</span>
+        </div>
+        <Icon icon="material-symbols:arrow-forward-ios-rounded" class="w-6 h-6 mr-1" />
+      </div>
+    </a>
+  </li>
 </ul>

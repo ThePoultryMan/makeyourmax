@@ -18,7 +18,7 @@
 </script>
 
 <div class="flex flex-col items-center p-3">
-  <div class="relative w-fit mb-3 bg-accent-500 p-2 rounded-lg">
+  <div class="relative w-fit bg-accent-500 p-2 rounded-lg">
     {#each tabs as tab, index}
       <button
         bind:this={tabButtons[index]}

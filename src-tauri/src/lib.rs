@@ -36,6 +36,8 @@ pub fn run() {
             preferences::save_preferences,
             scores::get_scores,
             scores::save_scores,
+            scores::remove_all_scores,
+            scores::sort_scores_by_date,
             util::calculate_plates,
         ])
         .run(tauri::generate_context!())

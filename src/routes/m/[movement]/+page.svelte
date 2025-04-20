@@ -1,55 +1,53 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { page } from "$app/stores";
-  import { goto } from "$app/navigation";
+  import type { AbstractScore, DatedEntries, WeightScore } from "$lib/types";
 
-  import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
+  import TabBar from "$components/TabBar.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
+
+  import { page } from "$app/state";
+
+  import { invoke } from "@tauri-apps/api/core";
+
   import { preferences, scores } from "$lib/scripts/stores.svelte";
-  import type { AbstractScore, ScoreData, WeightScore } from "$lib/types";
   import { toAbbreviation } from "$lib/scripts/util";
+  import Icon from "@iconify/svelte";
+  import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
 
-  let scoreData: ScoreData = $derived(scores.getScoreData($page.params.movement));
-  let tempScoreData: ScoreData = $state(scoreData);
-  let currentScore: number = $state(0);
-  let logOpen = $state(false);
-  let deleteStatus = 0;
-
-  onMount(async () => {
-    const highestScore = scores.get().scores[$page.params.movement].highest;
-    if (highestScore) {
-      currentScore = scores.get().scores[$page.params.movement].scores.indexOf(highestScore);
+  let currentTab = $state(0);
+  const sortedScores = $derived.by(() => {
+    if (scores.isBackendSynced()) {
+      return invoke("sort_scores_by_date", { movement: page.params.movement }) as Promise<
+        DatedEntries<AbstractScore>[]
+      >;
     } else {
-      currentScore = -1;
+      return [];
     }
   });
+  let newScoreInfo = $state(getDefaultNewScore());
+  let selectedScore: AbstractScore | undefined = $state();
 
-  function savePRs() {
-    logOpen = false;
-    // scoreData = tempScore;
-    scores.setScore($page.params.movement, scoreData);
+  let addingScore = $state(false);
+
+  function addNewScore() {
+    scores.setScore(page.params.movement, {
+      type: "Weight",
+      reps: newScoreInfo.reps ? newScoreInfo.reps : 0,
+      weight: newScoreInfo.weight ? newScoreInfo.weight : 0,
+      date: newScoreInfo.date,
+    } as WeightScore);
+    newScoreInfo = getDefaultNewScore();
+    addingScore = false;
   }
 
-  function cancelPRChanges() {
-    logOpen = false;
-    // tempScore = scoreData;
-  }
-
-  function deleteMovement() {
-    if (
-      confirm(
-        "Are you sure you want to delete this movement? It will delete all data associated with the movement."
-      )
-    ) {
-      scores.removeScore($page.params.movement);
-      goto("/");
-    }
+  async function selectScore(dateIndex: number, scoreIndex: number) {
+    currentTab = 1;
+    selectedScore = (await sortedScores)[dateIndex].entries[scoreIndex];
   }
 
   function scoreLabel(score: AbstractScore) {
-    if (scores.get().movements[$page.params.movement].scoreType === "Weight") {
+    if (scores.get().movements[page.params.movement].scoreType === "Weight") {
       const weightScore = score as WeightScore;
-      return `${weightScore.reps}${weightScore.sets ? "x" + weightScore.reps : ""} -`;
+      return `${weightScore.reps} rep${weightScore.reps > 1 ? "s." : "."}`;
     }
   }
 
@@ -59,94 +57,99 @@
       return `${weightScore.weight} ${toAbbreviation(preferences.get().weightUnits)}`;
     }
   }
+
+  function getDefaultNewScore() {
+    const today = new Date();
+    const currentDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
+    return {
+      reps: undefined,
+      weight: undefined,
+      date: currentDate,
+    };
+  }
 </script>
 
 <svelte:head>
-  <title>PRs - {$page.params.movement}</title>
+  <title>PRs - {page.params.movement}</title>
 </svelte:head>
 
-<div class="mb-3 p-1.5 text-lg bg-background-950">
+<div class="sticky top-0 left-0 mb-1 p-1.5 text-lg bg-background-950">
   <a href="/" class="ml-2 font-semibold">Back</a>
 </div>
-<div class="flex flex-col text-text-400 items-center">
-  <h1 class="mb-2 text-xl font-semibold">{$page.params.movement}</h1>
-  {#if currentScore >= 0}
-    <LabeledInput inputId="score" label={scoreLabel(scoreData.scores[currentScore])}>
-      <select id="score">
-        {#each scoreData.scores as score}
-          <option>{scoreDisplay(score)}</option>
-        {/each}
-      </select>
-    </LabeledInput>
-  {/if}
-  <div class="my-3">
-    <button onclick={() => (logOpen = true)} class="p-2 bg-accent-500 rounded-lg cursor-pointer"
-      >All Scores</button
-    >
-  </div>
-  {#if scores.get().movements[$page.params.movement].scoreType === "Weight"}
-    <PercentageTable weight={(scoreData.scores[currentScore] as WeightScore).weight} />
-  {/if}
-  <button onclick={deleteMovement} class="my-5 p-2 text-slate-100 bg-primary-500 rounded-lg">
-    {deleteStatus == 0 ? "Delete Movement" : "Are You Sure?"}
-  </button>
-</div>
-{#if logOpen}
-  <div
-    id="log"
-    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg flex flex-col"
-  >
-    <h2 class="mb-1.5 text-center">Scores</h2>
-    <div class="*:mb-2">
-      <button class="bg-accent-500 rounded-lg w-full">+</button>
-      {#if scores.get().movements[$page.params.movement].scoreType === "Weight"}
-        <!--TODO: Make borders rounded for last items-->
-        <ul class="border border-accent-500 rounded-lg">
-          {#each tempScoreData.scores as score}
-            <li class="text-center">
-              <div>[INSERT DATE HERE]</div>
-              <div class="flex">
-                <div class="flex-1 bg-accent-400">
-                  <p class="text-xl">
-                    {(score as WeightScore).reps}
-                    {"Rep" + ((score as WeightScore).reps > 1 ? "s." : ".")}
-                  </p>
-                  <p></p>
-                </div>
-                {#if (score as WeightScore).sets}
-                  <div class="flex-1 bg-accent-500">
-                    <p class="text-xl">
-                      {(score as WeightScore).sets}
-                      {"Set" + ((score as WeightScore).sets > 1 ? "s." : ".")}
-                    </p>
-                  </div>
-                {/if}
-                <div class="flex-1 bg-accent-600">
-                  <p class="text-xl">
-                    {(score as WeightScore).weight}
-                    {preferences.getWeightUnitsAbbreviation((score as WeightScore).weight > 1)}
-                  </p>
-                </div>
+<h1 class="mb-1 text-2xl font-semibold text-center">{page.params.movement}</h1>
+<hr class="mx-5" />
+<TabBar tabs={["Scores", "Percentages"]} initialWidth={77} bind:currentTab />
+{#if currentTab === 0}
+  <div class="flex flex-col mx-5">
+    <button class="w-full mb-4 text-2xl bg-accent-500 rounded-lg" onclick={() => (addingScore = true)}>
+      +
+    </button>
+    <ul class="border-2 rounded-lg border-accent-700">
+      {#await sortedScores then sortedScores}
+        {#each sortedScores as entry, dateIndex}
+          <li class="border-accent-700 text-center">
+            <div class="text-lg border-accent-700">{entry.date}</div>
+            {#each entry.entries as score, scoreIndex}
+              <div
+                class="flex text-2xl border-t-2 border-accent-700 *:py-1 last:*:first:rounded-bl-[5px] last:*:last:rounded-br-[5px]"
+              >
+                <span class="flex-1 bg-accent-500">{scoreLabel(score)}</span>
+                <button
+                  onclick={() => selectScore(dateIndex, scoreIndex)}
+                  class="flex justify-between items-center flex-1 bg-accent-600"
+                >
+                  <span class="ml-5">{scoreDisplay(score)}</span>
+                  <Icon
+                    icon="material-symbols:arrow-forward-ios-rounded"
+                    class="inline w-6 h-6 mr-1"
+                  />
+                </button>
               </div>
-            </li>
-          {/each}
-        </ul>
-      {/if}
-    </div>
-    <div class="flex gap-3">
-      <button onclick={cancelPRChanges} class="w-full p-1 px-2 border border-accent-500 rounded-lg">
-        Cancel
-      </button>
-      <button onclick={savePRs} class="w-full p-1 px-2 bg-accent-500 rounded-lg"> Save </button>
+            {/each}
+          </li>
+        {/each}
+      {/await}
+    </ul>
+  </div>
+
+  <div
+    class="absolute bottom-0 left-0 z-10 w-full px-5 py-3 bg-background-950 transition-[top] duration-100 rounded-t-4xl"
+    style:top={addingScore ? "35%" : "100%"}
+  >
+    <h2 class="mb-1 text-2xl font-semibold text-center">Add Score</h2>
+    <hr class="mb-3" />
+    <div class="*:mb-3">
+      <LabeledInput inputId="reps" label="Reps">
+        <input id="reps" type="number" bind:value={newScoreInfo.reps} />
+      </LabeledInput>
+      <LabeledInput inputId="weight" label="Weight">
+        <input id="weight" type="number" bind:value={newScoreInfo.weight} />
+      </LabeledInput>
+      <LabeledInput inputId="date" label="Date">
+        <input id="date" type="date" bind:value={newScoreInfo.date} />
+      </LabeledInput>
+      <div class="flex gap-3 mt-7">
+        <button
+          onclick={() => (addingScore = false)}
+          class="flex-1 p-1.5 text-center border border-accent-500 rounded-lg">
+          Cancel
+        </button>
+        <button onclick={addNewScore} class="flex-1 p-1.5 text-center bg-accent-500 rounded-lg">
+          Save
+        </button>
+      </div>
     </div>
   </div>
+{:else if selectedScore}
+  {#if selectedScore.type === "Weight"}
+    <div class="mb-4 text-2xl text-center">
+      {scoreLabel(selectedScore)}
+      {scoreDisplay(selectedScore)}
+    </div>
+    <PercentageTable weight={(selectedScore as WeightScore).weight} />
+  {:else}
+    <p>Score is invalid.</p>
+  {/if}
+{:else}
+  <p>No score selected.</p>
 {/if}
-
-<style>
-  /* Hack from https://browserstrangeness.bitbucket.io/css_hacks.html#safari 
-     :global is used to force SvelteKit to keep the "unused" style.          */
-  :global(_::-webkit-full-page-media, _:future, :root .webkit-fix) {
-    appearance: none;
-    width: 100%;
-  }
-</style>

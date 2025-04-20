@@ -60,9 +60,10 @@
   });
   $effect(() => {
     if (ready) {
+      scores.setBackendSynced(false);
       invoke("save_scores", {
         frontendScores: scores.get(),
-      });
+      }).then(() => scores.setBackendSynced(true));
     }
   });
 </script>
@@ -73,8 +74,8 @@
 </svelte:head>
 
 {#if ready}
-  <div class="flex flex-col min-h-screen mb-[-36px]">
-    <div class="flex-1">
+  <div class="flex flex-col min-h-screen max-h-screen mb-[-36px]">
+    <div class="flex-1 overflow-scroll">
       {@render children?.()}
     </div>
     <Navigation />

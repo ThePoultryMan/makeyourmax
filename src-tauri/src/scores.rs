@@ -1,10 +1,11 @@
 use std::{collections::HashMap, sync::Mutex};
 
+use jiff::civil::Date;
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, State};
 use tauri_plugin_store::StoreExt;
 
-use crate::store::StoreInterface;
+use crate::{store::StoreInterface, util::DatedEntries};
 
 macro_rules! movement_map {
     ($($name:literal),+ $(,)?) => {
@@ -29,17 +30,23 @@ pub struct Movement {
 
 #[derive(Clone, Default, Serialize, Deserialize)]
 pub struct ScoreData {
-    highest: Option<Score>,
     scores: Vec<Score>,
 }
 
-#[derive(Clone, Copy, Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize, Hash, PartialEq, Eq)]
+pub struct CommonScore {
+    date: Option<Date>,
+}
+
+#[derive(Clone, Copy, Serialize, Deserialize, Hash, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub enum Score {
     Weight {
         weight: u32,
         reps: u32,
         sets: Option<u32>,
+        #[serde(flatten)]
+        common: CommonScore,
     },
 }
 
@@ -89,6 +96,7 @@ impl Default for Score {
             weight: 0,
             reps: 1,
             sets: None,
+            common: CommonScore { date: None },
         }
     }
 }
@@ -115,4 +123,56 @@ pub fn save_scores(frontend_scores: Scores, scores: State<Mutex<Scores>>, app_ha
         *scores = frontend_scores;
         scores.set_store_value(store);
     }
+}
+
+#[tauri::command]
+pub fn remove_all_scores(scores: State<Mutex<Scores>>) {
+    if let Ok(mut scores) = scores.lock() {
+        *scores = Scores::default();
+    }
+}
+
+#[tauri::command]
+pub fn sort_scores_by_date(
+    movement: String,
+    scores: State<Mutex<Scores>>,
+) -> Vec<DatedEntries<Score>> {
+    let mut entries: HashMap<Option<Date>, Vec<Score>> = HashMap::new();
+
+    if let Ok(scores) = scores.lock() {
+        if let Some(scores) = scores.scores.get(&movement) {
+            for score in &scores.scores {
+                match score {
+                    Score::Weight {
+                        weight: _,
+                        reps: _,
+                        sets: _,
+                        common,
+                    } => {
+                        if let Some(entry) = entries.get_mut(&common.date) {
+                            entry.push(*score);
+                        } else {
+                            entries.insert(common.date, vec![*score]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let mut dated_entries: Vec<DatedEntries<Score>> = entries
+        .iter()
+        .map(|(date, scores)| {
+            let mut dated_entries = DatedEntries::new(*date);
+
+            for score in scores {
+                dated_entries.add_entry(*score);
+            }
+
+            dated_entries
+        })
+        .collect();
+
+    dated_entries.sort_by(|entry_a, entry_b| entry_a.date().cmp(&entry_b.date()).reverse());
+    dated_entries
 }
