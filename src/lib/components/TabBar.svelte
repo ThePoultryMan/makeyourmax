@@ -3,9 +3,10 @@
     tabs: string[];
     currentTab: number;
     initialWidth?: number,
+    clickable?: boolean,
   }
 
-  let { tabs, currentTab = $bindable(), initialWidth }: Props = $props();
+  let { tabs, currentTab = $bindable(), initialWidth, clickable = true }: Props = $props();
 
   let tabButtons: HTMLElement[] = $state([]);
   const margin = $derived(parseInt(getComputedStyle(tabButtons[currentTab]).marginLeft));
@@ -24,6 +25,7 @@
         bind:this={tabButtons[index]}
         onclick={() => switchTab(index)}
         class="relative z-10 mx-3"
+        disabled={!clickable}
       >
         {tab}
       </button>

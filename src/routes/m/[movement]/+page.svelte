@@ -75,7 +75,7 @@
 
 <h1 class="mb-1 text-2xl font-semibold text-center">{page.params.movement}</h1>
 <hr class="mx-5" />
-<TabBar tabs={["Scores", "Percentages"]} initialWidth={77} bind:currentTab />
+<TabBar tabs={["Scores", "Percentages"]} initialWidth={77} bind:currentTab clickable={currentTab === 1} />
 {#if currentTab === 0}
   <div class="flex flex-col mx-5">
     <button
