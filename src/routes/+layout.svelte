@@ -75,7 +75,7 @@
 </svelte:head>
 
 {#if ready}
-  <div class="flex flex-col min-h-screen max-h-screen mb-[-36px]">
+  <div class="flex flex-col min-h-screen max-h-screen">
     <TopBar />
     <div class="flex-1 overflow-scroll">
       {@render children?.()}
