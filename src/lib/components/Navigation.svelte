@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { onMount } from "svelte";
-``
   import Icon from "@iconify/svelte";
 
   import { lastUpdate } from "$lib/assets/meta/news.json";
@@ -60,7 +59,7 @@
 </script>
 
 <div
-  class="flex justify-around items-center relative w-full px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
+  class="flex justify-around items-center sticky bottom-0 w-full min-h-[78px] px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
   <a href="/news" onclick={setNewsCheck} bind:this={links[0]} class="z-10">
     <div class="relative">
