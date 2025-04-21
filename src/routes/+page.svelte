@@ -1,8 +1,8 @@
 <script lang="ts">
   import LabeledInput from "$components/LabeledInput.svelte";
   import { preferences, scores } from "$lib/scripts/stores.svelte";
-  import type { AbstractScore } from "$lib/types";
   import { getScoreNumber } from "$lib/util";
+  import Icon from "@iconify/svelte";
 
   let creatingNewMovement = $state(false);
   let movementName = $state("");
@@ -33,6 +33,7 @@
           class="w-4/5 md:min-w-[264px] p-2 border-2 border-accent-700 rounded-lg"
         >
           <p class="text-lg font-semibold">{movement}</p>
+          <!--TODO: Introduce a system for setting default/display pr-->
           {#if preferences.get().showMaxOnPrPage}
             <p>
               1 Rep PR: {scoreData?.highest}
@@ -42,11 +43,18 @@
             </p>
           {/if}
         </a>
+      {:else}
+        <p class="mt-7 mx-10 text-center">
+          You haven't added any movements or scores. Click "+" to add a new movement.
+        </p>
       {/each}
     {/if}
   </div>
-  <button onclick={() => (creatingNewMovement = true)} class="mb-5 p-2 bg-accent-500 rounded-lg">
-    Create New Movement
+  <button
+    onclick={() => (creatingNewMovement = true)}
+    class="absolute bottom-3 right-3 mb-[78px] bg-accent-500 rounded-lg"
+  >
+    <Icon icon="material-symbols-light:add-2-rounded" class="w-12 h-12" />
   </button>
 </div>
 {#if creatingNewMovement}
