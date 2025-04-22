@@ -12,6 +12,7 @@
   import { toAbbreviation } from "$lib/scripts/util";
   import Icon from "@iconify/svelte";
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
+  import BottomPopUp from "$components/BottomPopUp.svelte";
 
   let currentTab = $state(0);
   const sortedScores = $derived.by(() => {
@@ -75,7 +76,12 @@
 
 <h1 class="mb-1 text-2xl font-semibold text-center">{page.params.movement}</h1>
 <hr class="mx-5" />
-<TabBar tabs={["Scores", "Percentages"]} initialWidth={77} bind:currentTab clickable={currentTab === 1} />
+<TabBar
+  tabs={["Scores", "Percentages"]}
+  initialWidth={77}
+  bind:currentTab
+  clickable={currentTab === 1}
+/>
 {#if currentTab === 0}
   <div class="flex flex-col mx-5">
     <button
@@ -119,10 +125,7 @@
     {/await}
   </div>
 
-  <div
-    class="absolute bottom-0 left-0 z-10 w-full px-5 py-3 bg-background-950 transition-[top] duration-100 rounded-t-4xl"
-    style:top={addingScore ? "35%" : "100%"}
-  >
+  <BottomPopUp top="35%" active={addingScore}>
     <h2 class="mb-1 text-2xl font-semibold text-center">Add Score</h2>
     <hr class="mb-3" />
     <div class="*:mb-3">
@@ -147,7 +150,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </BottomPopUp>
 {:else if selectedScore}
   {#if selectedScore.type === "Weight"}
     <div class="mb-4 text-2xl text-center">
