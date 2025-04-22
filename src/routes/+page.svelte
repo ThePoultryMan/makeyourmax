@@ -1,4 +1,5 @@
 <script lang="ts">
+  import BottomPopUp from "$components/BottomPopUp.svelte";
   import LabeledInput from "$components/LabeledInput.svelte";
   import { preferences, scores } from "$lib/scripts/stores.svelte";
   import { getScoreNumber } from "$lib/util";
@@ -57,20 +58,17 @@
     <Icon icon="material-symbols-light:add-2-rounded" class="w-12 h-12" />
   </button>
 </div>
-{#if creatingNewMovement}
-  <div
-    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-1/3 p-3 bg-background-800 rounded-lg"
-  >
-    <div class="mb-2 text-lg">Create New Movement</div>
-    <LabeledInput inputId="name" label="Name">
-      <input id="name" type="text" bind:value={movementName} class="block" />
-    </LabeledInput>
-    <div class="flex gap-3 [&>button]:flex-1">
-      <button
-        onclick={() => (creatingNewMovement = false)}
-        class="mt-3 p-2 border border-accent-500 rounded-lg">Close</button
-      >
-      <button onclick={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
-    </div>
+<BottomPopUp top="60%" active={creatingNewMovement}>
+  <h2 class="mb-1 text-2xl font-semibold text-center">Add New Movement</h2>
+  <hr class="mb-3" />
+  <LabeledInput inputId="name" label="Name">
+    <input id="name" type="text" bind:value={movementName} class="block" />
+  </LabeledInput>
+  <div class="flex gap-3 [&>button]:flex-1">
+    <button
+      onclick={() => (creatingNewMovement = false)}
+      class="mt-3 p-2 border border-accent-500 rounded-lg">Close</button
+    >
+    <button onclick={createMovement} class="mt-3 p-2 bg-accent-500 rounded-lg">Create</button>
   </div>
-{/if}
+</BottomPopUp>
