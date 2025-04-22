@@ -32,9 +32,6 @@
     }
   }
 
-  $inspect(preferences.get());
-  $inspect(scores.get());
-
   onMount(async () => {
     storePromises = Promise.all([preferences.setUp(), scores.setUp()]);
     storePromises.then(async () => {
