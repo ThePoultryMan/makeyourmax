@@ -56,6 +56,16 @@ pub enum ScoreType {
     Weight,
 }
 
+impl Scores {
+    fn add_movements_to_score(&mut self) {
+        for name in self.movements.keys() {
+            if !self.scores.contains_key(name) {
+                self.scores.insert(name.clone(), ScoreData::default());
+            }
+        }
+    }
+}
+
 impl Movement {
     fn new_weight(name: String) -> Self {
         Movement {
@@ -109,7 +119,8 @@ impl StoreInterface<Scores> for Scores {
 
 #[tauri::command]
 pub fn get_scores(scores: State<Mutex<Scores>>) -> Scores {
-    if let Ok(scores) = scores.lock() {
+    if let Ok(mut scores) = scores.lock() {
+        scores.add_movements_to_score();
         scores.clone()
     } else {
         panic!("Score state was poisoned.")
