@@ -29,7 +29,7 @@
 
   function handleHighlight(page: string) {
     let currentPage: number;
-    if (page.startsWith("/news")) {
+    if (page.startsWith("/calculator")) {
       currentPage = 0;
     } else if (page.startsWith("/more")) {
       currentPage = 2;
@@ -61,13 +61,10 @@
 <div
   class="flex justify-around items-center sticky bottom-0 w-full min-h-[78px] px-1.5 py-4 bg-background-950 text-text-400 text-center leading-none text-sm overflow-hidden"
 >
-  <a href="/news" onclick={setNewsCheck} bind:this={links[0]} class="z-10">
+  <a href="/calculator" onclick={setNewsCheck} bind:this={links[0]} class="z-10">
     <div class="relative">
-      <Icon icon="ion:newspaper" class="w-8 h-8 mx-auto" />
-      {#if newNews}
-        <Icon icon="ic:sharp-circle" class="absolute top-0 right-0 text-primary-500" />
-      {/if}
-      <p>News</p>
+      <Icon icon="majesticons:calculator-line" class="w-8 h-8 mx-auto" />
+      <p>Calculator</p>
     </div>
   </a>
   <a href="/" bind:this={links[1]} class="z-10">

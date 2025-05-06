@@ -1,10 +1,9 @@
-<script>
-  import { onMount } from "svelte";
-
+<script lang="ts">
   import LabeledInput from "$components/LabeledInput.svelte";
   import PercentageTable from "$components/PercentageTable/PercentageTable.svelte";
 
   let weight = $state(0);
+</script>
 
 <svelte:head>
   <title>Make Your Max</title>
@@ -17,7 +16,6 @@
         id="weight-calculator"
         type="number"
         bind:value={weight}
-        onfocus={(event) => event.target.select()}
       />
     </LabeledInput>
   </div>
