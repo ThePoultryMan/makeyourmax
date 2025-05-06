@@ -3,27 +3,27 @@
 
   import LabeledInput from "$components/LabeledInput.svelte";
   import PlateExplain from "$components/PercentageTable/PlateExplain.svelte";
-  import { onMount } from "svelte";
-  import { preferences } from "$lib/scripts/stores.svelte";
+  import { type Snippet } from "svelte";
 
-  export let weight = 0;
+  let { weight = 0, children }: { weight: number; children: Snippet } = $props();
 
-  let round = 5;
-  let weightPercentages: number[] = [];
-  $: {
-    weightPercentages = [];
+  let round: number | false = $state(5);
+  let weightPercentages: number[] = $derived.by(() => {
+    const weightPercentages = [];
     for (let i = 100; i >= 0; i -= 5) {
-      let percent = weight * (i / 100);
-      weightPercentages.push(Math.round(percent / round) * round);
+      weightPercentages.push(calculatePercentage(i));
     }
-  }
-  let customPercentage = 0;
-  let barbellWeight: number;
-
-  onMount(async () => {
-    const weight = preferences.get().defaultBarbellWeight;
-    barbellWeight = weight ? weight : 45;
+    return weightPercentages;
   });
+  let customPercentage = $state(0);
+
+  function calculatePercentage(percent: number) {
+    let weightPercentage = weight * (percent / 100);
+    const roundedNumber = +(round
+      ? Math.round(weightPercentage / round) * round
+      : weightPercentage.toFixed(2));
+    return roundedNumber ? roundedNumber : 0;
+  }
 
   function toggleExplain(percentage: string) {
     let explain = document.getElementById(percentage + "Explain");
@@ -39,12 +39,14 @@
   <div class="flex gap-3 mb-5">
     <LabeledInput inputId="round" label="Round To">
       <select id="round" bind:value={round}>
+        <option value={false}>Nothing</option>
+        <option value={1}>1</option>
         <option value={2.5}>2.5</option>
         <option value={5} selected>5</option>
-        <option value={10} selected>10</option>
+        <option value={10}>10</option>
       </select>
     </LabeledInput>
-    <slot />
+    {@render children?.()}
   </div>
   <div
     class="w-5/6 md:w-2/3 max-h-[60vh] text-2xl md:text-lg text-text-400 border border-accent-100 rounded-lg overflow-y-scroll"
@@ -65,8 +67,8 @@
           </td>
           <td class="p-2 md:p-1 border-b">
             <div class="flex justify-between items-center">
-              <span>{Math.round((weight * (customPercentage / 100)) / round) * round}</span>
-              <button on:click={() => toggleExplain("custom")}
+              <span>{calculatePercentage(customPercentage)}</span>
+              <button onclick={() => toggleExplain("custom")}
                 ><Icon
                   icon="ion:barbell"
                   class="mr-3 p-1 w-8 h-8 border border-accent-100 rounded-md"
@@ -74,7 +76,7 @@
               >
             </div>
             <PlateExplain
-              targetWeight={Math.round((weight * (customPercentage / 100)) / round) * round}
+              targetWeight={calculatePercentage(customPercentage)}
               percentage="custom"
               class="mt-2"
             />
@@ -89,7 +91,7 @@
                 <div class="flex justify-between items-center">
                   <span>{value}</span>
                   <button
-                    on:click={() =>
+                    onclick={() =>
                       toggleExplain(((weightPercentages.length - i - 1) * 5).toString())}
                     ><Icon
                       icon="ion:barbell"

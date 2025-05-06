@@ -2,7 +2,6 @@
   import { preferences } from "$lib/scripts/stores.svelte";
 
   import LabeledInput from "$components/LabeledInput.svelte";
-  import { toAbbreviation } from "$lib/scripts/util";
   import { invoke } from "@tauri-apps/api/core";
 
   interface Props {
